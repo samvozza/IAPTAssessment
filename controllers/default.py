@@ -57,4 +57,17 @@ def call():
     """
     return service()
 
+def prepare():
+    #THIS IS FOR TESTING PURPOSES
+    #DELETES THE ENTIRE DATABASE
+    #####MAKE SURE YOU HAVE SIGNED OUT BEFORE RUNNING!
+    import shutil
+    import os
+    shutil.rmtree(os.path.abspath(os.path.dirname(__file__)+'/../databases'))
+    os.makedirs(os.path.abspath(os.path.dirname(__file__)+'/../databases'))
+    redirect(URL('setup'))
 
+def setup():
+    #SET UP WHATEVER INITIAL DATA YOU NEED
+    db.executesql("INSERT INTO collction(name, public) VALUES ('Collection 1', 'T'), ('Collection 2', 'T'), ('Collection 3', 'F'), ('Collection 4', 'F')")
+    return dict()
