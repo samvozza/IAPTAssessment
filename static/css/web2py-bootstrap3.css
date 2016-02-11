@@ -41,3 +41,32 @@
   float:right;
   margin-top: 23px;
 }
+.page-title {
+  border-top: 1px solid #E4E4E4;
+  border-bottom:1px solid #E4E4E4;
+  margin-bottom: 20px;
+}
+.page-title h1{
+  line-height:54px;
+  font-size: 20px;
+  color: #313538;
+  margin: 0 0 0 10px !important;
+  padding: 0 !important;
+  float:left;
+}
+.page-title .breadcrums {
+  float: right;
+  margin: 0;
+  padding: 0;
+  font-size: 11px;
+  color: #c4c4c4 !important;
+}
+.page-title .breadcrums li {
+  display: inline-block;
+  line-height:54px;
+  list-style: none;
+  font-size: 11px;
+  color: #c4c4c4;
+  margin-right: 10px;
+  float:left;
+}

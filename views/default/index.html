@@ -1,6 +1,21 @@
-{{left_sidebar_enabled,right_sidebar_enabled=False,('message' in globals())}}
-{{extend 'layout.html'}}
 
+
+{{extend 'layout.html'}}
+<div class="page-title">
+  <h1>Index</h1>
+  <div class="breadcrums">
+
+    <ul>
+      <li>You are here:</li>
+      <li><a href="{{=URL('default')}}">Home</a>
+
+        <li><a href="{{=URL('default')}}">Home</a>
+
+          <li><a href="{{=URL('default')}}">Home</a>
+    </ul>
+  </div>
+  <div class="clearfix"></div>
+</div>
 {{block header}}
     <header class="container-fluid background">
       <div class="jumbotron text-center">
