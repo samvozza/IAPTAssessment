@@ -70,3 +70,13 @@
   margin-right: 10px;
   float:left;
 }
+.collection-settings {
+	float:right;
+}
+.collection-search {
+	float:right !important;
+	margin-right: 30px;
+}
+.collection-search form {
+	max-width: 200px !important;
+}
