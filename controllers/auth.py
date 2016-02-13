@@ -78,3 +78,57 @@ def register():
         pass
     
     return dict(form=registration_form)
+
+
+def sign_in():
+    """
+    use @auth.requires_login()
+        @auth.requires_membership('group name')
+        @auth.requires_permission('read','table name',record_id)
+    to decorate functions that need access control
+    """
+
+    sign_in_form = FORM(DIV(LABEL('Username or Email Address'),
+                            INPUT(_id='username-email-field', _class='form-control', _name='username_email',
+                                  requires=[IS_NOT_EMPTY(error_message=('Please enter your username or '
+                                                                             + 'email address'))]),
+                            _class='form-group'),
+                        DIV(LABEL('Password'),
+                            INPUT(_id='password-field', _class='form-control', _name='password',
+                                  _type='password',
+                                  requires=[IS_NOT_EMPTY(error_message='Please enter your password')]),
+                            _class='form-group'),
+                        INPUT(_id='sign-in-button', _name='sign_in', _type='submit',
+                              _value='Sign In', _class='btn btn-primary pull-right'),
+                        _id='sign-in-form', _role='form')
+
+    if sign_in_form.accepts(request, session):
+        if not authenticate(sign_in_form.vars.username_email,
+                            sign_in_form.vars.password):
+            sign_in_form.errors.username_email = ' '
+            sign_in_form.errors.password = ('Sign in failed. Please ensure that your username and password '
+                                            + 'have been entered correctly.')
+        else:
+            redirect(URL('default', 'index'))
+    elif sign_in_form.errors:
+        pass
+    else:
+        pass
+
+    return dict(form=sign_in_form)
+
+
+def authenticate(username_or_email, password):
+    # Treat username_or_email as a username
+    user = auth.login_bare(username_or_email, password)
+    if not user:
+        # username_or_email may be an email, so check if it is in auth_user
+        users_with_email = db(db.auth_user.email == username_or_email).select()
+
+        if len(users_with_email) > 0:
+            user = auth.login_bare(users_with_email[0].username, password)
+
+    if user:
+        auth.user = user
+
+    return user

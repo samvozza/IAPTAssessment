@@ -1,0 +1,26 @@
+{{extend 'layout.html'}}
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-1 col-md-1 col-lg-2"></div>
+    <div class="col-sm-10 col-md-10 col-lg-8">
+      <h2>{{=T('Sign In')}}</h2>
+      <div class="col-sm-6 col-md-6" style="border-right: 1px solid gray;">
+       	{{=form}}
+      </div>
+      <div class="col-sm-6 col-md-6" style="padding-top: 25px;">
+        <h4 style="text-align: center;">{{=T('Don\'t have an account?')}}</h4>
+       	{{=FORM(INPUT(_id='register-button', _name='register', _type='submit',
+       					 			_value='Register', _class='btn btn-primary center-block'),
+       					_id='registration-form', _role='form', _action=URL('auth', 'register'))}}
+      </div>
+    </div>
+    <div class="col-sm-1 col-md-1 col-lg-2"></div>
+  </div>
+</div>
+
+{{block page_js}}
+<script>
+jQuery("#sign-in-form input:visible:enabled:first").focus();
+</script>
+{{end page_js}}
