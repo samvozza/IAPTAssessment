@@ -440,6 +440,10 @@
       validate_entropy: function(myfield, req_entropy) {
         if(myfield.data('w2p_entropy') != undefined) req_entropy = myfield.data('w2p_entropy');
         var validator = function() {
+          if (myfield.val().length == 0) {
+            myfield.css('background-color', 'initial');
+            return;
+          }
           var v = (web2py.calc_entropy(myfield.val()) || 0) / req_entropy;
           var r = 0,
             g = 0,
