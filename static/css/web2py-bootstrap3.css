@@ -71,7 +71,7 @@
   float:left;
 }
 .collection-settings {
-	float:right;
+	float:right !important;
 }
 .collection-search {
 	float:right !important;
