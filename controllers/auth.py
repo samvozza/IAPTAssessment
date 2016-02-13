@@ -10,6 +10,14 @@ def index():
     return dict()
 
 
+def user():
+    """
+    Immediate redirect to the auth controller's sign in page
+    """
+    redirect(URL('auth', 'sign_in'))
+    return dict()
+
+
 def register():
     """
     use @auth.requires_login()
