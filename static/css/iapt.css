@@ -70,6 +70,7 @@
   margin-right: 10px;
   float:left;
 }
+
 .collection-settings {
 	float:right !important;
 }
@@ -79,4 +80,15 @@
 }
 .collection-search form {
 	max-width: 200px !important;
+}
+
+input.invalidinput {
+  border-color: red !important;
+}
+input.invalidinput:focus {
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(255, 92, 92, .6) !important;
+          box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(255, 92, 92, .6) !important;
+}
+.error_wrapper .error {
+  color: red;
 }
