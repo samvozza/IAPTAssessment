@@ -68,3 +68,10 @@ CREATE TABLE Objects(
     image CHAR(512)
 );
 success!
+timestamp: 2016-02-14T20:01:50.140238
+CREATE TABLE Collection(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name CHAR(512),
+    privacy CHAR(1)
+);
+success!

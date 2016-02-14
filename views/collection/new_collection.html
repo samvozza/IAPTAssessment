@@ -1,0 +1,20 @@
+{{extend 'layout.html'}}
+<div class="page-title">
+  <div class="container">
+    <h1>Add Collection</h1>
+    <div class="breadcrums">
+      <ul>
+        <li>You are here:</li>
+        <li><a href="{{=URL('default')}}">Home</a></li>
+        <li><a href="{{=URL('view')}}">Collections</a></li>
+        <li><a href="{{=URL('edit_collection')}}">Edit Collections</a></li>
+      </ul>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+</div>
+
+<h3><div class="flash">{{=response.flash or ''}}</div></h3>
+<body>
+  {{=form}}
+</body>
