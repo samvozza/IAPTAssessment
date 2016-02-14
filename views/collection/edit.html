@@ -7,13 +7,14 @@
         <li>You are here:</li>
         <li><a href="{{=URL('default')}}">Home</a></li>
         <li><a href="{{=URL('default')}}">Collections</a></li>
-        <li><a href="{{=URL('default')}}">Edit Collection</a></li>
+        <li>Edit</a></li>
       </ul>
     </div>
     <div class="clearfix"></div>
   </div>
 </div>
 <div class="container">
+  {{=response.flash}}
     {{=form}}
 </div>
 
