@@ -1,7 +1,7 @@
 #When the value was sent to the form, the record should be able to take that value.
 def update():
 	db.Objects.description.widget = SQLFORM.widgets.text.widget
-	record = db.Objects(request.args(0))
+	record = db.object(request.args(0))
 	updateobjectform = SQLFORM(db.object, record, fields = ['name', 'price', 'type_taxonomy', 'quantity', 'tradable_quantity', 'description', 'image'])
 
 	if updateobjectform.accepts(request, session):
@@ -43,7 +43,7 @@ def create():
 						 DIV(INPUT(_type = 'submit')))
 
 	if addobjectform.accepts(request, session):
-		db.Objects.insert(name = request.vars.name, price = request.vars.price, type_taxonomy = request.vars.type_taxonomy, quantity = request.vars.quantity,
+		db.object.insert(name = request.vars.name, price = request.vars.price, type_taxonomy = request.vars.type_taxonomy, quantity = request.vars.quantity,
 						 tradable_quantity = request.vars.tradable_quantity, description = request.vars.description, image = request.vars.image)
 		db.commit
 		response.flash = "New object is added."
