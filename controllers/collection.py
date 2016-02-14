@@ -44,7 +44,7 @@ def edit_collection():
     if form.accepts(request,session):
             response.flash = 'collection updated'
             redirect(URL('view'))
-            db(db.collection.name == vars.name).update(name = form.vars.name, privacy = form.vars.privacy)
+            #db(db.collection.name == vars.name).update(name = form.vars.name, privacy = form.vars.privacy)
 
     elif form.errors:
         response.flash = 'form has errors'
