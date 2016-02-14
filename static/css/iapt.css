@@ -70,6 +70,12 @@
   margin-right: 10px;
   float:left;
 }
+.page-title .breadcrums li:after {
+    content: ' » ';
+}
+.page-title .breadcrums li:last-child:after { 
+    content: none;
+}
 
 .collection-settings {
 	float:right !important;
