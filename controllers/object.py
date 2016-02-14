@@ -2,7 +2,7 @@
 def update():
 	db.Objects.description.widget = SQLFORM.widgets.text.widget
 	record = db.Objects(request.args(0))
-	updateobjectform = SQLFORM(db.Objects, record, fields = ['name', 'price', 'type_taxonomy', 'quantity', 'tradable_quantity', 'description', 'image'])
+	updateobjectform = SQLFORM(db.object, record, fields = ['name', 'price', 'type_taxonomy', 'quantity', 'tradable_quantity', 'description', 'image'])
 
 	if updateobjectform.accepts(request, session):
 		response.flash = "Your object is updated."
