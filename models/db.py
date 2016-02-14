@@ -33,11 +33,6 @@ auth.settings.registration_requires_verification = False
 auth.settings.registration_requires_approval = False
 auth.settings.reset_password_requires_verification = True
 
-##collection table
-db.define_table('Collection',
-Field('name', 'string'),
-Field('privacy', 'boolean')
-)
 #########################################################################
 ## Define your tables below (or better in another model file) for example
 ##

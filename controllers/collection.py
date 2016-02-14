@@ -9,7 +9,7 @@ def new_collection():
                 DIV(LABEL('Name', _for = 'name')),
                 DIV(INPUT(_type="text",_name="name",requires=IS_NOT_EMPTY())),
                 DIV(LABEL('Type', _for = 'privacy')),
-                DIV(SELECT('yes','no',_name="privacy",requires=IS_IN_SET(['yes','no']))),
+                DIV(SELECT('yes','no',_name="public",requires=IS_IN_SET(['yes','no']))),
                 DIV(LABEL('', _for = 'submit')),
                 DIV(INPUT(_type="submit",_value="SUBMIT"))))
 
@@ -30,7 +30,7 @@ def edit_collection():
     form=FORM(TABLE(
                     DIV(LABEL('Name', _for = 'name')),
                     DIV(INPUT(_type="text",_name="name",requires=IS_NOT_EMPTY())),
-                    DIV(LABEL('Type', _for = 'privacy')),
+                    DIV(LABEL('Type', _for = 'public')),
                     DIV(SELECT('yes','no',_name="sure",requires=IS_IN_SET(['yes','no']))),
                     DIV(LABEL('', _for = 'submit')),
                     DIV(INPUT(_type="submit",_value="SUBMIT"))
