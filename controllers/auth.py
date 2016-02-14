@@ -145,6 +145,11 @@ def sign_in():
     return dict(form=sign_in_form)
 
 
+def sign_out():
+    auth.logout(next=URL('default', 'index'))
+    return dict()
+
+
 def authenticate(username_or_email, password):
     # Treat username_or_email as a username
     user = auth.login_bare(username_or_email, password)
@@ -156,6 +161,6 @@ def authenticate(username_or_email, password):
             user = auth.login_bare(users_with_email[0].username, password)
 
     if user:
-        auth.user = user
+        auth.login_user(user)
 
     return user
