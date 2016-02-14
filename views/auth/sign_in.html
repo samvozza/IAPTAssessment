@@ -1,11 +1,24 @@
 {{extend 'layout.html'}}
 
+<div class="page-title">
+  <div class="container">
+    <h1>Sign In</h1>
+    <div class="breadcrums">
+      <ul>
+        <li>You are here:</li>
+        <li><a href="{{=URL('default')}}">Home</a>
+        <li>Sign In</li>
+      </ul>
+    </div>
+  </div>
+  <div class="clearfix"></div>
+</div>
+
 <div class="container">
   <div class="row">
     <div class="col-sm-1 col-md-1 col-lg-2"></div>
-    <div class="col-sm-10 col-md-10 col-lg-8">
-      <h2>{{=T('Sign In')}}</h2>
-      <div class="col-sm-6 col-md-6" style="border-right: 1px solid gray;">
+    <div class="col-sm-12 col-md-12 col-lg-12">
+      <div class="col-sm-6 col-md-6" style="border-right: 1px solid lightgray;">
        	{{=form}}
       </div>
       <div class="col-sm-6 col-md-6" style="padding-top: 25px;">
