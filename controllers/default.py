@@ -49,6 +49,9 @@ def prepare():
     redirect(URL('setup'))
 
 def setup():
-    #SET UP WHATEVER INITIAL DATA YOU NEED
-    db.executesql("INSERT INTO collction(name, public) VALUES ('Collection 1', 'T'), ('Collection 2', 'T'), ('Collection 3', 'F'), ('Collection 4', 'F')")
+        #SET UP WHATEVER INITIAL DATA YOU NEED
+    db.auth_user.insert(username="User1",email="user1@address.com", password=db.auth_user.password.requires[0]('mypassword')[0])
+    db.executesql("INSERT INTO type(name) VALUES ('Advertising and brand'), ('Architectural'), ('Books'), ('Magazines and paper'), ('Clothing, fabric and textiles'), ('Coins, currency, stamps'), ('Film and television'), ('Glass and pottery'), ('Household items'), ('Memorabilia'), ('Music'), ('Nature and animals'),('Sports'),('Technology'), ('Themed'), ('Toys and games')")
+    db.executesql("INSERT INTO currency(name) VALUES ('USD'), ('GBP'), ('EUR')")
+    db.executesql("INSERT INTO collection(name, owner, public) VALUES ('Collection 1', 1, 'T'), ('Collection 2', 1, 'T'), ('Collection 3', 1, 'F'), ('Collection 4', 1, 'F')")
     return dict()
