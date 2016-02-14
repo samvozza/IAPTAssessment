@@ -14,7 +14,7 @@ def user():
     """
     Immediate redirect to the auth controller's sign in page
     """
-    redirect(URL('auth', 'sign_in'))
+    redirect(URL('auth', 'sign_in', vars=request.vars))
     return dict()
 
 
@@ -128,13 +128,15 @@ def sign_in():
                         _id='sign-in-form', _role='form')
 
     if sign_in_form.accepts(request, session):
-        if not authenticate(sign_in_form.vars.username_email,
-                            sign_in_form.vars.password):
+        if authenticate(sign_in_form.vars.username_email, sign_in_form.vars.password):
+            if request.vars['_next']:
+                redirect(request.vars['_next'])
+            else:
+                redirect(URL('default', 'index'))
+        else:
             sign_in_form.errors.username_email = ' '
             sign_in_form.errors.password = ('Sign in failed. Please ensure that your username and password '
                                             + 'have been entered correctly.')
-        else:
-            redirect(URL('default', 'index'))
     elif sign_in_form.errors:
         pass
     else:
