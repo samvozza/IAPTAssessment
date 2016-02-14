@@ -10,7 +10,8 @@ def new_collection():
                 DIV(INPUT(_type="text",_name="name",requires=IS_NOT_EMPTY())),
                 DIV(LABEL('Type', _for = 'privacy')),
                 DIV(SELECT('yes','no',_name="privacy",requires=IS_IN_SET(['yes','no']))),
-                DIV("",INPUT(_type="submit",_value="SUBMIT"))))
+                DIV(LABEL('', _for = 'submit')),
+                DIV(INPUT(_type="submit",_value="SUBMIT"))))
 
     if form.accepts(request,session):
         response.flash = 'collection created'
@@ -28,10 +29,11 @@ def edit_collection():
 
     form=FORM(TABLE(
                     DIV(LABEL('Name', _for = 'name')),
-                    DIV("Name",INPUT(_type="text",_name="name",requires=IS_NOT_EMPTY())),
+                    DIV(INPUT(_type="text",_name="name",requires=IS_NOT_EMPTY())),
                     DIV(LABEL('Type', _for = 'privacy')),
-                    DIV("Public",SELECT('yes','no',_name="sure",requires=IS_IN_SET(['yes','no']))),
-                    DIV("",INPUT(_type="submit",_value="SUBMIT"))
+                    DIV(SELECT('yes','no',_name="sure",requires=IS_IN_SET(['yes','no']))),
+                    DIV(LABEL('', _for = 'submit')),
+                    DIV(INPUT(_type="submit",_value="SUBMIT"))
                     )
              )
 
