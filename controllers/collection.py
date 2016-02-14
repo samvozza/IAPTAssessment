@@ -3,7 +3,7 @@ def view():
     return dict(message=T('Welcome to web2py!'))
 
 
-def new_collection():
+def create():
 
     form=FORM(TABLE(
                 DIV(LABEL('Name', _for = 'name')),
@@ -25,7 +25,7 @@ def new_collection():
 
     return  dict(form=form)
 
-def edit_collection():
+def edit():
 
     form=FORM(TABLE(
                     DIV(LABEL('Name', _for = 'name')),
