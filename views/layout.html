@@ -14,45 +14,49 @@
     <link rel="apple-touch-icon" href="{{=URL('static','images/favicon.png')}}">
   </head>
   <body>
-    <div class="container">
+    <div class="main">
     <div class="header">
       <div class="top-bar">
-        <div class="brand">
-          CollectionShare<small>.com</small>
-        </div>
-        <div class="top-bar">
-          <a href="{{=URL('auth', 'register')}}" title="Register">Register</a>
-          <a href="{{=URL('auth', 'sign_in')}}" title="Sign In">Sign In</a>
-        </div>
-      </div>
-      <div style="float:left">
-        <ul class="nav navbar-nav navbar-left">
-          <li><a href="#">Link</a></li>
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown  </a>
-            <ul class="dropdown-menu">
-              <li><a href="#">Action</a></li>
-              <li><a href="#">Another action</a></li>
-              <li><a href="#">Something else here</a></li>
-              <li role="separator" class="divider"></li>
-              <li><a href="#">Separated link</a></li>
-            </ul>
-          </li>
-        </ul>
-      </div><!-- /.navbar-collapse -->
-      <div class="menu">
-        <div class="main-menu">
-          <form class="main-menu-search-from" role="search">
-            <div class="input-group">
-              <input type="text" class="form-control" placeholder="Search for...">
-              <span class="input-group-btn">
-                <button class="btn btn-default" type="button">Go!</button>
-              </span>
-            </div><!-- /input-group -->
-          </form>
-        </div><!-- /.main-menu-->
+        <div class=" container">
+          <div class="brand">
+            CollectionShare<small>.com</small>
+          </div>
+          <div class="top-bar">
+            <a href="{{=URL('auth', 'register')}}" title="Register">Register</a>
+            <a href="{{=URL('auth', 'sign_in')}}" title="Sign In">Sign In</a>
+          </div>
         </div>
       </div>
+      <div class="container">
+        <div style="float:left">
+          <ul class="nav navbar-nav navbar-left">
+            <li><a href="#">Link</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown  </a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Another action</a></li>
+                <li><a href="#">Something else here</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="#">Separated link</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+        <div class="menu">
+          <div class="main-menu">
+            <form class="main-menu-search-from" role="search">
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search for...">
+                <span class="input-group-btn">
+                  <button class="btn btn-default" type="button">Go!</button>
+                </span>
+              </div><!-- /input-group -->
+            </form>
+          </div><!-- /.main-menu-->
+        </div>
+      </div>
+    </div>
       <div class="main">
         {{include}}
       </div>
