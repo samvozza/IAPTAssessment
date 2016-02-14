@@ -56,3 +56,15 @@ success!
 timestamp: 2016-02-13T14:49:38.563000
 ALTER TABLE auth_user ADD username CHAR(128);
 success!
+timestamp: 2016-02-14T17:15:18.681645
+CREATE TABLE Objects(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name CHAR(512),
+    price CHAR(512),
+    type_taxonomy CHAR(512),
+    quantity CHAR(512),
+    tradable_quantity CHAR(512),
+    description CHAR(512),
+    image CHAR(512)
+);
+success!
