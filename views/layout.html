@@ -22,8 +22,8 @@
             {{ if auth.user: }}
             <a href="{{=URL('auth', 'sign_out')}}" title="Sign Out">Sign Out</a>
             {{ else: }}
-            <a href="{{=URL('auth', 'sign_in')}}" title="Sign In">Sign In</a>
-            <a href="{{=URL('auth', 'register')}}" title="Register">Register</a>
+            <a href="{{=URL('auth', 'sign_in', vars={'_next': URL()})}}" title="Sign In">Sign In</a>
+            <a href="{{=URL('auth', 'register', vars={'_next': URL()})}}" title="Register">Register</a>
             {{ pass }}
           </div>
         </div>
