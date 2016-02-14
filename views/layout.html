@@ -19,8 +19,12 @@
       <div class="top-bar">
         <div class=" container">
           <div class="top-bar">
-            <a href="{{=URL('auth', 'register')}}" title="Register">Register</a>
+            {{ if auth.user: }}
+            <a href="{{=URL('auth', 'sign_out')}}" title="Sign Out">Sign Out</a>
+            {{ else: }}
             <a href="{{=URL('auth', 'sign_in')}}" title="Sign In">Sign In</a>
+            <a href="{{=URL('auth', 'register')}}" title="Register">Register</a>
+            {{ pass }}
           </div>
         </div>
       </div>
