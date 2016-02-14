@@ -5,9 +5,12 @@ def view():
 
 def new_collection():
 
-    form=FORM(TABLE(TR("Name",INPUT(_type="text",_name="name",requires=IS_NOT_EMPTY())),
-                TR("Public",SELECT('yes','no',_name="sure",requires=IS_IN_SET(['yes','no']))),
-                TR("",INPUT(_type="submit",_value="SUBMIT"))))
+    form=FORM(TABLE(
+                DIV(LABEL('Name', _for = 'name')),
+                DIV(INPUT(_type="text",_name="name",requires=IS_NOT_EMPTY())),
+                DIV(LABEL('Type', _for = 'privacy')),
+                DIV(SELECT('yes','no',_name="privacy",requires=IS_IN_SET(['yes','no']))),
+                DIV("",INPUT(_type="submit",_value="SUBMIT"))))
 
     if form.accepts(request,session):
         response.flash = 'collection created'
@@ -24,9 +27,12 @@ def new_collection():
 def edit_collection():
 
     form=FORM(TABLE(
-                TR("Name",INPUT(_type="text",_name="name",requires=IS_NOT_EMPTY())),
-                TR("Public",SELECT('yes','no',_name="sure",requires=IS_IN_SET(['yes','no']))),
-                TR("",INPUT(_type="submit",_value="SUBMIT")))
+                    DIV(LABEL('Name', _for = 'name')),
+                    DIV("Name",INPUT(_type="text",_name="name",requires=IS_NOT_EMPTY())),
+                    DIV(LABEL('Type', _for = 'privacy')),
+                    DIV("Public",SELECT('yes','no',_name="sure",requires=IS_IN_SET(['yes','no']))),
+                    DIV("",INPUT(_type="submit",_value="SUBMIT"))
+                    )
              )
 
     if form.accepts(request,session):
