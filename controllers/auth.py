@@ -14,7 +14,7 @@ def user():
     """
     Immediate redirect to the auth controller's sign in page
     """
-    redirect(URL('auth', 'sign_in'))
+    redirect(URL('auth', 'sign_in', vars=request.vars))
     return dict()
 
 
@@ -25,47 +25,72 @@ def register():
         @auth.requires_permission('read','table name',record_id)
     to decorate functions that need access control
     """
-    
-    registration_form = FORM(DIV(LABEL('Username'),
-                                 INPUT(_id='username-field', _class='form-control', _name='username',
-                                       requires=[IS_NOT_EMPTY(error_message='Please pick a username'),
-                                                 IS_NOT_IN_DB(db, 'auth_user.username',
-                                                              error_message=('This username has already been taken. '
-                                                                             + 'Please try a different username.'))]),
-                                 _class='form-group'),
-                             DIV(LABEL('Email Address'),
-                                 INPUT(_id='email-field', _class='form-control', _name='email',
-                                       requires=[IS_NOT_EMPTY(error_message='Please enter your email address'),
-                                                 IS_EMAIL(error_message=('This does not appear to be a valid email address. '
-                                                                         + 'Email addresses should be in the form:'
-                                                                         + 'your-name@email-provider.com')),
-                                                 IS_NOT_IN_DB(db, 'auth_user.email',
-                                                              error_message=('An account with this email address already '
-                                                                             + 'exists.'))]),
-                                 _class='form-group'),
-                             DIV(LABEL('Password'),
-                                 INPUT(_id='password-field', _class='form-control', _name='password',
-                                       _type='password',
-                                       requires=[IS_NOT_EMPTY(error_message='Please pick a password'),
-                                                 IS_EQUAL_TO(request.vars.password_confirm, error_message=' '),
-                                                 IS_STRONG(min=8, special=0, upper=0,
-                                                           error_message=('Please enter a stronger password. '
-                                                                          + 'Passwords should contain at least 8 characters, '
-                                                                          + 'and should be a mix of lower-case and '
-                                                                          + 'upper-case letters, numbers and symbols')),
-                                                 CRYPT()]),
-                                 _class='form-group'),
-                             DIV(LABEL('Confirm Password'),
-                                 INPUT(_id='password-confirm-field', _class='form-control', _name='password_confirm',
-                                       _type='password',
-                                       requires=[IS_NOT_EMPTY(error_message='Please confirm your password'),
-                                                 IS_EQUAL_TO(request.vars.password,
-                                                             error_message='The two passwords did not match')]),
-                                 _class='form-group'),
-                             INPUT(_id='register-button', _name='register', _type='submit',
-                                   _value='Register', _class='btn btn-primary'),
-                             _id='registration_form', _role='form')
-    
+
+    username_field    = DIV(DIV(LABEL('Username'),
+                                _class='col-sm-12 col-md-12 col-lg-12'),
+                            DIV(INPUT(_id='username-field', _class='form-control', _name='username',
+                                      requires=[IS_NOT_EMPTY(error_message='Please pick a username'),
+                                                IS_NOT_IN_DB(db, 'auth_user.username',
+                                                             error_message=('This username has already been taken. '
+                                                                            + 'Please try a different username.'))]),
+                                _class='col-sm-6 col-md-6 col-lg-6'),
+                            DIV(P('This is the name which other users will use to identify your collections, '
+                                  + 'and will be used to identify you in trades.'),
+                                _class='col-sm-6 col-md-6 col-lg-6'),
+                            _class='form-group row')
+
+    email_field       = DIV(DIV(LABEL('Email Address'),
+                                _class='col-sm-12 col-md-12 col-lg-12'),
+                            DIV(INPUT(_id='email-field', _class='form-control', _name='email',
+                                      requires=[IS_NOT_EMPTY(error_message='Please enter your email address'),
+                                                IS_EMAIL(error_message=('This does not appear to be a valid email address. '
+                                                                        + 'Email addresses should be in the form:'
+                                                                        + 'your-name@email-provider.com')),
+                                                IS_NOT_IN_DB(db, 'auth_user.email',
+                                                             error_message=('An account with this email address already '
+                                                                            + 'exists.'))]),
+                                _class='col-sm-6 col-md-6 col-lg-6'),
+                            DIV(P('Your email address. We will use this if we need to contact you.'),
+                                _class='col-sm-6 col-md-6 col-lg-6'),
+                            _class='form-group row')
+
+    password_field    = DIV(DIV(LABEL('Password'),
+                                _class='col-sm-12 col-md-12 col-lg-12'),
+                            DIV(INPUT(_id='password-field', _class='form-control', _name='password',
+                                      _type='password',
+                                      requires=[IS_NOT_EMPTY(error_message='Please pick a password'),
+                                                IS_STRONG(min=8, special=0, upper=0,
+                                                          error_message=('Please enter a stronger password. '
+                                                                         + '')),
+                                                CRYPT(),
+                                                IS_EQUAL_TO(request.vars.password_confirm, error_message=' ')]),
+                                _class='col-sm-6 col-md-6 col-lg-6'),
+                            DIV(P('This is the password you will use to access the site. '
+                                  + 'Passwords must contain at least 8 characters, and should have a mix of lower-case '
+                                  + 'and upper-case letters, numbers and symbols.'),
+                                _class='col-sm-6 col-md-6 col-lg-6'),
+                            _class='form-group row')
+
+    confirm_field     = DIV(DIV(LABEL('Confirm Password'),
+                                _class='col-sm-12 col-md-12 col-lg-12'),
+                            DIV(INPUT(_id='password-confirm-field', _class='form-control', _name='password_confirm',
+                                      _type='password',
+                                      requires=[IS_NOT_EMPTY(error_message='Please confirm your password'),
+                                                IS_EQUAL_TO(request.vars.password,
+                                                            error_message='The two passwords did not match')]),
+                                _class='col-sm-6 col-md-6 col-lg-6'),
+                            DIV(P('Please re-enter your password to confirm.'),
+                                _class='col-sm-6 col-md-6 col-lg-6'),
+                            _class='form-group row')
+
+    register_button   = DIV(DIV(INPUT(_id='register-button', _name='register', _type='submit',
+                                   _value='Register', _class='btn btn-primary pull-right'),
+                                _class='col-sm-6 col-md-6 col-lg-6'),
+                            DIV(_class='col-sm-6 col-md-6 col-lg-6'))
+
+    registration_form = FORM(username_field, email_field, password_field, confirm_field, register_button,
+                             _id='registration-form', _role='form')
+
     if registration_form.accepts(request, session):
         db.auth_user.insert(username=registration_form.vars.username,
                             password=registration_form.vars.password,
@@ -103,13 +128,15 @@ def sign_in():
                         _id='sign-in-form', _role='form')
 
     if sign_in_form.accepts(request, session):
-        if not authenticate(sign_in_form.vars.username_email,
-                            sign_in_form.vars.password):
+        if authenticate(sign_in_form.vars.username_email, sign_in_form.vars.password):
+            if request.vars['_next']:
+                redirect(request.vars['_next'])
+            else:
+                redirect(URL('default', 'index'))
+        else:
             sign_in_form.errors.username_email = ' '
             sign_in_form.errors.password = ('Sign in failed. Please ensure that your username and password '
                                             + 'have been entered correctly.')
-        else:
-            redirect(URL('default', 'index'))
     elif sign_in_form.errors:
         pass
     else:
