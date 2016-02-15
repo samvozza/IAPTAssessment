@@ -133,27 +133,15 @@
       </div>
     </div>
     <div role="tabpanel" class="tab-pane" id="tradable">
-      <div class="panel panel-default col-md-3">
-        <div class="panel-body">
-          Panel content 4
+      {{for o in response.tradable:}}
+        <div class="panel panel-default col-md-4">
+          <img src="{{=URL('default', 'download', args=[o.image])}}" style="max-height:100px;height:100px;"/>
+          <div class="panel-body">
+            <h3><a href="{{=URL('object', 'view', args=[o.id])}}">{{=o.name}}</a></h3>
+            <hr/>
+          </div>
         </div>
-      </div>
-
-      <div class="panel panel-default col-md-3">
-        <div class="panel-body">
-          Panel content 4
-        </div>
-      </div>
-      <div class="panel panel-default col-md-3">
-        <div class="panel-body">
-          Panel content 4
-        </div>
-      </div>
-      <div class="panel panel-default col-md-3">
-        <div class="panel-body">
-          Panel content 4
-        </div>
-      </div>
+      {{pass}}
     </div>
   </div>
 
