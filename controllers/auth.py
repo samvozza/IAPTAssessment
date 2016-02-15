@@ -73,6 +73,8 @@ def register():
                             email=registration_form.vars.email)
 
         if authenticate(registration_form.vars.username, registration_form.vars.password):
+            session.flash = (T('Hi ' + registration_form.vars.username + '! '
+                               + 'Welcome to CollectShare.'), 'success')
             redirect_to_next()
     elif registration_form.errors:
         pass
