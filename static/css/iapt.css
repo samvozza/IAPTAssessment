@@ -242,6 +242,10 @@ input.invalidinput:focus {
   color: red;
 }
 
+.form-field-description {
+  font-size: 13px !important;
+}
+
 .brand {
 	line-height: 80px;
 	font-size: 23px;

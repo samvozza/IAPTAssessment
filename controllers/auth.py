@@ -35,7 +35,8 @@ def register():
                                                                                  + 'Please try a different username.'))]),
                                      _class='col-sm-6 col-md-6 col-lg-6'),
                                  DIV(P('This is the name which other users will use to identify your collections, '
-                                       + 'and will be used to identify you in trades.'),
+                                       + 'and will be used to identify you in trades.',
+                                       _class='form-field-description'),
                                      _class='col-sm-6 col-md-6 col-lg-6'),
                                  _class='form-group row'),
 
@@ -50,7 +51,8 @@ def register():
                                                                   error_message=('An account with this email address already '
                                                                                  + 'exists.'))]),
                                      _class='col-sm-6 col-md-6 col-lg-6'),
-                                 DIV(P('Your email address. We will use this if we need to contact you.'),
+                                 DIV(P('Your email address. We will use this if we need to contact you.',
+                                       _class='form-field-description'),
                                      _class='col-sm-6 col-md-6 col-lg-6'),
                                  _class='form-group row'),
 
@@ -64,7 +66,8 @@ def register():
                                      _class='col-sm-6 col-md-6 col-lg-6'),
                                  DIV(P('This is the password you will use to access the site. '
                                        + 'Passwords must contain at least 8 characters, and should have a mix of lower-case '
-                                       + 'and upper-case letters, numbers and symbols.'),
+                                       + 'and upper-case letters, numbers and symbols.',
+                                       _class='form-field-description'),
                                      _class='col-sm-6 col-md-6 col-lg-6'),
                                  _class='form-group row'),
 
@@ -76,7 +79,8 @@ def register():
                                                      IS_EQUAL_TO(request.vars.password,
                                                                  error_message='The two passwords did not match')]),
                                      _class='col-sm-6 col-md-6 col-lg-6'),
-                                 DIV(P('Please re-enter your password to confirm.'),
+                                 DIV(P('Please re-enter your password to confirm.',
+                                       _class='form-field-description'),
                                      _class='col-sm-6 col-md-6 col-lg-6'),
                                  _class='form-group row'),
 
