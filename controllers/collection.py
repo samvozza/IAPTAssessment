@@ -1,11 +1,11 @@
 def view():
     response.collection = db(db.collection.id == request.args[0]).select().first()
-
+    response.q = request.vars.q if request.vars.q != None else ''
     response.collections = db(db.collection.owner == response.collection.owner).select()
-    response.objects = db(db.object.collection == response.collection.id).select()
-    response.tradable = db((db.object.collection == response.collection.id) & (db.object.tradable_quantity > 0)).select()
-    response.wanted = db((db.object.collection == response.collection.id) & (db.object.quantity == 0)).select()
-    response.owned = db((db.object.collection == response.collection.id) & (db.object.quantity > 0)).select()
+    response.objects = db((db.object.collection == response.collection.id) & (db.object.name.like('%' +response.q+'%'))).select()
+    response.tradable = db((db.object.collection == response.collection.id) &  (db.object.name.like('%' +response.q+'%')) & (db.object.tradable_quantity > 0)).select()
+    response.wanted = db((db.object.collection == response.collection.id) & (db.object.name.like('%' +response.q+'%')) & (db.object.quantity == 0)).select()
+    response.owned = db((db.object.collection == response.collection.id) & (db.object.name.like('%' +response.q+'%')) & (db.object.quantity > 0)).select()
     return dict(message=T('Welcome to web2py!'))
 
 @auth.requires_login()

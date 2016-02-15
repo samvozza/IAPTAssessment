@@ -49,9 +49,9 @@
             </li>
 
             <li class="collection-search">
-                <form role="search">
+                <form role="search" method="get">
                   <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search this collection">
+                    <input type="text" value="{{=response.q}}" name="q" class="form-control" placeholder="Search this collection">
                     <span class="input-group-btn">
                       <button class="btn btn-primary" type="button" title="Search"><i class="glyphicon glyphicon-search"></i></button>
                     </span>
