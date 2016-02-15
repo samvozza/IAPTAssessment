@@ -71,8 +71,9 @@ def register():
         db.auth_user.insert(username=registration_form.vars.username,
                             password=registration_form.vars.password,
                             email=registration_form.vars.email)
-        
-        redirect(URL('default', 'index'))
+
+        if authenticate(registration_form.vars.username, registration_form.vars.password):
+            redirect_to_next()
     elif registration_form.errors:
         pass
     else:
@@ -105,10 +106,7 @@ def sign_in():
 
     if sign_in_form.accepts(request, session):
         if authenticate(sign_in_form.vars.username_email, sign_in_form.vars.password):
-            if request.vars['_next']:
-                redirect(request.vars['_next'])
-            else:
-                redirect(URL('default', 'index'))
+            redirect_to_next()
         else:
             sign_in_form.errors.username_email = ' '
             sign_in_form.errors.password = ('Sign in failed. Please ensure that your username and password '
@@ -143,6 +141,13 @@ def authenticate(username_or_email, password):
         auth.login_user(user)
 
     return user
+
+
+def redirect_to_next(default=URL('default', 'index')):
+    if request.vars['_next']:
+        redirect(request.vars['_next'])
+    else:
+        redirect(default)
 
 
 def FIELD_WITH_DESC(name, field, description):
