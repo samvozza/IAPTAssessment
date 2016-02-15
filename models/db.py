@@ -33,6 +33,10 @@ auth.settings.registration_requires_verification = False
 auth.settings.registration_requires_approval = False
 auth.settings.reset_password_requires_verification = True
 
+# configure auth messages
+auth.messages.logged_in = None
+auth.messages.logged_out = None
+
 #########################################################################
 ## Define your tables below (or better in another model file) for example
 ##
