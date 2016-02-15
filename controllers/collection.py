@@ -4,6 +4,8 @@ def view():
     response.collections = db(db.collection.owner == response.collection.owner).select()
     response.objects = db(db.object.collection == response.collection.id).select()
     response.tradable = db((db.object.collection == response.collection.id) & (db.object.tradable_quantity > 0)).select()
+    response.wanted = db((db.object.collection == response.collection.id) & (db.object.quantity == 0)).select()
+    response.owned = db((db.object.collection == response.collection.id) & (db.object.quantity > 0)).select()
     return dict(message=T('Welcome to web2py!'))
 
 @auth.requires_login()

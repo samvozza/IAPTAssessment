@@ -75,62 +75,28 @@
           </div>
         {{pass}}
 
-          <div class="panel panel-default col-md-4">
-            <div class="panel-body">
-              Panel content 1
-            </div>
-          </div>
-          <div class="panel panel-default col-md-4">
-            <div class="panel-body">
-              Panel content 1
-            </div>
-          </div>
     </div>
     <div role="tabpanel" class="tab-pane" id="owned">
-      <div class="panel panel-default col-md-3">
-        <div class="panel-body">
-          Panel content 2
+      {{for o in response.owned:}}
+        <div class="panel panel-default col-md-4">
+          <img src="{{=URL('default', 'download', args=[o.image])}}" style="max-height:100px;height:100px;"/>
+          <div class="panel-body">
+            <h3><a href="{{=URL('object', 'view', args=[o.id])}}">{{=o.name}}</a></h3>
+            <hr/>
+          </div>
         </div>
-      </div>
-
-      <div class="panel panel-default col-md-3">
-        <div class="panel-body">
-          Panel content 2
-        </div>
-      </div>
-      <div class="panel panel-default col-md-3">
-        <div class="panel-body">
-          Panel content 2
-        </div>
-      </div>
-      <div class="panel panel-default col-md-3">
-        <div class="panel-body">
-          Panel content 2
-        </div>
-      </div>
+      {{pass}}
     </div>
     <div role="tabpanel" class="tab-pane" id="wanted">
-      <div class="panel panel-default col-md-3">
-        <div class="panel-body">
-          Panel content 3
+      {{for o in response.wanted:}}
+        <div class="panel panel-default col-md-4">
+          <img src="{{=URL('default', 'download', args=[o.image])}}" style="max-height:100px;height:100px;"/>
+          <div class="panel-body">
+            <h3><a href="{{=URL('object', 'view', args=[o.id])}}">{{=o.name}}</a></h3>
+            <hr/>
+          </div>
         </div>
-      </div>
-
-      <div class="panel panel-default col-md-3">
-        <div class="panel-body">
-          Panel content 3
-        </div>
-      </div>
-      <div class="panel panel-default col-md-3">
-        <div class="panel-body">
-          Panel content 3
-        </div>
-      </div>
-      <div class="panel panel-default col-md-3">
-        <div class="panel-body">
-          Panel content 3
-        </div>
-      </div>
+      {{pass}}
     </div>
     <div role="tabpanel" class="tab-pane" id="tradable">
       {{for o in response.tradable:}}
