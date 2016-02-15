@@ -43,7 +43,7 @@ def create():
 						 DIV(INPUT(_type = 'submit')))
 
 	if addobjectform.accepts(request, session):
-		db.object.insert(name = request.vars.name, price = request.vars.price, type_taxonomy = request.vars.type_taxonomy, quantity = request.vars.quantity,
+		db.Objects.insert(name = request.vars.name, price = request.vars.price, type_taxonomy = request.vars.type_taxonomy, quantity = request.vars.quantity,
 						 tradable_quantity = request.vars.tradable_quantity, description = request.vars.description, image = request.vars.image)
 		db.commit
 		response.flash = "New object is added."
