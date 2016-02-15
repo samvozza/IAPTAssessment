@@ -59,10 +59,8 @@ def register():
                             DIV(INPUT(_id='password-field', _class='form-control', _name='password',
                                       _type='password',
                                       requires=[IS_NOT_EMPTY(error_message='Please pick a password'),
-                                                IS_STRONG(min=8, special=0, upper=0,
-                                                          error_message=('Please enter a stronger password. '
-                                                                         + '')),
-                                                CRYPT(),
+                                                CRYPT(min_length=8,
+                                                      error_message='Please enter a stronger password.'),
                                                 IS_EQUAL_TO(request.vars.password_confirm, error_message=' ')]),
                                 _class='col-sm-6 col-md-6 col-lg-6'),
                             DIV(P('This is the password you will use to access the site. '
