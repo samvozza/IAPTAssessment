@@ -4,6 +4,9 @@ def view():
 
 
 def create():
+    if(not auth.is_logged_in()):
+        redirect(URL('default', 'index'))
+        return
 
     form=FORM(
               DIV(DIV(LABEL('Name'),_class='col-sm-12 col-md-12 col-lg-12'),
@@ -15,7 +18,7 @@ def create():
                             _class='col-sm-6 col-md-6 col-lg-6'),
                             DIV(P('Enter a name for your collection',
                                 _class='form-field-description'),
-                                _class='col-sm-2 col-md-8 col-lg-8'),
+                                _class='col-sm-8 col-md-8 col-lg-8'),
                                 _class='form-group row'),
 
               DIV(DIV(LABEL('Public'),_class='col-sm-12 col-md-12 col-lg-12'),
@@ -23,7 +26,7 @@ def create():
                       _class='col-sm-6 col-md-6 col-lg-6'),
                       DIV(P('This determines if other users can see the objects in your collection ',
                           _class='form-field-description'),
-                          _class='col-sm-2 col-md-8 col-lg-8'),
+                          _class='col-sm-8 col-md-8 col-lg-8'),
                           _class='form-group row'),
 
               DIV(DIV(INPUT(_id='submit-button', _name='Submit', _type='submit',
@@ -47,14 +50,18 @@ def create():
     return  dict(form=form)
 
 def edit():
+    if(not auth.is_logged_in()):
+        redirect(URL('default', 'index'))
+        return
+        
     form=FORM(
               DIV(DIV(LABEL('Name'),_class='col-sm-12 col-md-12 col-lg-12'),
                   DIV(INPUT(_id='Name', _class='form-control', _name='Name',
-                            requires=[IS_NOT_EMPTY(error_message='Please pick a name'))]),
+                            requires=[IS_NOT_EMPTY(error_message='Please pick a name')]),
                             _class='col-sm-6 col-md-6 col-lg-6'),
                             DIV(P('Enter a name for your collection',
                                 _class='form-field-description'),
-                                _class='col-sm-2 col-md-8 col-lg-8'),
+                                _class='col-sm-8 col-md-8 col-lg-8'),
                                 _class='form-group row'),
 
               DIV(DIV(LABEL('Public'),_class='col-sm-12 col-md-12 col-lg-12'),
