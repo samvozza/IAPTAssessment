@@ -59,10 +59,6 @@ db.define_table('collection',
     Field('public', type="boolean")
 )
 
-db.define_table('currency',
-    Field('name', type="string", unique=True)
-)
-
 db.define_table('type',
     Field('name', type='string', unique=True)
 )
