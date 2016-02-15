@@ -50,10 +50,7 @@ def edit():
     form=FORM(
               DIV(DIV(LABEL('Name'),_class='col-sm-12 col-md-12 col-lg-12'),
                   DIV(INPUT(_id='Name', _class='form-control', _name='Name',
-                            requires=[IS_NOT_EMPTY(error_message='Please pick a name'),
-                            IS_NOT_IN_DB(db, 'collection.name',
-                            error_message=('This collection already exists. '
-                            + 'Please try a different title.'))]),
+                            requires=[IS_NOT_EMPTY(error_message='Please pick a name'))]),
                             _class='col-sm-6 col-md-6 col-lg-6'),
                             DIV(P('Enter a name for your collection',
                                 _class='form-field-description'),
