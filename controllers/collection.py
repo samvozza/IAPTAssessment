@@ -1,8 +1,10 @@
 def view():
-    response.collections = db(db.collection.owner == '1').select()
+    response.col = db(db.collection.id == request.args[0]).select().first()
+
+    response.collections = db(db.collection.owner == response.col.owner).select()
     return dict(message=T('Welcome to web2py!'))
 
-
+@auth.requires_login()
 def create():
 
     form=FORM(TABLE(
@@ -13,7 +15,7 @@ def create():
                 DIV(LABEL('', _for = 'submit')),
                 DIV(INPUT(_type="submit",_value="SUBMIT"))))
 
-    form.vars.owner = 1
+    form.vars.owner = auth.user_id
 
     if form.accepts(request,session):
         response.flash = 'collection created'
@@ -27,7 +29,7 @@ def create():
 
     return  dict(form=form)
 
-
+@auth.requires_login()
 def edit():
     form=FORM(TABLE(DIV(LABEL('Name', _for = 'name')),
                     DIV(INPUT(_type="text",_name="name",_class="control-form col-md-5",requires=IS_NOT_EMPTY())),
@@ -49,5 +51,7 @@ def edit():
 
     return  dict(form=form)
 
+@auth.requires_login()
 def my():
-    redirect(URL('collection', 'view', args=['1']))
+    response.col = db(db.collection.owner == auth.user_id).select().first()
+    redirect(URL('collection', 'view', args=[response.col.id]))
