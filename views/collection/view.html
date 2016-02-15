@@ -65,6 +65,7 @@
   <div class="tab-content">
     <div role="tabpanel" class="tab-pane active" id="all">
 
+        {{if len(response.objects)> 0:}}
         {{for o in response.objects:}}
           <div class="panel panel-default col-md-4">
             <img src="{{=URL('default', 'download', args=[o.image])}}" style="max-height:100px;height:100px;"/>
@@ -75,8 +76,13 @@
           </div>
         {{pass}}
 
+              {{else:}}
+              <div class="alert alert-info">There are no objects in this collection.</div>
+              {{pass}}
     </div>
     <div role="tabpanel" class="tab-pane" id="owned">
+      {{if len(response.owned)> 0:}}
+
       {{for o in response.owned:}}
         <div class="panel panel-default col-md-4">
           <img src="{{=URL('default', 'download', args=[o.image])}}" style="max-height:100px;height:100px;"/>
@@ -86,8 +92,13 @@
           </div>
         </div>
       {{pass}}
+
+      {{else:}}
+      <div class="alert alert-info">There are no 'owned' objects in this collection.</div>
+      {{pass}}
     </div>
     <div role="tabpanel" class="tab-pane" id="wanted">
+      {{if len(response.wanted)> 0:}}
       {{for o in response.wanted:}}
         <div class="panel panel-default col-md-4">
           <img src="{{=URL('default', 'download', args=[o.image])}}" style="max-height:100px;height:100px;"/>
@@ -97,8 +108,12 @@
           </div>
         </div>
       {{pass}}
+      {{else:}}
+      <div class="alert alert-info">There are no 'wanted' objects in this collection.</div>
+      {{pass}}
     </div>
     <div role="tabpanel" class="tab-pane" id="tradable">
+      {{if len(response.tradable) > 0:}}
       {{for o in response.tradable:}}
         <div class="panel panel-default col-md-4">
           <img src="{{=URL('default', 'download', args=[o.image])}}" style="max-height:100px;height:100px;"/>
@@ -107,6 +122,9 @@
             <hr/>
           </div>
         </div>
+      {{pass}}
+      {{else:}}
+      <div class="alert alert-info">There are no 'tradable' objects in this collection.</div>
       {{pass}}
     </div>
   </div>
