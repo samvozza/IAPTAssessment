@@ -59,21 +59,16 @@ db.define_table('collection',
     Field('public', type="boolean")
 )
 
-db.define_table('currency',
-    Field('name', type="string", unique=True)
-)
-
 db.define_table('type',
     Field('name', type='string', unique=True)
 )
 
 db.define_table('object',
 	Field('name', type="string"),
-    Field('owner', db.auth_user,default=auth.user_id),
+    Field('collection', db.collection),
 	Field('price', type="double"),
-    Field('currency', db.currency),
 	Field('type', db.type),
 	Field('quantity', type="integer"),
 	Field('tradable_quantity', type="integer"),
 	Field('description', type="text"),
-	Field('image', type='upload', uploadfield=True))
+	Field('image', type='upload', uploadfield=True, default='uploads/thumbnail.jpg'))

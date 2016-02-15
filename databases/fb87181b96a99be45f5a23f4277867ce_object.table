@@ -47,7 +47,7 @@ I32768
 sg5
 I00
 sg6
-I9
+I8
 sg7
 S'TEXT'
 p18
@@ -56,7 +56,7 @@ I00
 sg10
 S'text'
 p19
-ssS'currency'
+ssS'collection'
 p20
 (dp21
 g4
@@ -64,14 +64,14 @@ I512
 sg5
 I00
 sg6
-I5
+I3
 sg7
-S'INTEGER REFERENCES currency (id) ON DELETE CASCADE  '
+S'INTEGER REFERENCES collection (id) ON DELETE CASCADE  '
 p22
 sg9
 I00
 sg10
-S'reference currency'
+S'reference collection'
 p23
 ssS'image'
 p24
@@ -81,7 +81,7 @@ I512
 sg5
 I00
 sg6
-I10
+I9
 sg7
 S'CHAR(512)'
 p26
@@ -90,75 +90,9 @@ I00
 sg10
 S'upload'
 p27
-ssS'owner'
+ssS'tradable_quantity'
 p28
 (dp29
-g4
-I512
-sg5
-I00
-sg6
-I3
-sg7
-S'INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  '
-p30
-sg9
-I00
-sg10
-S'reference auth_user'
-p31
-ssS'tradable_quantity'
-p32
-(dp33
-g4
-I512
-sg5
-I00
-sg6
-I8
-sg7
-S'INTEGER'
-p34
-sg9
-I00
-sg10
-S'integer'
-p35
-ssg10
-(dp36
-g4
-I512
-sg5
-I00
-sg6
-I6
-sg7
-S'INTEGER REFERENCES type (id) ON DELETE CASCADE  '
-p37
-sg9
-I00
-sg10
-S'reference type'
-p38
-ssS'id'
-p39
-(dp40
-g4
-I512
-sg5
-I00
-sg6
-I1
-sg7
-S'INTEGER PRIMARY KEY AUTOINCREMENT'
-p41
-sg9
-I00
-sg10
-g39
-ssS'quantity'
-p42
-(dp43
 g4
 I512
 sg5
@@ -167,9 +101,58 @@ sg6
 I7
 sg7
 S'INTEGER'
-p44
+p30
+sg9
+I00
+sg10
+S'integer'
+p31
+ssg10
+(dp32
+g4
+I512
+sg5
+I00
+sg6
+I5
+sg7
+S'INTEGER REFERENCES type (id) ON DELETE CASCADE  '
+p33
+sg9
+I00
+sg10
+S'reference type'
+p34
+ssS'id'
+p35
+(dp36
+g4
+I512
+sg5
+I00
+sg6
+I1
+sg7
+S'INTEGER PRIMARY KEY AUTOINCREMENT'
+p37
 sg9
 I00
 sg10
 g35
+ssS'quantity'
+p38
+(dp39
+g4
+I512
+sg5
+I00
+sg6
+I6
+sg7
+S'INTEGER'
+p40
+sg9
+I00
+sg10
+g31
 ss.

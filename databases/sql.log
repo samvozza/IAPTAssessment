@@ -1,4 +1,4 @@
-timestamp: 2016-02-14T23:15:36.472140
+timestamp: 2016-02-15T20:35:49.316963
 CREATE TABLE auth_user(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     first_name CHAR(128),
@@ -11,21 +11,21 @@ CREATE TABLE auth_user(
     registration_id CHAR(512)
 );
 success!
-timestamp: 2016-02-14T23:15:36.482973
+timestamp: 2016-02-15T20:35:49.333288
 CREATE TABLE auth_group(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     role CHAR(512),
     description TEXT
 );
 success!
-timestamp: 2016-02-14T23:15:36.488851
+timestamp: 2016-02-15T20:35:49.341876
 CREATE TABLE auth_membership(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
     group_id INTEGER REFERENCES auth_group (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-02-14T23:15:36.494799
+timestamp: 2016-02-15T20:35:49.348010
 CREATE TABLE auth_permission(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     group_id INTEGER REFERENCES auth_group (id) ON DELETE CASCADE  ,
@@ -34,7 +34,7 @@ CREATE TABLE auth_permission(
     record_id INTEGER
 );
 success!
-timestamp: 2016-02-14T23:15:36.498920
+timestamp: 2016-02-15T20:35:49.354237
 CREATE TABLE auth_event(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     time_stamp TIMESTAMP,
@@ -44,7 +44,7 @@ CREATE TABLE auth_event(
     description TEXT
 );
 success!
-timestamp: 2016-02-14T23:15:36.506137
+timestamp: 2016-02-15T20:35:49.362665
 CREATE TABLE auth_cas(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
@@ -54,7 +54,7 @@ CREATE TABLE auth_cas(
     renew CHAR(1)
 );
 success!
-timestamp: 2016-02-14T23:15:36.511867
+timestamp: 2016-02-15T20:35:49.371629
 CREATE TABLE collection(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name CHAR(512) UNIQUE,
@@ -62,25 +62,18 @@ CREATE TABLE collection(
     public CHAR(1)
 );
 success!
-timestamp: 2016-02-14T23:15:36.518374
-CREATE TABLE currency(
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name CHAR(512) UNIQUE
-);
-success!
-timestamp: 2016-02-14T23:15:36.523517
+timestamp: 2016-02-15T20:35:49.377712
 CREATE TABLE type(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name CHAR(512) UNIQUE
 );
 success!
-timestamp: 2016-02-14T23:15:36.531299
+timestamp: 2016-02-15T20:35:49.384157
 CREATE TABLE object(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name CHAR(512),
-    owner INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    collection INTEGER REFERENCES collection (id) ON DELETE CASCADE  ,
     price DOUBLE,
-    currency INTEGER REFERENCES currency (id) ON DELETE CASCADE  ,
     type INTEGER REFERENCES type (id) ON DELETE CASCADE  ,
     quantity INTEGER,
     tradable_quantity INTEGER,
@@ -88,7 +81,7 @@ CREATE TABLE object(
     image CHAR(512)
 );
 success!
-timestamp: 2016-02-14T23:15:36.539866
+timestamp: 2016-02-15T20:35:49.391726
 CREATE TABLE Objects(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name CHAR(512),
