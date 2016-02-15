@@ -7,4 +7,4 @@ db.define_table('Objects',
 	Field('quantity'),
 	Field('tradable_quantity'),
 	Field('description'),
-	Field('image', 'upload'))
+	Field('image', 'upload', default = 'static/images/thumbnail.jpg'))
