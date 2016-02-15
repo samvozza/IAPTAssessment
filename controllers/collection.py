@@ -6,6 +6,9 @@ def view():
     response.tradable = db((db.object.collection == response.collection.id) &  (db.object.name.like('%' +response.q+'%')) & (db.object.tradable_quantity > 0)).select()
     response.wanted = db((db.object.collection == response.collection.id) & (db.object.name.like('%' +response.q+'%')) & (db.object.quantity == 0)).select()
     response.owned = db((db.object.collection == response.collection.id) & (db.object.name.like('%' +response.q+'%')) & (db.object.quantity > 0)).select()
+
+    response.datalist = db(db.object.collection == response.collection.id).select(db.object.name,distinct=True)
+
     return dict(message=T('Welcome to web2py!'))
 
 @auth.requires_login()

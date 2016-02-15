@@ -51,14 +51,20 @@
             <li class="collection-search">
                 <form role="search" method="get">
                   <div class="input-group">
-                    <input type="text" value="{{=response.q}}" name="q" class="form-control" placeholder="Search this collection">
+                    <input type="text"autocomplete="off"  value="{{=response.q}}" name="q" class="form-control" placeholder="Search this collection" list="objectsearch">
                     <span class="input-group-btn">
-                      <button class="btn btn-primary" type="button" title="Search"><i class="glyphicon glyphicon-search"></i></button>
+                      <button class="btn btn-primary" type="sumbmit" title="Search"><span class="glyphicon glyphicon-search"></span></button>
                     </span>
                   </div>
                 </form>
             </li>
           </ul>
+
+          <datalist id="objectsearch">
+            {{for o in response.datalist:}}
+            <option value="{{=o.name}}"></option>
+            {{pass}}
+          </datalist>
 
 
   <!-- Tab panes -->
