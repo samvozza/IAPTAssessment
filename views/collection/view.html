@@ -19,7 +19,7 @@
     <h3>Colections</h3>
     <div class="list-group">
       {{for collection in response.collections:}}
-      <a href="{{=URL('collection', 'view', args=[collection.id])}}" class="list-group-item {{if collection.id == request.args(0):}}active{{pass}}">
+      <a href="{{=URL('collection', 'view', args=[collection.id])}}" class="list-group-item {{if collection.id == response.collection.id:}}active{{pass}}">
         {{=collection.name}}
       </a>
       {{pass}}
@@ -67,9 +67,10 @@
 
         {{for o in response.objects:}}
           <div class="panel panel-default col-md-4">
-            <img src="{{=URL('default', 'download', args='thumbnail.jpg')}}" style="max-height:100px;"/>
+            <img src="{{=URL('default', 'download', args=[o.image])}}" style="max-height:100px;height:100px;"/>
             <div class="panel-body">
-
+              <h3><a href="{{=URL('object', 'view', args=[o.id])}}">{{=o.name}}</a></h3>
+              <hr/>
             </div>
           </div>
         {{pass}}

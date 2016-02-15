@@ -71,4 +71,4 @@ db.define_table('object',
 	Field('quantity', type="integer"),
 	Field('tradable_quantity', type="integer"),
 	Field('description', type="text"),
-	Field('image', type='upload', uploadfield=True))
+	Field('image', type='upload', uploadfield=True, default='uploads/thumbnail.jpg'))
