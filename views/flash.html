@@ -1,0 +1,11 @@
+<div class="main">
+  {{
+  flash_type_set = isinstance(response.flash, (list, tuple))
+  flash_message = (response.flash[0] if flash_type_set else response.flash)
+  flash_type = (response.flash[1] if flash_type_set else 'info')
+  }}
+  <div id="flash" class="flash alert alert-{{=flash_type}} alert-dismissable" style="text-align: center" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    {{=flash_message}}
+  </div>
+</div>
