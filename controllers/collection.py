@@ -103,3 +103,7 @@ def edit():
 def my():
     response.col = db(db.collection.owner == auth.user_id).select().first()
     redirect(URL('collection', 'view', args=[response.col.id]))
+
+def user():
+    response.col = db((db.collection.owner == request.args[0]) & (db.collection.public == 'T')).select().first()
+    redirect(URL('collection', 'view', args=[response.col.id]))

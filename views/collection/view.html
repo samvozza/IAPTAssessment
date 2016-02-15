@@ -5,9 +5,9 @@
   <div class="breadcrums">
     <ul>
       <li>You are here:</li>
-      <li><a href="{{=URL('default')}}">Home</a>
-      <li><a href="{{=URL('default')}}">Collections</a>
-      <li><a href="{{=URL('default')}}">Pokemon 1st Edition</a>
+      <li><a href="{{=URL('default')}}">Home</a></li>
+      <li><a href="{{=URL('collection','user',args=[response.collection.owner])}}">Collections</a></li>
+      <li>{{=response.collection.name}}</li>
     </ul>
   </div>
   <div class="clearfix"></div>
