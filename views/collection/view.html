@@ -64,11 +64,15 @@
   <!-- Tab panes -->
   <div class="tab-content">
     <div role="tabpanel" class="tab-pane active" id="all">
+
+        {{for o in response.objects:}}
           <div class="panel panel-default col-md-4">
+            <img src="{{=URL('default', 'download', args='thumbnail.jpg')}}" style="max-height:100px;"/>
             <div class="panel-body">
-              Panel content 1
+
             </div>
           </div>
+        {{pass}}
 
           <div class="panel panel-default col-md-4">
             <div class="panel-body">

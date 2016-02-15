@@ -65,7 +65,7 @@ db.define_table('type',
 
 db.define_table('object',
 	Field('name', type="string"),
-    Field('owner', db.auth_user,default=auth.user_id),
+    Field('collection', db.collection),
 	Field('price', type="double"),
 	Field('type', db.type),
 	Field('quantity', type="integer"),

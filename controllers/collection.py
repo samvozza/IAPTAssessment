@@ -1,7 +1,8 @@
 def view():
-    response.col = db(db.collection.id == request.args[0]).select().first()
+    response.collection = db(db.collection.id == request.args[0]).select().first()
 
-    response.collections = db(db.collection.owner == response.col.owner).select()
+    response.collections = db(db.collection.owner == response.collection.owner).select()
+    response.objects = db(db.object.collection == response.collection.id).select()
     return dict(message=T('Welcome to web2py!'))
 
 @auth.requires_login()

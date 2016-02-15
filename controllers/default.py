@@ -51,6 +51,15 @@ def prepare():
 def setup():
     #SET UP WHATEVER INITIAL DATA YOU NEED
     db.executesql("INSERT INTO type(name) VALUES ('Advertising and brand'), ('Architectural'), ('Books'), ('Magazines and paper'), ('Clothing, fabric and textiles'), ('Coins, currency, stamps'), ('Film and television'), ('Glass and pottery'), ('Household items'), ('Memorabilia'), ('Music'), ('Nature and animals'),('Sports'),('Technology'), ('Themed'), ('Toys and games')")
-    db.executesql("INSERT INTO currency(name) VALUES ('USD'), ('GBP'), ('EUR')")
     db.executesql("INSERT INTO collection(name, owner, public) VALUES ('Collection 1', 1, 'T'), ('Collection 2', 1, 'T'), ('Collection 3', 1, 'F'), ('Collection 4', 1, 'F')")
+    db.executesql("INSERT INTO object(name, collection, price, type, quantity, tradable_quantity, description, image) VALUES ('Object1', 1, 33, 4, 5, 4, 'This is someasdf asjdfh ajhdsf jah sdfjha dsfjh asdjfh ahdf', 'uploads/thumbnail.jpg')")
+    db.executesql("INSERT INTO object(name, collection, price, type, quantity, tradable_quantity, description, image) VALUES ('Object1', 1, 33, 4, 5, 4, 'This is someasdf asjdfh ajhdsf jah sdfjha dsfjh asdjfh ahdf', 'uploads/thumbnail.jpg')")
+    db.executesql("INSERT INTO object(name, collection, price, type, quantity, tradable_quantity, description, image) VALUES ('Object1', 1, 33, 4, 5, 4, 'This is someasdf asjdfh ajhdsf jah sdfjha dsfjh asdjfh ahdf', 'uploads/thumbnail.jpg')")
+    db.executesql("INSERT INTO object(name, collection, price, type, quantity, tradable_quantity, description, image) VALUES ('Object1', 1, 33, 4, 5, 4, 'This is someasdf asjdfh ajhdsf jah sdfjha dsfjh asdjfh ahdf', 'uploads/thumbnail.jpg')")
+    db.executesql("INSERT INTO object(name, collection, price, type, quantity, tradable_quantity, description, image) VALUES ('Object1', 1, 33, 4, 5, 4, 'This is someasdf asjdfh ajhdsf jah sdfjha dsfjh asdjfh ahdf', 'uploads/thumbnail.jpg')")
+    db.executesql("INSERT INTO object(name, collection, price, type, quantity, tradable_quantity, description, image) VALUES ('Object1', 1, 33, 4, 5, 4, 'This is someasdf asjdfh ajhdsf jah sdfjha dsfjh asdjfh ahdf', 'uploads/thumbnail.jpg')")
+    db.executesql("INSERT INTO object(name, collection, price, type, quantity, tradable_quantity, description, image) VALUES ('Object1', 1, 33, 4, 5, 4, 'This is someasdf asjdfh ajhdsf jah sdfjha dsfjh asdjfh ahdf', 'uploads/thumbnail.jpg')")
+    db.executesql("INSERT INTO object(name, collection, price, type, quantity, tradable_quantity, description, image) VALUES ('Object1', 1, 33, 4, 5, 4, 'This is someasdf asjdfh ajhdsf jah sdfjha dsfjh asdjfh ahdf', 'uploads/thumbnail.jpg')")
+    db.executesql("INSERT INTO object(name, collection, price, type, quantity, tradable_quantity, description, image) VALUES ('Object1', 1, 33, 4, 5, 4, 'This is someasdf asjdfh ajhdsf jah sdfjha dsfjh asdjfh ahdf', 'uploads/thumbnail.jpg')")
+    db.executesql("INSERT INTO object(name, collection, price, type, quantity, tradable_quantity, description, image) VALUES ('Object1', 1, 33, 4, 5, 4, 'This is someasdf asjdfh ajhdsf jah sdfjha dsfjh asdjfh ahdf', 'uploads/thumbnail.jpg')")
     return dict()
