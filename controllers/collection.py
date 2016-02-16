@@ -48,7 +48,7 @@ def create():
 
     if form.accepts(request,session):
             response.flash = 'Collection created.'
-            redirect(URL('view'))
+            redirect(URL('my'))
 
     elif form.errors:
         response.flash = "We couldn't process your form because it contain errors. Check below for more detail."
@@ -92,7 +92,7 @@ def edit():
 
     if form.accepts(request,session):
             response.flash = 'Your collection updated.'
-            redirect(URL('view'))
+            redirect(URL('my'))
 
     elif form.errors:
         response.flash = "We couldn't process your form because it contain errors. Check below for more detail."

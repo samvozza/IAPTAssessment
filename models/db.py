@@ -70,32 +70,19 @@ db.define_table('collection',
                       notnull=True)
 )
 
-#db.define_table('type',
-#    Field('name', type='string', unique=True)
-#)
-
-setOfType = """Advertising and brand
-Architectural 
-Books, magazines, and paper
-Clothing,fabric and textiles
-Coins, currency, stamps
-Film and television
-Glass and pottery
-Household items
-Memorabilia 
-Music
-Nature and animal
-Sports
-Technology
-Themed
-Toys and games""".split('\n')
-
+#Category table
+#+name  used as enumeration values by Object.category
+db.define_table('category',
+                Field('name', type='string', length=32,
+                notnull=True, unique=True)
+)
 
 #Object table
 #+owner refers to User
+#+collection refers to Collection. Allow null, for loose Objects
 #+name  
 #+price non-negative value in GBP; assumed "0.0" => "not set"
-#+category one of the strings in the enumeration
+#+category refers to Category
 #quantity quantity (owned) subset; non-negative integer
 #tradable_quantity quantity (tradable) subset; non-negative integer
 #+description
@@ -103,6 +90,8 @@ Toys and games""".split('\n')
 db.define_table('object',
                 Field('owner', db.auth_user, default=auth.user_id,
                       notnull=True, ondelete="CASCADE"),
+                Field('collection',  db.collection, required=True,
+                      notnull=False, ondelete="SET NULL"),
                 Field('name', type="string", length=64, required=True,
                       requires = IS_NOT_EMPTY(error_message = "This field cannot be empty. Please type in the object's name."),
                       notnull=True),
