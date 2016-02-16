@@ -4,7 +4,7 @@ def view():
     response.collections = db(db.collection.owner == response.collection.owner).select()
     response.objects = db((db.object.collection == response.collection.id) & (db.object.name.like('%' +response.q+'%'))).select()
     response.tradable = db((db.object.collection == response.collection.id) &  (db.object.name.like('%' +response.q+'%')) & (db.object.tradable_quantity > 0)).select()
-    response.wanted = db((db.object.collection == response.collection.id) & (db.object.name.like('%' +response.q+'%')) & (db.object.quantity == 0)).select()
+    response.wanted = db((db.object.collection == response.collection.id) & (db.object.name.like('%' +response.q+'%')) & (db.object.wanted_quantity > 0)).select()
     response.owned = db((db.object.collection == response.collection.id) & (db.object.name.like('%' +response.q+'%')) & (db.object.quantity > 0)).select()
 
     response.datalist = db(db.object.collection == response.collection.id).select(db.object.name,distinct=True)

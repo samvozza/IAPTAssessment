@@ -57,23 +57,63 @@ auth.messages.logged_out = None
 ## after defining tables, uncomment below to enable auditing
 # auth.enable_record_versioning(db)
 
+#Collection table
+#+owner refers to User
+#+name  should be unique per owner, but not be unique in the DB (e.g Default)
+#+public 
 db.define_table('collection',
-    Field('name', type='string', unique=True),
-    Field('owner', db.auth_user, default=auth.user_id),
-    Field('public', type="boolean")
+                Field('owner', db.auth_user, default=auth.user_id,
+                      notnull=True, ondelete="CASCADE"),
+                Field('name', type='string', length=64, required=True,
+                      notnull=True),
+                Field('public', type="boolean", default=False,
+                      notnull=True)
 )
 
+#Category table
+#+name  used as enumeration values by Object.category
 db.define_table('category',
-    Field('name', type='string', unique=True)
+                Field('name', type='string', length=32,
+                notnull=True, unique=True)
 )
 
+#Object table
+#+owner refers to User
+#+collection refers to Collection. Allow null, for loose Objects
+#+name  
+#+price non-negative value in GBP; assumed "0.0" => "not set"
+#+category refers to Category
+#quantity quantity (owned) subset; non-negative integer
+#tradable_quantity quantity (tradable) subset; non-negative integer
+#+description
+#+image image is required, but may be the default thumbnail
 db.define_table('object',
-	Field('name', type="string",requires = IS_NOT_EMPTY(error_message = "This field cannot be empty. Please type in the object's name.")),
-    Field('collection', db.collection),
-	Field('price', type="double",requires = IS_NOT_EMPTY(error_message = "This field cannot be empty. Please type in the value of the object.")),
-	Field('category', requires = IS_IN_SET(db.category, error_message = "This field cannot be empty. Please select the category of your object.")),
-	Field('quantity', type="integer", requires = IS_NOT_EMPTY(error_message = "This field cannot be empty. Please type in the quantity of your object that you want to upload.")),
-	Field('tradable_quantity', type="integer", requires = IS_NOT_EMPTY(error_message = "This field cannot be empty. Please type in how many of your objects for trade.")),
-	Field('description', type="text", requires = IS_NOT_EMPTY(error_message = "This field cannot be empty. Please give a short description of your object.")),
-	Field('image', type='upload', default = 'static/images/thumbnail.jpg', uploadfield=True,
-		requires = IS_EMPTY_OR(IS_IMAGE(extensions=('jpeg','png','jpg'), error_message = "The extension of an image should be '.jpeg', 'png' or 'jpg'."))))
+                Field('owner', db.auth_user, default=auth.user_id,
+                      notnull=True, ondelete="CASCADE"),
+                Field('collection',  db.collection, required=True,
+                      notnull=False, ondelete="SET NULL"),
+                Field('name', type="string", length=64, required=True,
+                      requires = IS_NOT_EMPTY(error_message = "This field cannot be empty. Please type in the object's name."),
+                      notnull=True),
+                Field('price', type="double", default=0,
+                      requires = IS_FLOAT_IN_RANGE(0, 1e100, error_message = "This field cannot be empty. Please type in the value of the object."),
+                      notnull=True),
+                Field('category', type="string", length=32, required=True,
+                      requires = IS_IN_SET(db.category, error_message = "This field cannot be empty. Please select the category of your object."),
+                      notnull=True),
+                Field('quantity', type="integer", default=0,
+                      requires = IS_INT_IN_RANGE(0, 1e100, error_message = "This field cannot be empty or negative. Please type in the quantity of your object that you want to upload."),
+                      notnull=True),
+                Field('tradable_quantity', type="integer", default=0,
+                      requires=IS_INT_IN_RANGE(0, 1e100, error_message = "This field cannot be empty or negative. Please type in how many of your objects for trade."),
+                      notnull=True),
+                Field('wanted_quantity', type="integer", default=0,
+                      requires=IS_INT_IN_RANGE(0, 1e100, error_message = "This field cannot be empty or negative. Please type in how many objects you wish to trade for."),
+                      notnull=True),
+                Field('description', type="text", length=65536, default="",
+                      requires = None,
+                      notnull=True),
+                Field('image', type="upload", uploadfield=True, default="static/images/thumbnail.jpg",
+                      requires = IS_EMPTY_OR(IS_IMAGE(extensions=('jpeg','png','jpg'), error_message = "The extension of an image should be '.jpeg', 'png' or 'jpg'.")),
+                      notnull=True)
+)
