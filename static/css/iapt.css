@@ -133,9 +133,6 @@
     font-style: normal;
 }
 
-* {
-	font-family: 'OpenSansRegular' !important;
-}
 .top-bar{
   background: rgb(47,51,56);
   color: rgb(155, 159, 162);
