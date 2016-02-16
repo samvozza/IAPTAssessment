@@ -36,6 +36,7 @@
           <li role="presentation"><a href="#owned" aria-controls="owned" role="tab" data-toggle="tab">Owned</a></li>
           <li role="presentation"><a href="#wanted" aria-controls="wanted" role="tab" data-toggle="tab">Wanted</a></li>
           <li role="presentation"><a href="#tradable" aria-controls="tradable" role="tab" data-toggle="tab">Tradable</a></li>
+          {{if auth.user_id == response.collection.owner:}}
           <li class="collection-settings">
             <div class="btn-group" role="group" aria-label="Options">
               <a href="{{=URL('object', 'create', vars=dict(collection=response.collection.id))}}" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-plus"></span> New Object</a>
@@ -52,6 +53,7 @@
               </div>
             </div>
           </li>
+          {{pass}}
 
           <li class="collection-search">
             <form role="search" method="get">
