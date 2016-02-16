@@ -25,16 +25,16 @@ ssS'name'
 p11
 (dp12
 g4
-I512
+I32
 sg5
 I01
 sg6
 I2
 sg7
-S'CHAR(512) UNIQUE'
+S'CHAR(32) NOT NULL UNIQUE'
 p13
 sg9
-I00
+I01
 sg10
 S'string'
 p14
