@@ -63,16 +63,34 @@ db.define_table('collection',
     Field('public', type="boolean")
 )
 
-db.define_table('type',
-    Field('name', type='string', unique=True)
-)
+#db.define_table('type',
+#    Field('name', type='string', unique=True)
+#)
+
+setOfType = """Advertising and brand
+Architectural 
+Books, magazines, and paper
+Clothing,fabric and textiles
+Coins, currency, stamps
+Film and television
+Glass and pottery
+Household items
+Memorabilia 
+Music
+Nature and animal
+Sports
+Technology
+Themed
+Toys and games""".split('\n')
+
 
 db.define_table('object',
-	Field('name', type="string"),
-    Field('collection', db.collection),
-	Field('price', type="double"),
-	Field('type', db.type),
-	Field('quantity', type="integer"),
-	Field('tradable_quantity', type="integer"),
-	Field('description', type="text"),
-	Field('image', type='upload', uploadfield=True, default='uploads/thumbnail.jpg'))
+	Field('name', type="string",requires = IS_NOT_EMPTY(error_message = "This field cannot be empty. Please type in the object's name.")),
+    	Field('owner', db.auth_user,default=auth.user_id),
+	Field('price', type="double",requires = IS_NOT_EMPTY(error_message = "This field cannot be empty. Please type in the value of the object.")),
+	Field('category', requires = IS_IN_SET(setOfType)),
+	Field('quantity', type="integer", requires = IS_NOT_EMPTY(error_message = "This field cannot be empty. Please type in the value of the object.")),
+	Field('tradable_quantity', type="integer", requires = IS_NOT_EMPTY(error_message = "This field cannot be empty. Please type in the value of the object.")),
+	Field('description', type="text", requires = IS_NOT_EMPTY(error_message = "This field cannot be empty. Please type in the value of the object.")),
+	Field('image', type='upload', default = 'static/images/thumbnail.jpg', uploadfield=True,
+		requires = IS_EMPTY_OR(IS_IMAGE(extensions=('jpeg','png','jpg'), error_message = "The extension of an image should be '.jpeg' or 'png'."))))
