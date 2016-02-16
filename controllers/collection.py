@@ -19,11 +19,11 @@ def create():
 
     form=FORM(
               DIV(DIV(LABEL('Name'),_class='col-sm-12 col-md-12 col-lg-12'),
-                  DIV(INPUT(_id='Name', _class='form-control', _name='Name',
+                  DIV(INPUT(_id='name', _class='form-control', _name='name',
                             requires=[IS_NOT_EMPTY(error_message='Please pick a name'),
-                            IS_NOT_IN_DB(db, 'collection.name',
+                            IS_NOT_IN_DB(db(db.collection.owner==auth.user_id), 'collection.name',
                             error_message=('This collection already exists. '
-                            + 'Please try a different title.'))]),
+                            + 'Please try a different name.'))]),
                             _class='col-sm-6 col-md-6 col-lg-6'),
                             DIV(P('Enter a name for your collection',
                                 _class='form-field-description'),
@@ -31,7 +31,7 @@ def create():
                                 _class='form-group row'),
 
               DIV(DIV(LABEL('Public'),_class='col-sm-12 col-md-12 col-lg-12'),
-                  DIV(SELECT('yes', 'no', _id='title-field', _class='form-control', _name='title'),
+                  DIV(SELECT('yes', 'no', _id='public-field', _class='form-control', _name='public'),
                       _class='col-sm-6 col-md-6 col-lg-6'),
                       DIV(P('This determines if other users can see the objects in your collection ',
                           _class='form-field-description'),
@@ -48,6 +48,7 @@ def create():
 
     if form.accepts(request,session):
             response.flash = 'Collection created.'
+            db.collection.insert(name=form.vars.name, public= form.vars.public)
             redirect(URL('my'))
 
     elif form.errors:
