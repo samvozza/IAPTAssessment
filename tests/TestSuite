@@ -9,11 +9,12 @@
 <table id="suiteTable" cellpadding="1" cellspacing="1" border="1" class="selenium"><tbody>
 <tr><td><b>Test Suite</b></td></tr>
 <tr><td><a href="Registration">Registration</a></td></tr>
-<tr><td><a href="SignOut">SignOut</a></td></tr>
-<tr><td><a href="LoginUsingUsername">LoginUsingUsername</a></td></tr>
-<tr><td><a href="SignOut">SignOut</a></td></tr>
 <tr><td><a href="LoginUsingEmail">LoginUsingEmail</a></td></tr>
 <tr><td><a href="SignOut">SignOut</a></td></tr>
+<tr><td><a href="LoginUsingUsername">LoginUsingUsername</a></td></tr>
+<tr><td><a href="SetupDatabase">SetupDatabase</a></td></tr>
+<tr><td><a href="AddingCollection.html">AddingCollection</a></td></tr>
+<tr><td><a href="EditingCollection.html">EditingCollection</a></td></tr>
 </tbody></table>
 </body>
 </html>
