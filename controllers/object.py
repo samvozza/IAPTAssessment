@@ -1,4 +1,5 @@
 #When the value was sent to the form, the record should be able to take that value.
+@auth.requires_login() 
 def update():
 	db.Objects.description.widget = SQLFORM.widgets.text.widget
 	record = db.object(request.args(0))
@@ -15,7 +16,7 @@ def update():
 
 	return dict(updateobjectform = updateobjectform)
 
-
+@auth.requires_login() 
 def create():
 	addobjectform = SQLFORM(db.object)
 	if addobjectform.process(onvalidation = checking_quantity).accepted:
