@@ -1,0 +1,32 @@
+{{extend 'layout.html'}}
+
+<div class="page-title">
+  <div class="container">
+  <h1>Object Details</h1>
+  <div class="breadcrums">
+    <ul>
+      <li>You are here:</li>
+      <li><a href="{{=URL('default')}}">Home</a></li>
+      <li><a href="{{=URL('default')}}">Home</a></li>
+    </ul>
+  </div>
+</div>
+  <div class="clearfix"></div>
+</div>
+<div class="container">
+	{{for result in results:}}
+	<div class = "obj_detail">
+		{{=TAG.img(_width =180, _src = URL(r = request, c = 'default', f = 'download', args = [result.image]))}}
+		{{=H3((result.name))}}
+		<ul>
+			<li><strong>Name: </strong>{{=result.name}}</li>
+			<li><strong>Owner: </strong>{{=result.owner}}</li>
+			<li><strong>Category: </strong>{{=result.category}}</li>
+			<li><strong>Price: </strong>{{=result.price}}</li>
+			<li><strong>Quantity: </strong>{{=result.quantity}}</li>
+			<li><strong>Tradable Quantity: </strong>{{=result.tradable_quantity}}</li>
+			<li><strong>Description: </strong>{{=result.description}}</li>
+		</ul>
+	</div>
+</div>
+{{pass}}
