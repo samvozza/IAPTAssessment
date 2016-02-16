@@ -1,4 +1,4 @@
-timestamp: 2016-02-16T21:08:18.136000
+timestamp: 2016-02-16T22:56:19.680000
 CREATE TABLE auth_user(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     first_name CHAR(128),
@@ -11,21 +11,21 @@ CREATE TABLE auth_user(
     registration_id CHAR(512)
 );
 success!
-timestamp: 2016-02-16T21:08:18.183000
+timestamp: 2016-02-16T22:56:19.789000
 CREATE TABLE auth_group(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     role CHAR(512),
     description TEXT
 );
 success!
-timestamp: 2016-02-16T21:08:18.214000
+timestamp: 2016-02-16T22:56:19.794000
 CREATE TABLE auth_membership(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
     group_id INTEGER REFERENCES auth_group (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-02-16T21:08:18.261000
+timestamp: 2016-02-16T22:56:19.800000
 CREATE TABLE auth_permission(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     group_id INTEGER REFERENCES auth_group (id) ON DELETE CASCADE  ,
@@ -34,7 +34,7 @@ CREATE TABLE auth_permission(
     record_id INTEGER
 );
 success!
-timestamp: 2016-02-16T21:08:18.308000
+timestamp: 2016-02-16T22:56:19.807000
 CREATE TABLE auth_event(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     time_stamp TIMESTAMP,
@@ -44,7 +44,7 @@ CREATE TABLE auth_event(
     description TEXT
 );
 success!
-timestamp: 2016-02-16T21:08:18.355000
+timestamp: 2016-02-16T22:56:19.813000
 CREATE TABLE auth_cas(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
@@ -54,7 +54,7 @@ CREATE TABLE auth_cas(
     renew CHAR(1)
 );
 success!
-timestamp: 2016-02-16T21:08:18.386000
+timestamp: 2016-02-16T22:56:19.820000
 CREATE TABLE collection(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     owner INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  NOT NULL ,
@@ -62,13 +62,13 @@ CREATE TABLE collection(
     public CHAR(1) NOT NULL DEFAULT 'F'
 );
 success!
-timestamp: 2016-02-16T21:08:18.433000
+timestamp: 2016-02-16T22:56:19.825000
 CREATE TABLE category(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name CHAR(32) NOT NULL UNIQUE
 );
 success!
-timestamp: 2016-02-16T21:08:18.464000
+timestamp: 2016-02-16T22:56:19.831000
 CREATE TABLE object(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     owner INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  NOT NULL ,

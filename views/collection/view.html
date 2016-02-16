@@ -1,141 +1,141 @@
 {{extend 'layout.html'}}
 <div class="page-title">
   <div class="container">
-  <h1>{{=response.collection.name}}</h1>
-  <div class="breadcrums">
-    <ul>
-      <li>You are here:</li>
-      <li><a href="{{=URL('default')}}">Home</a></li>
-      <li><a href="{{=URL('collection','user',args=[response.collection.owner])}}">Collections</a></li>
-      <li>{{=response.collection.name}}</li>
-    </ul>
+    <h1>{{=response.collection.name}}</h1>
+    <div class="breadcrums">
+      <ul>
+        <li>You are here:</li>
+        <li><a href="{{=URL('default')}}">Home</a></li>
+        <li><a href="{{=URL('collection','user',args=[response.collection.owner])}}">Collections</a></li>
+        <li>{{=response.collection.name}}</li>
+      </ul>
+    </div>
+    <div class="clearfix"></div>
   </div>
-  <div class="clearfix"></div>
-</div>
 </div>
 <div class="container">
-<div class="row">
-  <div class="col-md-3">
-    <h3>Colections</h3>
-    <div class="list-group">
-      {{for collection in response.collections:}}
-      <a href="{{=URL('collection', 'view', args=[collection.id])}}" class="list-group-item {{if collection.id == response.collection.id:}}active{{pass}}">
-        {{=collection.name}}
-      </a>
+  <div class="row">
+    <div class="col-md-3">
+      <h3>Colections</h3>
+      <div class="list-group">
+        {{for collection in response.collections:}}
+        <a href="{{=URL('collection', 'view', args=[collection.id])}}" class="list-group-item {{if collection.id == response.collection.id:}}active{{pass}}">
+          {{=collection.name}}
+        </a>
+        {{pass}}
+      </div>
+      <hr/>
+      {{if auth.user_id == response.collection.owner:}}
+      <a href="{{=URL('collection', 'create')}}" class="btn btn-small btn-success pull-right btn-sm"><span class="glyphicon glyphicon-plus"></span> New Collection</a>
       {{pass}}
     </div>
-    <hr/>
-    <a href="{{=URL('collection', 'create')}}" class="btn btn-small btn-success pull-right"><span class="glyphicon glyphicon-plus"></span> New Collection</a>
-  </div>
-  <div class="col-md-9">
+    <div class="col-md-9">
       <div class="tabs">
-          <ul class="nav nav-tabs" role="tablist">
-            <li role="presentation" class="active"><a href="#all" aria-controls="all" role="tab" data-toggle="tab">All</a></li>
-            <li role="presentation"><a href="#owned" aria-controls="owned" role="tab" data-toggle="tab">Owned</a></li>
-            <li role="presentation"><a href="#wanted" aria-controls="wanted" role="tab" data-toggle="tab">Wanted</a></li>
-            <li role="presentation"><a href="#tradable" aria-controls="tradable" role="tab" data-toggle="tab">Tradable</a></li>
-            <li class="collection-settings">
-              <div class="dropdown">
-                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+        <ul class="nav nav-tabs" role="tablist">
+          <li role="presentation" class="active"><a href="#all" aria-controls="all" role="tab" data-toggle="tab">All</a></li>
+          <li role="presentation"><a href="#owned" aria-controls="owned" role="tab" data-toggle="tab">Owned</a></li>
+          <li role="presentation"><a href="#wanted" aria-controls="wanted" role="tab" data-toggle="tab">Wanted</a></li>
+          <li role="presentation"><a href="#tradable" aria-controls="tradable" role="tab" data-toggle="tab">Tradable</a></li>
+          <li class="collection-settings">
+            <div class="btn-group" role="group" aria-label="Options">
+              <a href="{{=URL('object', 'create', vars=dict(collection=response.collection.id))}}" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-plus"> New Object</span></a>
+              <div class="btn-group btn-group-sm" role="group">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   Settings
                   <span class="caret"></span>
                 </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                <ul class="dropdown-menu">
                   <li><a href="{{=URL('collection', 'edit', args=[response.collection.id])}}">Edit</a></li>
                   <li role="seperator" class="divider"></li>
                   <li><a href="#" style="pointer-events: none; cursor: default;">Delete</a></li>
                 </ul>
               </div>
-            </li>
-
-            <li class="collection-search">
-                <form role="search" method="get">
-                  <div class="input-group">
-                    <input type="text"autocomplete="off"  value="{{=response.q}}" name="q" class="form-control" placeholder="Search this collection" list="objectsearch">
-                    <span class="input-group-btn">
-                      <button class="btn btn-primary" type="sumbmit" title="Search"><span class="glyphicon glyphicon-search"></span></button>
-                    </span>
-                  </div>
-                </form>
-            </li>
-          </ul>
-
-          <datalist id="objectsearch">
-            {{for o in response.datalist:}}
-            <option value="{{=o.name}}"></option>
-            {{pass}}
-          </datalist>
-
-
-  <!-- Tab panes -->
-  <div class="tab-content">
-    <div role="tabpanel" class="tab-pane active" id="all">
-
-        {{if len(response.objects)> 0:}}
-        {{for o in response.objects:}}
-          <div class="panel panel-default col-md-4">
-            <img src="{{=URL('default', 'download', args=[o.image])}}" style="max-height:100px;height:100px;"/>
-            <div class="panel-body">
-              <h3><a href="{{=URL('object', 'view', args=[o.id])}}">{{=o.name}}</a></h3>
-              <hr/>
             </div>
+          </li>
+
+          <li class="collection-search">
+            <form role="search" method="get">
+              <div class="input-group">
+                <input type="text" autocomplete="off"  value="{{=response.q}}" name="q" class="form-control" placeholder="Search this collection" list="objectsearch">
+                <span class="input-group-btn">
+                  <button type="sumbmit" title="Search"><span class="glyphicon glyphicon-pushpin"></span></button>
+                </span>
+              </div>
+            </form>
+          </li>
+        </ul>
+        <datalist id="objectsearch">
+          {{for o in response.datalist:}}
+          <option value="{{=o.name}}"></option>
+          {{pass}}
+        </datalist>
+        <!-- Tab panes -->
+        <div class="tab-content">
+          <div role="tabpanel" class="tab-pane active" id="all">
+            {{if len(response.objects)> 0:}}
+            {{for o in response.objects:}}
+            <div class="panel panel-default col-md-4">
+              <img src="{{=URL('default', 'download', args=[o.image])}}" style="max-height:100px;height:100px;"/>
+              <div class="panel-body">
+                <h3><a href="{{=URL('object', 'view', args=[o.id])}}">{{=o.name}}</a></h3>
+                <hr/>
+              </div>
+            </div>
+            {{pass}}
+            {{else:}}
+            <div class="alert alert-info">There are no objects in this collection.</div>
+            {{pass}}
           </div>
-        {{pass}}
+          <div role="tabpanel" class="tab-pane" id="owned">
+            {{if len(response.owned)> 0:}}
 
-              {{else:}}
-              <div class="alert alert-info">There are no objects in this collection.</div>
-              {{pass}}
-    </div>
-    <div role="tabpanel" class="tab-pane" id="owned">
-      {{if len(response.owned)> 0:}}
+            {{for o in response.owned:}}
+            <div class="panel panel-default col-md-4">
+              <img src="{{=URL('default', 'download', args=[o.image])}}" style="max-height:100px;height:100px;"/>
+              <div class="panel-body">
+                <h3><a href="{{=URL('object', 'view', args=[o.id])}}">{{=o.name}}</a></h3>
+                <hr/>
+              </div>
+            </div>
+            {{pass}}
 
-      {{for o in response.owned:}}
-        <div class="panel panel-default col-md-4">
-          <img src="{{=URL('default', 'download', args=[o.image])}}" style="max-height:100px;height:100px;"/>
-          <div class="panel-body">
-            <h3><a href="{{=URL('object', 'view', args=[o.id])}}">{{=o.name}}</a></h3>
-            <hr/>
+            {{else:}}
+            <div class="alert alert-info">There are no 'owned' objects in this collection.</div>
+            {{pass}}
+          </div>
+          <div role="tabpanel" class="tab-pane" id="wanted">
+            {{if len(response.wanted)> 0:}}
+            {{for o in response.wanted:}}
+            <div class="panel panel-default col-md-4">
+              <img src="{{=URL('default', 'download', args=[o.image])}}" style="max-height:100px;height:100px;"/>
+              <div class="panel-body">
+                <h3><a href="{{=URL('object', 'view', args=[o.id])}}">{{=o.name}}</a></h3>
+                <hr/>
+              </div>
+            </div>
+            {{pass}}
+            {{else:}}
+            <div class="alert alert-info">There are no 'wanted' objects in this collection.</div>
+            {{pass}}
+          </div>
+          <div role="tabpanel" class="tab-pane" id="tradable">
+            {{if len(response.tradable) > 0:}}
+            {{for o in response.tradable:}}
+            <div class="panel panel-default col-md-4">
+              <img src="{{=URL('default', 'download', args=[o.image])}}" style="max-height:100px;height:100px;"/>
+              <div class="panel-body">
+                <h3><a href="{{=URL('object', 'view', args=[o.id])}}">{{=o.name}}</a></h3>
+                <hr/>
+              </div>
+            </div>
+            {{pass}}
+            {{else:}}
+            <div class="alert alert-info">There are no 'tradable' objects in this collection.</div>
+            {{pass}}
           </div>
         </div>
-      {{pass}}
 
-      {{else:}}
-      <div class="alert alert-info">There are no 'owned' objects in this collection.</div>
-      {{pass}}
-    </div>
-    <div role="tabpanel" class="tab-pane" id="wanted">
-      {{if len(response.wanted)> 0:}}
-      {{for o in response.wanted:}}
-        <div class="panel panel-default col-md-4">
-          <img src="{{=URL('default', 'download', args=[o.image])}}" style="max-height:100px;height:100px;"/>
-          <div class="panel-body">
-            <h3><a href="{{=URL('object', 'view', args=[o.id])}}">{{=o.name}}</a></h3>
-            <hr/>
-          </div>
-        </div>
-      {{pass}}
-      {{else:}}
-      <div class="alert alert-info">There are no 'wanted' objects in this collection.</div>
-      {{pass}}
-    </div>
-    <div role="tabpanel" class="tab-pane" id="tradable">
-      {{if len(response.tradable) > 0:}}
-      {{for o in response.tradable:}}
-        <div class="panel panel-default col-md-4">
-          <img src="{{=URL('default', 'download', args=[o.image])}}" style="max-height:100px;height:100px;"/>
-          <div class="panel-body">
-            <h3><a href="{{=URL('object', 'view', args=[o.id])}}">{{=o.name}}</a></h3>
-            <hr/>
-          </div>
-        </div>
-      {{pass}}
-      {{else:}}
-      <div class="alert alert-info">There are no 'tradable' objects in this collection.</div>
-      {{pass}}
-    </div>
-  </div>
-
-  </div>
+      </div>
     </div>
   </div>
 </div>
