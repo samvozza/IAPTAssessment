@@ -20,16 +20,20 @@ def index():
 
 def search():
     response.q = request.vars.q if request.vars.q else ''
-    response.n = request.vars.n if request.vars.n else ''
     response.min = request.vars.min if request.vars.min else ''
     response.max = request.vars.max if request.vars.max else ''
     response.u = request.vars.u if request.vars.u else ''
 
     response.users = db().select(db.auth_user.ALL, orderby=db.auth_user.username)
-
-    if response.q == '' and response.n == '' and response.min == '' and response.max == '' and response.u == '':
+    response.results = []
+    if response.q == '' and response.min == '' and response.max == '' and response.u == '':
         response.r = None
     else:
+        if response.u != '':
+            userx = db(db.auth_user.username == response.u).select().first()
+            response.results = db(db.object.name.like('%' + response.q + '%') & ((db.object.price >= response.min) | (db.object.price <= response.max)) & (db.object.collection == db.collection.id) & (db.collection.owner == userx.id) & (db.collection.public == 'T')).select()
+        else:
+            response.results = db(db.object.name.like('%' + response.q + '%') & ((db.object.price >= response.min) | (db.object.price <= response.max)) & (db.object.collection == db.collection.id) & (db.collection.public == 'T')).select()
         response.r = ''
 
     return dict();
