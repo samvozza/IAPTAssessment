@@ -39,7 +39,7 @@ def create():
                           _class='form-group row'),
 
               DIV(DIV(INPUT(_type='button', _value='Back', _onclick='window.location=\'%s\';;return false'
-              % URL('collection','view', args=[request.args[0]]), _class='btn btn-primary pull-right'),
+              % URL('collection','my'), _class='btn btn-primary pull-right'),
                             _class='col-sm-5 col-md-5 col-lg-5')),
 
                     DIV(INPUT(_id='submit-button', _name='Submit', _type='submit',
@@ -96,7 +96,7 @@ def edit():
                           _class='form-group row'),
 
               DIV(DIV(INPUT(_type='button', _value='Back', _onclick='window.location=\'%s\';;return false' %
-              URL('collection','view', args=[collection.id]), _class='btn btn-primary pull-right'),
+              URL('collection','my'), _class='btn btn-primary pull-right'),
                             _class='col-sm-5 col-md-5 col-lg-5')),
 
                     DIV(INPUT(_id='submit-button', _name='Submit', _type='submit',
