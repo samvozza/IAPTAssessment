@@ -1,11 +1,12 @@
-#When the value was sent to the form, the record should be able to take that value.
 @auth.requires_login()
 def update():
-	db.Objects.description.widget = SQLFORM.widgets.text.widget
-	record = db.object(request.args(0))
-	updateobjectform = SQLFORM(db.object, record, fields = ['name', 'price', 'category', 'quantity', 'tradable_quantity', 'wanted_quantity','description', 'image'])
+	db.object.description.widget = SQLFORM.widgets.text.widget
+	record = db(db.object.id == request.args[0]).select().first()
+	db.object.id.readable  = False
+	db.object.owner.readable = False
+	updateobjectform = SQLFORM(db.object, record, fields = ['name', 'collection', 'price', 'category', 'quantity', 'tradable_quantity', 'wanted_quantity','description', 'image'])
 
-	if updateobjectform.accepts(request, session):
+	if updateobjectform.process(onvalidation = checking_quantity).accepted:
 		response.flash = "Your object is updated."
 
 	elif updateobjectform.errors:
