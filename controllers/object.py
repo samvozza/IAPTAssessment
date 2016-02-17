@@ -40,5 +40,5 @@ def checking_quantity(form):
 
 
 def viewobject():
-	results = db(db.object.id == 1).select()
+	results = db(db.object.id == request.args[0]).select().first()
 	return dict(results = results)
