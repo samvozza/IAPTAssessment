@@ -1,0 +1,62 @@
+{{extend 'layout.html'}}
+<div class="page-title">
+  <div class="container">
+    {{if response.r == None:}}
+    <h1>Search</h1>
+    {{else:}}
+    <h1>Search Results</h1>
+    {{pass}}
+    <div class="breadcrums">
+      <ul>
+        <li>You are here:</li>
+        <li><a href="{{=URL('default')}}">Home</a></li>
+        <li><a href="{{=URL('default','search')}}">Search</a></li>
+        {{if response.r != None:}}
+        <li>{{=response.q}}</li>
+        {{pass}}
+      </ul>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="{{if response.r != None:}}col-md-3{{else:}}col-md-10 col-md-offset-1{{pass}}">
+      <form action="{{=URL('default', 'search')}}" method="get">
+        <div class="form-group">
+          <label for="name">Object's Name</label>
+          <input type="text" class="form-control" id="name" name="q" value="{{=response.q}}"/>
+        </div>
+        <div class="form-group">
+          <label for="min">Value</label>
+          <div class="form-inline">
+          <input type="text" class="form-control" id="min" name="min" placeholder="min" value="{{=response.min}}"/>
+          <label for="max">to</label>
+          <input type="text" class="form-control" id="max" name="max" placeholder="max" value="{{=response.max}}"/>
+        </div>
+        </div>
+        <div class="form-group">
+          <label for="user">User</label>
+          <input type="text" class="form-control" id="user" name="u" value="{{=response.u}}" list="users"/>
+          <datalist id="users">
+            {{for u in response.users:}}
+            <option value="{{=u.username}}"/>
+            {{pass}}
+          </datalist>
+        </div>
+        <div class="form-group">
+        <button class="btn btn-primary" type="submit">Search</button>
+        </div>
+      </form>
+    </div>
+    <div class="{{if response.r != None:}}col-md-9{{else:}}hidden{{pass}}">
+      {{if len(response.results) > 0:}}
+      {{for result in response.results:}}
+      {{result.name}}<br/>
+      {{pass}}
+      {{else:}}
+      <div class="alert alert-info">No results matching those criteria.</div>
+      {{pass}}
+    </div>
+  </div>
+</div>
