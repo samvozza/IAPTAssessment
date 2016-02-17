@@ -19,11 +19,11 @@ def create():
 
     form=FORM(
               DIV(DIV(LABEL('Name'),_class='col-sm-12 col-md-12 col-lg-12'),
-                  DIV(INPUT(_id='Name', _class='form-control', _name='Name',
+                  DIV(INPUT(_id='name', _class='form-control', _name='name',
                             requires=[IS_NOT_EMPTY(error_message='Please pick a name'),
-                            IS_NOT_IN_DB(db, 'collection.name',
+                            IS_NOT_IN_DB(db(db.collection.owner==auth.user_id), 'collection.name',
                             error_message=('This collection already exists. '
-                            + 'Please try a different title.'))]),
+                            + 'Please try a different name.'))]),
                             _class='col-sm-6 col-md-6 col-lg-6'),
                             DIV(P('Enter a name for your collection',
                                 _class='form-field-description'),
@@ -31,7 +31,7 @@ def create():
                                 _class='form-group row'),
 
               DIV(DIV(LABEL('Public'),_class='col-sm-12 col-md-12 col-lg-12'),
-                  DIV(SELECT('yes', 'no', _id='title-field', _class='form-control', _name='title'),
+                  DIV(SELECT(OPTION('No', _value = False),OPTION('Yes', _value = True), _id='public-field', _class='form-control', _name='public'),
                       _class='col-sm-6 col-md-6 col-lg-6'),
                       DIV(P('This determines if other users can see the objects in your collection ',
                           _class='form-field-description'),
@@ -48,7 +48,12 @@ def create():
 
     if form.accepts(request,session):
             response.flash = 'Collection created.'
+            if(form.vars.public == 'No'):
+                db.collection.insert(name=form.vars.name, public= False)
+            else:
+                db.collection.insert(name=form.vars.name, public= True)
             redirect(URL('my'))
+
 
     elif form.errors:
         response.flash = "We couldn't process your form because it contain errors. Check below for more detail."
@@ -64,10 +69,14 @@ def edit():
         redirect(URL('default', 'index'))
         return
 
+    collection = db(db.collection.id == request.args[0]).select().first()
     form=FORM(
               DIV(DIV(LABEL('Name'),_class='col-sm-12 col-md-12 col-lg-12'),
-                  DIV(INPUT(_id='Name', _class='form-control', _name='Name',
-                            requires=[IS_NOT_EMPTY(error_message='Please pick a name')]),
+                  DIV(INPUT(_id='name-field', _class='form-control', _name='name', _value= collection.name,
+                            requires=[IS_NOT_EMPTY(error_message='Please pick a name'),
+                            IS_NOT_IN_DB(db((db.collection.owner==auth.user_id) & (db.collection.name != collection.name)), 'collection.name',
+                            error_message=('This collection already exists. '
+                            + 'Please try a different name.'))]),
                             _class='col-sm-6 col-md-6 col-lg-6'),
                             DIV(P('Enter a name for your collection',
                                 _class='form-field-description'),
@@ -75,7 +84,7 @@ def edit():
                                 _class='form-group row'),
 
               DIV(DIV(LABEL('Public'),_class='col-sm-12 col-md-12 col-lg-12'),
-                  DIV(SELECT('yes', 'no', _id='title-field', _class='form-control', _name='title'),
+                  DIV(SELECT(OPTION('Yes', _value = True, _selected=True),OPTION('No', _value = False, _selected=False), _id='public-field', _class='form-control', _name='public', value = collection.public),
                       _class='col-sm-6 col-md-6 col-lg-6'),
                       DIV(P('This determines if other users can see the objects in your collection ',
                           _class='form-field-description'),
@@ -92,6 +101,10 @@ def edit():
 
     if form.accepts(request,session):
             response.flash = 'Your collection updated.'
+            if(form.vars.public == 'No'):
+                db(db.collection.id == collection.id).update(name=form.vars.name , public= False)
+            else:
+                db(db.collection.id == collection.id).update(name=form.vars.name , public= True)
             redirect(URL('my'))
 
     elif form.errors:
