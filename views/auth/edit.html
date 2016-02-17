@@ -1,0 +1,39 @@
+{{extend 'layout.html'}}
+
+<div class="page-title">
+  <div class="container">
+    <h1>Edit Your Details</h1>
+    <div class="breadcrums">
+      <ul>
+        <li>You are here:</li>
+        <li><a href="{{=URL('default')}}">Home</a>
+        <li>Edit Your Details</li>
+      </ul>
+    </div>
+  </div>
+  <div class="clearfix"></div>
+</div>
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-1 col-md-2 col-lg-2"></div>
+      <div class="col-sm-10 col-md-8 col-lg-8">
+       	{{=form}}
+      </div>
+    <div class="col-sm-1 col-md-2 col-lg-2"></div>
+  </div>
+</div>
+
+{{block page_js}}
+<script>
+$(document).ready(function() {
+  var firstInput = $("#user-edit-form input:visible:enabled:first").get(0);
+  firstInput.selectionStart = firstInput.value.length;
+  firstInput.selectionEnd = firstInput.value.length;
+  firstInput.focus();
+});
+
+web2py_validate_entropy(jQuery('#password-field'), 50);
+</script>
+{{end page_js}}

@@ -77,11 +77,78 @@ def register():
                                + 'Welcome to CollectShare.'), 'success')
             redirect_to_next()
     elif registration_form.errors:
-        pass
+        if edit_form.errors.password_confirm:
+            edit_form.errors.password = ' '
     else:
         pass
     
     return dict(form=registration_form)
+
+
+@auth.requires_login()
+def edit():
+    edit_form = FORM(FIELD_WITH_DESC('Username',
+                                     INPUT(_id='username-field', _class='form-control', _name='username', _value=auth.user.username,
+                                           requires=[IS_EMPTY_OR(IS_STRING_OR(IS_NOT_IN_DB(db, 'auth_user.username',
+                                                                                           error_message=('This username has already been taken. '
+                                                                                                          + 'Please try a different username.'))),
+                                                                 auth.user.username)]),
+                                     'Your new username.'),
+                     FIELD_WITH_DESC('Old Password',
+                                     INPUT(_id='old-password-field', _class='form-control', _name='old_password',
+                                           _type='password'),
+                                     'Your current password.'),
+                     FIELD_WITH_DESC('New Password',
+                                     INPUT(_id='password-field', _class='form-control', _name='password',
+                                           _type='password',
+                                           requires=[IS_EMPTY_OR(CRYPT(min_length=8,
+                                                                       error_message='Please enter a stronger password.'))]),
+                                     'Your new password.'),
+                     FIELD_WITH_DESC('Confirm Password',
+                                     INPUT(_id='password-confirm-field', _class='form-control', _name='password_confirm',
+                                           _type='password',
+                                           requires=[IS_EQUAL_TO(request.vars.password,
+                                                                 error_message='The two passwords did not match')]),
+                                     'Please re-enter your password to confirm.'),
+                     DIV(DIV(INPUT(_id='update-button', _name='update', _type='submit',
+                                   _value='Update', _class='btn btn-primary pull-right'),
+                             _class='col-sm-6 col-md-6 col-lg-6'),
+                         DIV(_class='col-sm-6 col-md-6 col-lg-6')),
+                     _id='user-edit-form', _role='form')
+
+    if edit_form.accepts(request, session):
+        # Track whether any errors have occurred
+        errors = False
+
+        # Update the user's username (if it has changed)
+        if (edit_form.vars.username and edit_form.vars.username != ""):
+            db(db.auth_user.id == auth.user.id).update(username=edit_form.vars.username)
+
+        # Update the user's password (if it has changed)
+        if edit_form.vars.password and edit_form.vars.password != "":
+            user = auth.login_bare(auth.user.username, edit_form.vars.old_password)
+            if user:
+                db(db.auth_user.id == auth.user.id).update(password=edit_form.vars.password)
+            else:
+                errors = True
+                edit_form.errors.old_password = ('Password check failed. Please check that you have '
+                                                 + 'entered your current password correctly.')
+
+        if not errors:
+            if edit_form.vars.username != "" or edit_form.vars.password != "":
+                user = db(db.auth_user.id == auth.user.id).select().first()
+                auth.login_user(user)
+                session.flash = (T('Your account details have been updated.'), 'success')
+            else:
+                session.flash = (T('Your account details have not been changed.'), 'info')
+            redirect_to_next()
+    elif edit_form.errors:
+        if edit_form.errors.password_confirm:
+            edit_form.errors.password = ' '
+    else:
+        pass
+
+    return dict(form=edit_form)
 
 
 def sign_in():
@@ -161,3 +228,30 @@ def FIELD_WITH_DESC(name, field, description):
                      _class='form-field-description'),
                    _class='col-sm-6 col-md-6 col-lg-6'),
                _class='form-group row')
+
+class IS_STRING_OR(object):
+    def __init__(self, other, str=""):
+        self.other = other
+        self.str = str
+        if hasattr(other, 'multiple'):
+            self.multiple = other.multiple
+        if hasattr(other, 'options'):
+            self.options = self._options
+
+    def __call__(self, value):
+        if auth and auth.user and value == auth.user.username:
+            return (value, None)
+        if isinstance(self.other, (list, tuple)):
+            error = None
+            for item in self.other:
+                value, error = item(value)
+                if error:
+                    break
+            return value, error
+        else:
+            return self.other(value)
+
+    def formatter(self, value):
+        if hasattr(self.other, 'formatter'):
+            return self.other.formatter(value)
+        return value
