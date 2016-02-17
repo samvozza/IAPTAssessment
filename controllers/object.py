@@ -19,7 +19,7 @@ def update():
 
 @auth.requires_login()
 def create():
-	addobjectform = SQLFORM(db.object)
+	addobjectform = SQLFORM(db.object, fields = ['name', 'collection', 'price', 'category', 'quantity', 'tradable_quantity', 'wanted_quantity','description', 'image'])
 	if addobjectform.process(onvalidation = checking_quantity).accepted:
 		response.flash = "New object is added."
 
