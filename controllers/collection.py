@@ -12,11 +12,11 @@ def view():
     return dict(message=T('Welcome to web2py!'))
 
 @auth.requires_login()
+
 def create():
     if(not auth.is_logged_in()):
         redirect(URL('default', 'index'))
         return
-
     form=FORM(
               DIV(DIV(LABEL('Name'),_class='col-sm-12 col-md-12 col-lg-12'),
                   DIV(INPUT(_id='name', _class='form-control', _name='name',
@@ -38,10 +38,13 @@ def create():
                           _class='col-sm-8 col-md-8 col-lg-8'),
                           _class='form-group row'),
 
-              DIV(DIV(INPUT(_id='submit-button', _name='Submit', _type='submit',
-                     _value='Submit', _class='btn btn-primary pull-right'),
-                     _class='col-sm-6 col-md-6 col-lg-6'),
-                     DIV(_class='col-sm-6 col-md-6 col-lg-6')),
+              DIV(DIV(INPUT(_type='button', _value='Back', _onclick='window.location=\'%s\';;return false'
+              % URL('collection','view', args=[request.args[0]]), _class='btn btn-primary pull-right'),
+                            _class='col-sm-5 col-md-5 col-lg-5')),
+
+                    DIV(INPUT(_id='submit-button', _name='Submit', _type='submit',
+                     _value='Create', _class='btn btn-primary pull-right'),
+                     _class='col-sm-1 col-md-1 col-lg-1'),
               )
 
     form.vars.owner = auth.user_id
@@ -84,17 +87,21 @@ def edit():
                                 _class='form-group row'),
 
               DIV(DIV(LABEL('Public'),_class='col-sm-12 col-md-12 col-lg-12'),
-                  DIV(SELECT(OPTION('Yes', _value = True, _selected=True),OPTION('No', _value = False, _selected=False), _id='public-field', _class='form-control', _name='public', value = collection.public),
+                  DIV(SELECT(OPTION('Yes', _value = True, _selected=True),OPTION('No', _value = False, _selected=False), _id='public-field',
+                   _class='form-control', _name='public', value = collection.public),
                       _class='col-sm-6 col-md-6 col-lg-6'),
                       DIV(P('This determines if other users can see the objects in your collection ',
                           _class='form-field-description'),
                           _class='col-sm-8 col-md-8 col-lg-8'),
                           _class='form-group row'),
 
-              DIV(DIV(INPUT(_id='submit-button', _name='Submit', _type='submit',
-                     _value='Submit', _class='btn btn-primary pull-right'),
-                     _class='col-sm-6 col-md-6 col-lg-6'),
-                     DIV(_class='col-sm-6 col-md-6 col-lg-6')),
+              DIV(DIV(INPUT(_type='button', _value='Back', _onclick='window.location=\'%s\';;return false' %
+              URL('collection','view', args=[collection.id]), _class='btn btn-primary pull-right'),
+                            _class='col-sm-5 col-md-5 col-lg-5')),
+
+                    DIV(INPUT(_id='submit-button', _name='Submit', _type='submit',
+                     _value='Update', _class='btn btn-primary pull-right'),
+                     _class='col-sm-1 col-md-1 col-lg-1'),
               )
 
     form.vars.owner = auth.user_id

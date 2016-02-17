@@ -26,7 +26,7 @@
       </div>
       <hr/>
       {{if auth.user_id == response.collection.owner:}}
-      <a href="{{=URL('collection', 'create')}}" class="btn btn-small btn-success pull-right btn-sm"><span class="glyphicon glyphicon-plus"></span> New Collection</a>
+      <a href="{{=URL('collection', 'create', args=[response.collection.id])}}" class="btn btn-small btn-success pull-right btn-sm"><span class="glyphicon glyphicon-plus"></span> New Collection</a>
       {{pass}}
     </div>
     <div class="col-md-9">
