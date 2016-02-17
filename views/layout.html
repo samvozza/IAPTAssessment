@@ -47,13 +47,14 @@
         </div><!-- /.navbar-collapse -->
         <div class="menu">
           <div class="main-menu">
-            <form class="main-menu-search-from" role="search">
+            <form class="main-menu-search-from" method="get" action="{{=URL('default', 'search')}}" role="search">
               <div class="input-group">
-                <input type="text" class="form-control" placeholder="Search for...">
+                <input type="text" class="form-control" placeholder="Search for objects...">
                 <span class="input-group-btn">
                   <button class="btn btn-default" type="button">Go!</button>
                 </span>
               </div><!-- /input-group -->
+              <small><a href="{{=URL('default', 'advanced')}}" class="pull-right">Advanced Search</a></small>
             </form>
           </div><!-- /.main-menu-->
         </div>
