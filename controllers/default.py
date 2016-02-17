@@ -19,6 +19,18 @@ def index():
     return dict(message=T('Welcome to web2py!'))
 
 def search():
+    response.q = request.vars.q if request.vars.q else ''
+    response.n = request.vars.n if request.vars.n else ''
+    response.min = request.vars.min if request.vars.min else ''
+    response.max = request.vars.max if request.vars.max else ''
+    response.u = request.vars.u if request.vars.u else ''
+
+    response.users = db().select(db.auth_user.ALL, orderby=db.auth_user.username)
+
+    if response.q == '' and response.n == '' and response.min == '' and response.max == '' and response.u == '':
+        response.r = None
+    else:
+        response.r = ''
 
     return dict();
 
