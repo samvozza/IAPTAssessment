@@ -250,3 +250,19 @@ input.invalidinput:focus {
 	float:left;
 	margin-left:10px;
 }
+
+footer {
+	border-top: 1px solid #E2E2E2;
+	color: #65686D;
+	background:#2F3338;
+	line-height: 64px;
+	position:absolute;
+	right: 0;
+  bottom: 0;
+  left: 0;
+	height: 64px;
+}
+#ia-wrapper {
+	position:relative;
+  min-height:100% !important;
+}

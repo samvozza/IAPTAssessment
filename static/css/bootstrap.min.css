@@ -8,9 +8,7 @@ html {
   	font-family: 'OpenSansRegular' !important;
   -webkit-text-size-adjust: 100%;
       -ms-text-size-adjust: 100%;
-}
-body {
-  margin: 0;
+      min-height:100% !important;
 }
 article,
 aside,
@@ -1078,7 +1076,6 @@ th {
 }
 html {
   font-size: 10px;
-
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 body {
@@ -1087,6 +1084,12 @@ body {
   line-height: 1.42857143;
   color: #333;
   background-color: #fff;
+  margin: 0 !important;
+  padding: 0 !important;
+
+  min-height: 100vh;
+  height: 100vh;
+  max-height: 100vh;
 }
 input,
 button,
