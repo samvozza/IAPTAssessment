@@ -57,6 +57,17 @@ auth.messages.logged_out = None
 ## after defining tables, uncomment below to enable auditing
 # auth.enable_record_versioning(db)
 
+#User settings table
+#+user refers to a user
+#+trade_non_tradable_items whether the user is happy to receive
+#requests for items which they have not marked as tradable
+db.define_table('user_settings',
+                Field('user', db.auth_user, default=auth.user_id,
+                      notnull=True),
+                Field('trade_non_tradable_items', type='boolean', default=True,
+                      notnull=True)
+)
+
 #Collection table
 #+owner refers to User
 #+name  should be unique per owner, but not be unique in the DB (e.g Default)

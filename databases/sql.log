@@ -83,3 +83,10 @@ CREATE TABLE object(
     image CHAR(512) NOT NULL DEFAULT 'static/images/thumbnail.jpg'
 );
 success!
+timestamp: 2016-02-18T17:49:19.118000
+CREATE TABLE user_settings(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  NOT NULL ,
+    trade_non_tradable_items CHAR(1) NOT NULL DEFAULT 'T'
+);
+success!
