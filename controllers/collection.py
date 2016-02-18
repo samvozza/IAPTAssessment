@@ -148,8 +148,7 @@ def delete():
             response.flash = collection.name + ' has been deleted.'
 
             for row in db(db.object.collection == collection.id).select():
-                db.object.collection.update(default_collection.id)
-
+                row.update_record(collection = default_collection)
             db(db.collection.id == collection.id).delete()
             redirect(URL('my'))
 
