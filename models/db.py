@@ -63,7 +63,7 @@ auth.messages.logged_out = None
 #requests for items which they have not marked as tradable
 db.define_table('user_settings',
                 Field('user', db.auth_user, default=auth.user_id,
-                      notnull=True),
+                      notnull=True, unique=True, ondelete="CASCADE"),
                 Field('trade_non_tradable_items', type='boolean', default=True,
                       notnull=True)
 )
@@ -151,4 +151,50 @@ db.define_table('object',
 		label ='Image',
 		comment = T("Upload an image for your object, otherwise, we set a default image for your object. " + 
 				"You can upload your image anytime you want."))
+)
+
+
+from datetime import datetime
+
+#Trade table
+#+sender refers to User; who initially proposed the trade
+#+receiver refers to User; who the trade was initially sent to
+#+editor refers to User; one of either sender or receiver
+#+status value from db.trade.STATUS constants indicating current trade status
+#+message
+#+time_created timestamp of Trade creation
+#+time_modified timestamp of when proposal was last modified
+db.define_table('trade',
+                Field('sender', db.auth_user, default=auth.user_id,
+                      notnull=True, ondelete="CASCADE"),
+                Field('receiver', db.auth_user, required=True,
+                      notnull=True, ondelete="CASCADE"),
+                Field('editor', db.auth_user, required=True,
+                      notnull=True, ondelete="CASCADE"),
+                Field('status', type="integer", default=0, #STATUS_ACTIVE
+                      notnull=True),
+                Field('message', type="string", length=512, default="", update="",
+                      notnull=True),
+                Field('time_created', type='datetime', default=datetime.now,
+                      notnull=True, writable=False),
+                Field('time_modified', type='datetime', default=datetime.now, update=datetime.now,
+                      notnull=True, writable=False),
+)
+
+db.trade.STATUS_ACTIVE = 0
+db.trade.STATUS_ACCEPTED = 1
+db.trade.STATUS_REJECTED = 2
+db.trade.STATUS_CANCELLED = 3
+
+#Trade_contains_Object table
+#+trade refers to Trade
+#+object refers to Object
+#+quantity the number of the Objects in the Trade
+db.define_table('trade_contains_object',
+                Field('trade', db.trade, required=True,
+                      notnull=True, ondelete="CASCADE"),
+                Field('object', db.object, required=True,
+                      notnull=False, ondelete="SET NULL"),
+                Field('quantity', type="integer", required=True,
+                      notnull=False),
 )
