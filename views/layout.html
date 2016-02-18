@@ -14,7 +14,7 @@
   <link rel="apple-touch-icon" href="{{=URL('static','images/favicon.png')}}">
 </head>
 <body>
-  <div id="ia-wrapper">
+  <div class="content-wrapper">
     {{ if response.flash: }}
     {{ include 'flash.html' }}
     {{ pass }}
@@ -64,12 +64,12 @@
     <div class="main">
       {{include}}
     </div>
-    <footer>
-      <div class="container">
-        Copyright &copy; Team 12. All rights reserved. The owners of the items are associated with their respective users. The site doesn't take any responsibility for unlawful content.
-      </div>
-    </footer>
   </div>
+  <footer>
+    <div class="container">
+      Copyright &copy; Team 12. All rights reserved. The owners of the items are associated with their respective users. The site doesn't take any responsibility for unlawful content.
+    </div>
+  </footer>
   <script src="{{=URL('static','js/jquery.js')}}"></script>
   <script src="{{=URL('static','js/bootstrap.min.js')}}"></script>
   <script src="{{=URL('static','js/web2py.js')}}"></script>

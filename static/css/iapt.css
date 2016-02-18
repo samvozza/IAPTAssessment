@@ -133,6 +133,14 @@
     font-style: normal;
 }
 
+html, body, .content-wrapper {
+  height: 100% !important;
+}
+body > .content-wrapper {
+  height: auto !important;
+  min-height: 100% !important;
+}
+
 .top-bar{
   background: rgb(47,51,56);
   color: rgb(155, 159, 162);
@@ -252,17 +260,13 @@ input.invalidinput:focus {
 }
 
 footer {
-	border-top: 1px solid #E2E2E2;
-	color: #65686D;
-	background:#2F3338;
+	clear: both;
+  position: relative;
+  z-index: 10;
+	background: #2F3338;
+	height: 74px;
 	line-height: 64px;
-	position:absolute;
-	right: 0;
-  bottom: 1px;
-  left: 0;
-	height: 64px;
-}
-#ia-wrapper {
-	position:relative;
-  min-height:100% !important;
+  margin-top: -74px;
+	border-top: 10px solid white;
+	color: #65686D;
 }
