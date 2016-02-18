@@ -121,6 +121,35 @@ def edit():
         response.flash = 'Use the form below to update a collection.'
 
     return  dict(form=form)
+    
+def delete():
+
+    collection = db(db.collection.id == request.args[0]).select().first()
+    default_collection = db((db.collection.name == 'Default') & (db.collection.owner == auth.user))
+
+    if(not auth.is_logged_in()):
+        redirect(URL('default', 'index'))
+        return
+
+    form = FORM(DIV(P('Are you sure you want to delete ' + collection.name + '?')),
+                LABEL(),
+                DIV(DIV(INPUT(_type='button', _value='No', _onclick='window.location=\'%s\';;return false' %
+                URL('collection','my'), _class='btn btn-primary pull-left'),
+                                _class='col-sm-0 col-md-0 col-lg-0')),
+                DIV(DIV(INPUT(_type='submit', _value='Yes', _class='btn btn-danger pull-left'),
+                            _class='col-sm-1 col-md-1 col-lg-1')),
+               )
+
+    if form.accepts(request,session):
+            response.flash = collection.name + ' has been deleted.'
+
+            for row in db(db.object.collection == collection.id).select():
+                db.object.collection.update(default_collection.id)
+
+            db(db.collection.id == collection.id).delete()
+            redirect(URL('my'))
+
+    return dict(form=form)
 
 @auth.requires_login()
 def my():
