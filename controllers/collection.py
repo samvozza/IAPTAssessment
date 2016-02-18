@@ -121,14 +121,18 @@ def edit():
         response.flash = 'Use the form below to update a collection.'
 
     return  dict(form=form)
-    
+
 def delete():
 
     collection = db(db.collection.id == request.args[0]).select().first()
-    default_collection = db((db.collection.name == 'Default') & (db.collection.owner == auth.user))
+    default_collection = db((db.collection.name == 'Default') & (db.collection.owner == auth.user)).select().first()
 
     if(not auth.is_logged_in()):
         redirect(URL('default', 'index'))
+        return
+
+    if(collection.id == default_collection.id):
+        redirect(URL('collection', 'my'))
         return
 
     form = FORM(DIV(P('Are you sure you want to delete ' + collection.name + '?')),
