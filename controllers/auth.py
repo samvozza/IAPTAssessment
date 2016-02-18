@@ -72,6 +72,7 @@ def register():
                                       password=registration_form.vars.password,
                                       email=registration_form.vars.email)
         db.collection.insert(name='Default', owner=user_id, public='F')
+        db.user_settings.insert(user=user_id)
 
         if authenticate(registration_form.vars.username, registration_form.vars.password):
             session.flash = (T('Hi ' + registration_form.vars.username + '! '
@@ -88,6 +89,8 @@ def register():
 
 @auth.requires_login()
 def edit():
+    trade_non_tradable_items = db(db.user_settings.user == auth.user.id).select().first().trade_non_tradable_items
+
     edit_form = FORM(FIELD_WITH_DESC('Username',
                                      INPUT(_id='username-field', _class='form-control', _name='username', _value=auth.user.username,
                                            requires=[IS_EMPTY_OR(IS_STRING_OR(IS_NOT_IN_DB(db, 'auth_user.username',
@@ -95,6 +98,19 @@ def edit():
                                                                                                           + 'Please try a different username.'))),
                                                                  auth.user.username)]),
                                      'Your new username.'),
+                     FIELD_WITH_DESC('Trade Any Item',
+                                     DIV(P('This setting controls whether other users are able to request items '
+                                           + 'which you have not specified that you are happy to receive offers for.',
+                                           _class='form-field-description'),
+                                         SELECT(OPTION('Yes', _value='Yes'), OPTION('No', _value='No'),
+                                                _id='trade-any-item-select', _class='form-control',
+                                                _name='trade_any_item', value=('Yes' if trade_non_tradable_items else 'No'),
+                                                requires=[IS_IN_SET(['Yes', 'No'],
+                                                                    error_message='Please select either \'Yes\' or \'No\'')])),
+                                     [('Select \'Yes\' if you are happy to receive requests to trade any item '
+                                       + 'in any of your collections.'), BR(),
+                                      ('Select \'No\' if you only wish to be contacted about items which you '
+                                       + 'have selected to trade.')]),
                      FIELD_WITH_DESC('Old Password',
                                      INPUT(_id='old-password-field', _class='form-control', _name='old_password',
                                            _type='password'),
@@ -134,6 +150,12 @@ def edit():
                 errors = True
                 edit_form.errors.old_password = ('Password check failed. Please check that you have '
                                                  + 'entered your current password correctly.')
+
+        if edit_form.vars.trade_any_item:
+            if edit_form.vars.trade_any_item == 'Yes':
+                db(db.user_settings.user == auth.user.id).update(trade_non_tradable_items=True)
+            elif edit_form.vars.trade_any_item == 'No':
+                db(db.user_settings.user == auth.user.id).update(trade_non_tradable_items=False)
 
         if not errors:
             if edit_form.vars.username != "" or edit_form.vars.password != "":
