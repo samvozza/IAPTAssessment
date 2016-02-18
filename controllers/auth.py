@@ -68,14 +68,15 @@ def register():
                              _id='registration-form', _role='form')
 
     if registration_form.accepts(request, session):
-        db.auth_user.insert(username=registration_form.vars.username,
-                            password=registration_form.vars.password,
-                            email=registration_form.vars.email)
+        user_id = db.auth_user.insert(username=registration_form.vars.username,
+                                      password=registration_form.vars.password,
+                                      email=registration_form.vars.email)
+        db.collection.insert(name='Default', owner=user_id, public='F')
 
         if authenticate(registration_form.vars.username, registration_form.vars.password):
             session.flash = (T('Hi ' + registration_form.vars.username + '! '
                                + 'Welcome to CollectShare.'), 'success')
-            redirect_to_next()
+            redirect(URL('collection', 'my'))
     elif registration_form.errors:
         if edit_form.errors.password_confirm:
             edit_form.errors.password = ' '
@@ -141,7 +142,7 @@ def edit():
                 session.flash = (T('Your account details have been updated.'), 'success')
             else:
                 session.flash = (T('Your account details have not been changed.'), 'info')
-            redirect_to_next()
+            redirect_to_next(default=URL('collection', 'my'))
     elif edit_form.errors:
         if edit_form.errors.password_confirm:
             edit_form.errors.password = ' '
@@ -175,7 +176,7 @@ def sign_in():
 
     if sign_in_form.accepts(request, session):
         if authenticate(sign_in_form.vars.username_email, sign_in_form.vars.password):
-            redirect_to_next()
+            redirect_to_next(default=URL('collection', 'my'))
         else:
             sign_in_form.errors.username_email = ' '
             sign_in_form.errors.password = ('Sign in failed. Please ensure that your username and password '
