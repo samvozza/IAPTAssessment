@@ -71,7 +71,7 @@ db.define_table('user_settings',
 #Collection table
 #+owner refers to User
 #+name  should be unique per owner, but not be unique in the DB (e.g Default)
-#+public 
+#+public
 db.define_table('collection',
                 Field('owner', db.auth_user, default=auth.user_id,
                       notnull=True, ondelete="CASCADE"),
@@ -91,7 +91,7 @@ db.define_table('category',
 #Object table
 #+owner refers to User
 #+collection refers to Collection. Allow null, for loose Objects
-#+name  
+#+name
 #+price non-negative value in GBP; assumed "0.0" => "not set"
 #+category refers to Category
 #quantity quantity (owned) subset; non-negative integer
@@ -106,12 +106,12 @@ db.define_table('object',
         Field('collection',  db.collection, required=True,
                 notnull=False, ondelete="SET NULL",
                 label ='Collection',
-	        requires = IS_IN_DB(db(db.collection.owner == auth.user_id), db.collection.id, '%(name)s', 
+	        requires = IS_IN_DB(db(db.collection.owner == auth.user_id), db.collection.id, '%(name)s',
                 error_message = "This field cannot be empty. Please select the collection that your object is added to."),
 		comment = T("Choose one of your collections for your object.")),
         Field('name', type="string", length=64, required=True,
                 requires = IS_NOT_EMPTY(error_message = "This field cannot be empty. Please type in the object's name."),
-                notnull=True, 
+                notnull=True,
 		label ='Name',
 		comment = T("Enter a name for the object.")),
         Field('price', type="double", default = 0,
@@ -119,7 +119,7 @@ db.define_table('object',
                 notnull=True,
 		label ='Price',
                 comment = T("Enter the price for your object.")),
-        Field('category', type="string", length=32, required=True,					   
+        Field('category', type="string", length=32, required=True,
 		requires = IS_IN_DB(db(db.category.name == db.category.name), db.category.id, '%(name)s',
 					error_message = "This field cannot be empty. Please select the category of your object."),
 		label ='Category',
@@ -149,7 +149,7 @@ db.define_table('object',
                 requires = IS_EMPTY_OR(IS_IMAGE(extensions=('jpeg','png','jpg'), error_message = "The extension of an image should be '.jpeg', 'png' or 'jpg'.")),
                 notnull=True,
 		label ='Image',
-		comment = T("Upload an image for your object, otherwise, we set a default image for your object. " + 
+		comment = T("Upload an image for your object, otherwise, we set a default image for your object. " +
 				"You can upload your image anytime you want."))
 )
 
@@ -171,7 +171,7 @@ db.define_table('trade',
                       notnull=True, ondelete="CASCADE"),
                 Field('editor', db.auth_user, required=True,
                       notnull=True, ondelete="CASCADE"),
-                Field('status', type="integer", default=0, #STATUS_ACTIVE
+                Field('status', type="integer", default=0, #STATUS_PREPARE
                       notnull=True),
                 Field('message', type="string", length=512, default="", update="",
                       notnull=True),
@@ -180,11 +180,15 @@ db.define_table('trade',
                 Field('time_modified', type='datetime', default=datetime.now, update=datetime.now,
                       notnull=True, writable=False),
 )
-
-db.trade.STATUS_ACTIVE = 0
-db.trade.STATUS_ACCEPTED = 1
-db.trade.STATUS_REJECTED = 2
-db.trade.STATUS_CANCELLED = 3
+#IN PREPARATION
+db.trade.STATUS_PREPARE = 0
+#SENDER ABLE TO EDIT
+db.trade.STATUS_ACTIVE = 1
+#RECEIVER ABLE TO EDIT
+db.trade.STATUS_OFFERED = 2
+db.trade.STATUS_ACCEPTED = 3
+db.trade.STATUS_REJECTED = 4
+db.trade.STATUS_CANCELLED = 5
 
 #Trade_contains_Object table
 #+trade refers to Trade
