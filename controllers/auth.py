@@ -79,8 +79,8 @@ def register():
                                + 'Welcome to CollectShare.'), 'success')
             redirect(URL('collection', 'my'))
     elif registration_form.errors:
-        if edit_form.errors.password_confirm:
-            edit_form.errors.password = ' '
+        if registration_form.errors.password_confirm:
+            registration_form.errors.password = ' '
     else:
         pass
     
@@ -95,8 +95,8 @@ def edit():
                                      INPUT(_id='username-field', _class='form-control', _name='username', _value=auth.user.username,
                                            requires=[IS_EMPTY_OR(IS_STRING_OR(IS_NOT_IN_DB(db, 'auth_user.username',
                                                                                            error_message=('This username has already been taken. '
-                                                                                                          + 'Please try a different username.'))),
-                                                                 auth.user.username)]),
+                                                                                                          + 'Please try a different username.')),
+                                                                              auth.user.username))]),
                                      'Your new username.'),
                      FIELD_WITH_DESC('Trade Any Item',
                                      DIV(P('This setting controls whether other users are able to request items '
@@ -253,16 +253,16 @@ def FIELD_WITH_DESC(name, field, description):
                _class='form-group row')
 
 class IS_STRING_OR(object):
-    def __init__(self, other, str=""):
+    def __init__(self, other, comparison_string=""):
         self.other = other
-        self.str = str
+        self.comparison_string = comparison_string
         if hasattr(other, 'multiple'):
             self.multiple = other.multiple
         if hasattr(other, 'options'):
             self.options = self._options
 
     def __call__(self, value):
-        if auth and auth.user and value == auth.user.username:
+        if value == self.comparison_string:
             return (value, None)
         if isinstance(self.other, (list, tuple)):
             error = None
