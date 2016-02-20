@@ -169,8 +169,7 @@ db.define_table('trade',
                       notnull=True, ondelete="CASCADE"),
                 Field('receiver', db.auth_user, required=True,
                       notnull=True, ondelete="CASCADE"),
-                Field('editor', db.auth_user, required=True,
-                      notnull=True, ondelete="CASCADE"),
+                Field('title', type="string", notnull=True),
                 Field('status', type="integer", default=0, #STATUS_PREPARE
                       notnull=True),
                 Field('message', type="string", length=512, default="", update="",
@@ -181,14 +180,14 @@ db.define_table('trade',
                       notnull=True, writable=False),
 )
 #IN PREPARATION
-db.trade.STATUS_PREPARE = 0
+STATUS_PREPARE = 0
 #SENDER ABLE TO EDIT
-db.trade.STATUS_ACTIVE = 1
+STATUS_ACTIVE = 1
 #RECEIVER ABLE TO EDIT
-db.trade.STATUS_OFFERED = 2
-db.trade.STATUS_ACCEPTED = 3
-db.trade.STATUS_REJECTED = 4
-db.trade.STATUS_CANCELLED = 5
+STATUS_OFFERED = 2
+STATUS_ACCEPTED = 3
+STATUS_REJECTED = 4
+STATUS_CANCELLED = 5
 
 #Trade_contains_Object table
 #+trade refers to Trade

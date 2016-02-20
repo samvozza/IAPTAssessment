@@ -21,10 +21,14 @@
           In Preparation
         </div>
         <div class="list-group">
-          {{for i in response.prepare:}}
-          <a href="{{=URL('trade', 'view', args=[i.id])}}" class="list-group-item">
-            with {{=i.owner.username}}
-          </a>
+          {{if len(response.prepare) > 0:}}
+            {{for i in response.prepare:}}
+              <a href="{{=URL('trade', 'view', args=[i.id])}}" class="list-group-item">
+                with{{=i.title}}
+              </a>
+            {{pass}}
+          {{else:}}
+          <div class="alert alert-info">No trades in perapration.</div>
           {{pass}}
         </div>
       </div>
@@ -35,10 +39,14 @@
           Active
         </div>
         <div class="list-group">
-          {{for i in response.active:}}
-          <a href="{{=URL('trade', 'view', args=[i.id])}}" class="list-group-item">
-            with {{=i.owner.username}}
-          </a>
+          {{if len(response.prepare) > 0:}}
+            {{for i in response.active:}}
+            <a href="{{=URL('trade', 'view', args=[i.id])}}" class="list-group-item">
+              with{{=i.title}}
+            </a>
+            {{pass}}
+          {{else:}}
+          <div class="alert alert-info">No active trades.</div>
           {{pass}}
         </div>
       </div>
@@ -49,10 +57,14 @@
           Sent
         </div>
         <div class="list-group">
-          {{for i in response.sent:}}
-          <a href="{{=URL('trade', 'view', args=[i.id])}}" class="list-group-item">
-            with {{=i.owner.username}}
-          </a>
+          {{if len(response.sent) > 0:}}
+            {{for i in response.sent:}}
+            <a href="{{=URL('trade', 'view', args=[i.id])}}" class="list-group-item">
+              with{{=i.title}}
+            </a>
+            {{pass}}
+          {{else:}}
+            <div class="alert alert-info">No sent trades.</div>
           {{pass}}
         </div>
       </div>
@@ -63,10 +75,14 @@
           Accepted
         </div>
         <div class="list-group">
-          {{for i in response.accepted:}}
-          <a href="{{=URL('trade', 'view', args=[i.id])}}" class="list-group-item">
-            with {{=i.owner.username}}
-          </a>
+          {{if len(response.accepted) > 0:}}
+            {{for i in response.accepted:}}
+            <a href="{{=URL('trade', 'view', args=[i.id])}}" class="list-group-item">
+              with{{=i.title}}
+            </a>
+            {{pass}}
+          {{else:}}
+            <div class="alert alert-info">No accepted trades.</div>
           {{pass}}
         </div>
       </div>
@@ -77,10 +93,14 @@
           Rejected
         </div>
         <div class="list-group">
-          {{for i in response.rejected:}}
-          <a href="{{=URL('trade', 'view', args=[i.id])}}" class="list-group-item">
-            with {{=i.owner.username}}
-          </a>
+          {{if len(response.rejected) > 0:}}
+            {{for i in response.rejected:}}
+            <a href="{{=URL('trade', 'view', args=[i.id])}}" class="list-group-item">
+              with{{=i.title}}
+            </a>
+            {{pass}}
+          {{else:}}
+            <div class="alert alert-info">No sent trades.</div>
           {{pass}}
         </div>
       </div>
@@ -91,10 +111,14 @@
           Cancelled
         </div>
         <div class="list-group">
-          {{for i in response.cancelled:}}
-          <a href="{{=URL('trade', 'view', args=[i.id])}}" class="list-group-item">
-            with {{=i.owner.username}}
-          </a>
+          {{if len(response.cancelled) > 0:}}
+            {{for i in response.cancelled:}}
+            <a href="{{=URL('trade', 'view', args=[i.id])}}" class="list-group-item">
+              with{{=i.title}}
+            </a>
+            {{pass}}
+          {{else:}}
+            <div class="alert alert-info">No sent trades.</div>
           {{pass}}
         </div>
       </div>

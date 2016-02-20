@@ -90,3 +90,24 @@ CREATE TABLE user_settings(
     trade_non_tradable_items CHAR(1) NOT NULL DEFAULT 'T'
 );
 success!
+success!
+timestamp: 2016-02-20T14:15:10.105000
+CREATE TABLE trade(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    sender INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  NOT NULL ,
+    receiver INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  NOT NULL ,
+    editor INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  NOT NULL ,
+    status INTEGER NOT NULL DEFAULT 0,
+    message CHAR(512) NOT NULL DEFAULT '',
+    time_created TIMESTAMP NOT NULL DEFAULT '2016-02-20 14:15:10',
+    time_modified TIMESTAMP NOT NULL DEFAULT '2016-02-20 14:15:10'
+);
+success!
+timestamp: 2016-02-20T14:15:10.110000
+CREATE TABLE trade_contains_object(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    trade INTEGER REFERENCES trade (id) ON DELETE CASCADE  NOT NULL ,
+    object INTEGER REFERENCES object (id) ON DELETE SET NULL  ,
+    quantity INTEGER
+);
+success!
