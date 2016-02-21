@@ -37,11 +37,10 @@ p14
 sg9
 I00
 sg10
-S'id'
-p15
+g12
 ssS'user'
-p16
-(dp17
+p15
+(dp16
 g4
 I512
 sg5
@@ -50,10 +49,10 @@ sg6
 I2
 sg7
 S'INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  NOT NULL  UNIQUE'
-p18
+p17
 sg9
 I01
 sg10
 S'reference auth_user'
-p19
+p18
 ss.

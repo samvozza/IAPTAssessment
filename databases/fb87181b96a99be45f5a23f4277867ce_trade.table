@@ -39,9 +39,26 @@ I01
 sg10
 S'reference auth_user'
 p15
-ssS'time_created'
+ssS'title'
 p16
 (dp17
+g4
+I512
+sg5
+I00
+sg6
+I4
+sg7
+S'CHAR(512) NOT NULL'
+p18
+sg9
+I01
+sg10
+S'string'
+p19
+ssS'time_created'
+p20
+(dp21
 g4
 I512
 sg5
@@ -50,15 +67,15 @@ sg6
 I7
 sg7
 S'TIMESTAMP NOT NULL'
-p18
+p22
 sg9
 I01
 sg10
 S'datetime'
-p19
+p23
 ssS'time_modified'
-p20
-(dp21
+p24
+(dp25
 g4
 I512
 sg5
@@ -67,28 +84,11 @@ sg6
 I8
 sg7
 S'TIMESTAMP NOT NULL'
-p22
-sg9
-I01
-sg10
-g19
-ssS'editor'
-p23
-(dp24
-g4
-I512
-sg5
-I00
-sg6
-I4
-sg7
-S'INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  NOT NULL '
-p25
-sg9
-I01
-sg10
-S'reference auth_user'
 p26
+sg9
+I01
+sg10
+g23
 ssS'receiver'
 p27
 (dp28
@@ -121,11 +121,10 @@ p33
 sg9
 I01
 sg10
-S'string'
-p34
+g19
 ssS'id'
-p35
-(dp36
+p34
+(dp35
 g4
 I512
 sg5
@@ -134,9 +133,9 @@ sg6
 I1
 sg7
 S'INTEGER PRIMARY KEY AUTOINCREMENT'
-p37
+p36
 sg9
 I00
 sg10
-g35
+g34
 ss.

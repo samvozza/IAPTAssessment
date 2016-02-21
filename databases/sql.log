@@ -1,4 +1,4 @@
-timestamp: 2016-02-16T22:56:19.680000
+timestamp: 2016-02-21T02:51:18.688000
 CREATE TABLE auth_user(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     first_name CHAR(128),
@@ -11,21 +11,21 @@ CREATE TABLE auth_user(
     registration_id CHAR(512)
 );
 success!
-timestamp: 2016-02-16T22:56:19.789000
+timestamp: 2016-02-21T02:51:18.722000
 CREATE TABLE auth_group(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     role CHAR(512),
     description TEXT
 );
 success!
-timestamp: 2016-02-16T22:56:19.794000
+timestamp: 2016-02-21T02:51:18.756000
 CREATE TABLE auth_membership(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
     group_id INTEGER REFERENCES auth_group (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-02-16T22:56:19.800000
+timestamp: 2016-02-21T02:51:18.788000
 CREATE TABLE auth_permission(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     group_id INTEGER REFERENCES auth_group (id) ON DELETE CASCADE  ,
@@ -34,7 +34,7 @@ CREATE TABLE auth_permission(
     record_id INTEGER
 );
 success!
-timestamp: 2016-02-16T22:56:19.807000
+timestamp: 2016-02-21T02:51:18.820000
 CREATE TABLE auth_event(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     time_stamp TIMESTAMP,
@@ -44,7 +44,7 @@ CREATE TABLE auth_event(
     description TEXT
 );
 success!
-timestamp: 2016-02-16T22:56:19.813000
+timestamp: 2016-02-21T02:51:18.853000
 CREATE TABLE auth_cas(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
@@ -54,7 +54,14 @@ CREATE TABLE auth_cas(
     renew CHAR(1)
 );
 success!
-timestamp: 2016-02-16T22:56:19.820000
+timestamp: 2016-02-21T02:51:18.881000
+CREATE TABLE user_settings(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  NOT NULL  UNIQUE,
+    trade_non_tradable_items CHAR(1) NOT NULL DEFAULT 'T'
+);
+success!
+timestamp: 2016-02-21T02:51:18.909000
 CREATE TABLE collection(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     owner INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  NOT NULL ,
@@ -62,13 +69,13 @@ CREATE TABLE collection(
     public CHAR(1) NOT NULL DEFAULT 'F'
 );
 success!
-timestamp: 2016-02-16T22:56:19.825000
+timestamp: 2016-02-21T02:51:18.933000
 CREATE TABLE category(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name CHAR(32) NOT NULL UNIQUE
 );
 success!
-timestamp: 2016-02-16T22:56:19.831000
+timestamp: 2016-02-21T02:51:18.999000
 CREATE TABLE object(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     owner INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  NOT NULL ,
@@ -83,27 +90,19 @@ CREATE TABLE object(
     image CHAR(512) NOT NULL DEFAULT 'static/images/thumbnail.jpg'
 );
 success!
-timestamp: 2016-02-18T17:49:19.118000
-CREATE TABLE user_settings(
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  NOT NULL ,
-    trade_non_tradable_items CHAR(1) NOT NULL DEFAULT 'T'
-);
-success!
-success!
-timestamp: 2016-02-20T14:15:10.105000
+timestamp: 2016-02-21T02:51:19.041000
 CREATE TABLE trade(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     sender INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  NOT NULL ,
     receiver INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  NOT NULL ,
-    editor INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  NOT NULL ,
+    title CHAR(512) NOT NULL,
     status INTEGER NOT NULL DEFAULT 0,
     message CHAR(512) NOT NULL DEFAULT '',
-    time_created TIMESTAMP NOT NULL DEFAULT '2016-02-20 14:15:10',
-    time_modified TIMESTAMP NOT NULL DEFAULT '2016-02-20 14:15:10'
+    time_created TIMESTAMP NOT NULL DEFAULT '2016-02-21 02:51:19',
+    time_modified TIMESTAMP NOT NULL DEFAULT '2016-02-21 02:51:19'
 );
 success!
-timestamp: 2016-02-20T14:15:10.110000
+timestamp: 2016-02-21T02:51:19.074000
 CREATE TABLE trade_contains_object(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     trade INTEGER REFERENCES trade (id) ON DELETE CASCADE  NOT NULL ,
