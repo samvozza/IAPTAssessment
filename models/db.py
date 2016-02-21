@@ -159,8 +159,8 @@ from datetime import datetime
 #Trade table
 #+sender refers to User; who initially proposed the trade
 #+receiver refers to User; who the trade was initially sent to
-#+editor refers to User; one of either sender or receiver
-#+status value from db.trade.STATUS constants indicating current trade status
+#+title
+#+status value from STATUS constants indicating current trade status
 #+message
 #+time_created timestamp of Trade creation
 #+time_modified timestamp of when proposal was last modified
@@ -169,7 +169,8 @@ db.define_table('trade',
                       notnull=True, ondelete="CASCADE"),
                 Field('receiver', db.auth_user, required=True,
                       notnull=True, ondelete="CASCADE"),
-                Field('title', type="string", notnull=True),
+                Field('title', type="string", length=64, required=True,
+                      notnull=True),
                 Field('status', type="integer", default=0, #STATUS_PREPARE
                       notnull=True),
                 Field('message', type="string", length=512, default="", update="",
