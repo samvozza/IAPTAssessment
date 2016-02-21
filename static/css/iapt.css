@@ -270,3 +270,8 @@ footer {
 	border-top: 10px solid white;
 	color: #65686D;
 }
+
+.selected-panel {
+  background-color: #E6E6E6;
+}
+

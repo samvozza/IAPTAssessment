@@ -1,0 +1,131 @@
+{{extend 'layout.html'}}
+
+<div class="page-title">
+  <div class="container">
+    <h1>Proposing a trade with {{=receiver.username}}</h1>
+    <div class="breadcrums">
+      <ul>
+        <li>You are here:</li>
+        <li><a href="{{=URL('default')}}">Home</a></li>
+        <li>New Trade Proposal</li>
+      </ul>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-2">
+      <h3>Collections</h3>
+      <div class="list-group">
+        {{for collection in selected_users_collections:}}
+        <a href="{{=URL('trade', 'new_proposal', vars={'with': receiver.id, 'user': selected_collection.owner, 'collection': collection.id})}}" class="list-group-item {{if collection.id == selected_collection.id:}}active{{pass}}">
+          {{=collection.name}}
+        </a>
+        {{pass}}
+      </div>
+      <hr/>
+    </div>
+    
+    <div class="col-md-5">
+      <div class="tabs">
+        <ul class="nav nav-tabs" role="tablist">
+          <li role="presentation" {{if selected_user.id != auth.user.id:}}class="active"{{pass}}>
+          	<a href="{{=URL('trade', 'new_proposal', vars={'with': receiver.id, 'user': receiver.id})}}">Thier Items</a>
+          </li>
+          <li role="presentation" {{if selected_user.id == auth.user.id:}}class="active"{{pass}}>
+          	<a href="{{=URL('trade', 'new_proposal', vars={'with': receiver.id, 'user': auth.user.id})}}">Your Items</a>
+          </li>
+          
+          <li class="collection-search">
+            <form role="search" method="get">
+              <div class="input-group input-group-sm">
+                <input type="hidden" value="{{=receiver.id}}" name="with">
+                <input type="hidden" value="{{=selected_collection.id}}" name="collection">
+                <input type="text" autocomplete="off"  value="{{=search}}" name="search" class="form-control input-sm" placeholder="Search this collection" list="objectsearch">
+                <span class="input-group-btn">
+                  <button type="submit" class="btn btn-default btn-sm" title="Search"><i class="glyphicon glyphicon-search"></i></button>
+                </span>
+              </div>
+            </form>
+          </li>
+        </ul>
+        
+        <datalist id="objectsearch">
+          {{for item in all_collection_items:}}
+          <option value="{{=item.name}}"></option>
+          {{pass}}
+        </datalist>
+        
+        <div class="tab-content">
+        	{{if selected_user.id == auth.user.id:}}
+          <div role="tabpanel" class="tab-pane active" id="your-items">
+          {{else:}}
+        	<div role="tabpanel" class="tab-pane active" id="their-items">
+          {{pass}}
+            {{if len(selected_items) > 0:}}
+            {{for item in selected_items:}}
+            {{item_selected = item in all_propoal_items}}
+            {{if item_selected:}}
+            <a href="{{=URL('trade', 'new_proposal', vars={'with': receiver.id, 'user': auth.user.id, 'remove': item.id, 'collection': selected_collection.id})}}">
+            {{else:}}
+            <a href="{{=URL('trade', 'new_proposal', vars={'with': receiver.id, 'user': auth.user.id, 'add': item.id, 'collection': selected_collection.id})}}">
+            {{pass}}
+              <div class="panel panel-default col-md-4 {{if item_selected:}}selected-panel{{pass}}">
+                <img src="{{=URL('static', 'images', args=['thumbnail.jpg'])}}" style="max-width:100%;"/>
+                <div class="panel-body">
+                  <h4>{{=item.name}}</h4>
+                  <hr/>
+                </div>
+              </div>
+            </a>
+            {{pass}}
+            {{else:}}
+            <div class="alert alert-info">There are no objects in this collection.</div>
+            {{pass}}
+          </div>
+          
+          {{if selected_user.id == auth.user.id:}}
+        	<div role="tabpanel" class="tab-pane" id="their-items"></div>
+          {{else:}}
+          <div role="tabpanel" class="tab-pane" id="your-items"></div>
+          {{pass}}
+        </div>
+      </div>
+    </div>
+    <div class="col-md-5">
+    	<div class="row">
+    		<div class="panel panel-default col-md-12" style="min-height: 250px;">
+    			<div class="panel-body">
+    				{{for item in proposal_items_from_receiver:}}
+            <div class="panel panel-default col-md-4">
+              <img src="{{=URL('static', 'images', args=['thumbnail.jpg'])}}" style="max-width:100%;"/>
+              <div class="panel-body">
+                <h4>{{=item.name}}</h4>
+                <hr/>
+              </div>
+            </div>
+            {{pass}}
+    	    </div>
+    	  </div>
+    	</div>
+    	
+    	<div class="row">
+    		<div class="panel panel-default col-md-12" style="min-height: 250px;">
+    			<div class="panel-body">
+    				{{for item in proposal_items_from_sender:}}
+            <div class="panel panel-default col-md-4">
+              <img src="{{=URL('static', 'images', args=['thumbnail.jpg'])}}" style="max-width:100%;"/>
+              <div class="panel-body">
+                <h4>{{=item.name}}</h4>
+                <hr/>
+              </div>
+            </div>
+            {{pass}}
+    	    </div>
+    	  </div>
+    	</div>
+    </div>
+  </div>
+</div>
