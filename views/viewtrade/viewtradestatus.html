@@ -1,0 +1,143 @@
+{{extend 'layout.html'}}
+
+<div class="page-title">
+  <div class="container">
+  <h1>View Trade Status</h1>
+  <div class="breadcrums">
+    <ul>
+      <li>You are here:</li>
+      <li><a href="{{=URL('default')}}">Home</a></li>
+      <li><a href="{{=URL('default')}}">Home</a></li>
+    </ul>
+  </div>
+</div>
+  <div class="clearfix"></div>
+</div>
+
+<div class = "container">
+	<h2>Opened Trade</h2>
+	<body>
+	<table class = "opened_trade" border="1">
+	<tr class = "table_col">
+	<th class = "trade_col_status">Status</th>
+	<th class = "trade_col_title">Title</th>
+	<th class = "trade_col_with">Trade With</th>
+	<th class = "trade_col_time">Time</th>
+	</tr>
+	
+	{{for result in act_trade_snder0:}}
+	<tr>
+	<td class = "trade_prepare">Preparing</td>
+	<td class = "trade_title">{{=result.trade.title}}</td>
+	<td class = "trade_with">{{=result.trade.receiver}}</td>
+	<td class = "trade_time">{{=result.trade.time_created}}</td>
+	</tr>
+	{{pass}}
+	
+	{{for result in act_trade_snder1:}}
+	<tr>
+	<td class = "trade_active">Active</td>
+	<td class = "trade_title">{{=result.trade.title}}</td>
+	<td class = "trade_with">{{=result.trade.receiver}}</td>
+	<td class = "trade_time">{{=result.trade.time_modified}}</td>
+	</tr>
+	{{pass}}
+	
+	{{for result in act_trade_rcver1:}}
+	<tr>
+	<td class = "trade_active">Active</td>
+	<td class = "trade_title">{{=result.trade.title}}</td>
+	<td class = "trade_with">{{=result.trade.sender}}</td>
+	<td class = "trade_time">{{=result.trade.time_modified}}</td>
+	</tr>
+	{{pass}}
+	
+	{{for result in act_trade_snder2:}}
+	<tr>
+	<td class = "trade_offered">Offered</td>
+	<td class = "trade_title">{{=result.trade.title}}</td>
+	<td class = "trade_with">{{=result.trade.receiver}}</td>
+	<td class = "trade_time">{{=result.trade.time_modified}}</td>
+	</tr>
+	{{pass}}
+	
+	{{for result in act_trade_rcver2:}}
+	<tr>
+	<td class = "trade_offered">Offered</td>
+	<td class = "trade_title">{{=result.trade.title}}</td>
+	<td class = "trade_with">{{=result.trade.sender}}</td>
+	<td class = "trade_time">{{=result.trade.time_modified}}</td>
+	</tr>	
+	</table>
+	</body>
+</div>
+
+<div class = "container">
+	<h2>Closed Trade</h2>
+	<body>
+	<table class = "opened_trade" border="1">
+	<tr class = "table_col">
+	<th class = "trade_col_status">Status</th>
+	<th class = "trade_col_title">Title</th>
+	<th class = "trade_col_with">Trade With</th>
+	<th class = "trade_col_time">Time</th>
+	</tr>
+	
+	{{for result in act_trade_snder3:}}
+	<tr>
+	<td class = "trade_accepted">Accepted</td>
+	<td class = "trade_title">{{=result.trade.title}}</td>
+	<td class = "trade_with">{{=result.trade.receiver}}</td>
+	<td class = "trade_time">{{=result.trade.time_created}}</td>
+	</tr>
+	{{pass}}
+	
+	{{for result in act_trade_rcver3:}}
+	<tr>
+	<td class = "trade_accepted">Accepted</td>
+	<td class = "trade_title">{{=result.trade.title}}</td>
+	<td class = "trade_with">{{=result.trade.sender}}</td>
+	<td class = "trade_time">{{=result.trade.time_modified}}</td>
+	</tr>
+	{{pass}}
+	
+	{{for result in act_trade_snder4:}}
+	<tr>
+	<td class = "trade_rejected">Rejected</td>
+	<td class = "trade_title">{{=result.trade.title}}</td>
+	<td class = "trade_with">{{=result.trade.receiver}}</td>
+	<td class = "trade_time">{{=result.trade.time_modified}}</td>
+	</tr>
+	{{pass}}
+	
+	{{for result in act_trade_rcver4:}}
+	<tr>
+	<td class = "trade_rejected">Rejected</td>
+	<td class = "trade_title">{{=result.trade.title}}</td>
+	<td class = "trade_with">{{=result.trade.sender}}</td>
+	<td class = "trade_time">{{=result.trade.time_modified}}</td>
+	</tr>
+	{{pass}}
+	
+	{{for result in act_trade_snder5:}}
+	<tr>
+	<td class = "trade_cancelled">Cancelled</td>
+	<td class = "trade_title">{{=result.trade.title}}</td>
+	<td class = "trade_with">{{=result.trade.receiver}}</td>
+	<td class = "trade_time">{{=result.trade.time_modified}}</td>
+	</tr>
+	{{pass}}
+	
+	{{for result in act_trade_rcver5:}}
+	<tr>
+	<td class = "trade_cancelled">Cancelled</td>
+	<td class = "trade_title">{{=result.trade.title}}</td>
+	<td class = "trade_with">{{=result.trade.sender}}</td>
+	<td class = "trade_time">{{=result.trade.time_modified}}</td>
+	</tr>
+	{{pass}}
+
+	</table>
+	</body>
+</div>
+{{pass}}
