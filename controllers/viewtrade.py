@@ -37,3 +37,19 @@ def viewtradestatus():
 				act_trade_rcver1 = act_trade_rcver1, act_trade_rcver2 = act_trade_rcver2, act_trade_rcver3 = act_trade_rcver3,
 				act_trade_rcver4 = act_trade_rcver4, act_trade_rcver5 = act_trade_rcver5)
 
+
+#The function fetches the information of a trade.
+#It returns the details of the trade in db.trade, objects from the sender and objects from the receiver.
+def tradesummary():
+#get the corresponding trade.id
+	trade_id = db.trade(request.args(0))
+	trade_record = db(db.trade.id == trade_id).select()
+	sender_id = db(db.trade.id == trade_id)._select(db.trade.sender)
+	receiver_id = db(db.trade.id == trade_id)._select(db.trade.receiver)	
+	trade_items = db(db.trade_contains_object.trade == trade_id).select()
+	group_trade_items = []
+	[group_trade_items.append(each.object) for each in trade_items]
+	sender_items = db(db.object.id.belongs(group_trade_items) & db.object.owner.belongs(sender_id)).select()
+	receiver_items = db(db.object.id.belongs(group_trade_items) & db.object.owner.belongs(receiver_id)).select()	
+	return dict(trade_record = trade_record, sender_items = sender_items, receiver_items = receiver_items)
+
