@@ -41,4 +41,6 @@ def checking_quantity(form):
 
 def view():
 	response.result = db(db.object.id == request.args[0]).select().first()
+	response.collection = db(db.collection.id == response.result.collection).select().first()
+	response.owner = db(db.auth_user.id == response.collection.id).select().first()
 	return dict()

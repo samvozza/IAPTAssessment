@@ -7,7 +7,9 @@
     <ul>
       <li>You are here:</li>
       <li><a href="{{=URL('default')}}">Home</a></li>
-      <li><a href="{{=URL('default')}}">Home</a></li>
+      <li><a href="{{=URL('collection', 'user', args=[response.owner.id])}}">{{=response.owner.username}}</a></li>
+      <li><a href="{{=URL('collection', 'view', args=[response.result.collection])}}">{{=response.collection.name}}</a></li>
+      <li>{{=response.result.name}}</li>
     </ul>
   </div>
 </div>
@@ -19,7 +21,6 @@
   		<img src="{{=URL('default','download', args=[str(response.result.image)])}}" width="180"/>
   		<ul>
   			<li><strong>Name: </strong>{{=response.result.name}}</li>
-  			<li><strong>Owner: </strong>{{=response.result.owner}}</li>
   			<li><strong>Category: </strong>{{=response.result.category}}</li>
   			<li><strong>Price: </strong>{{=response.result.price}}</li>
   			<li><strong>Quantity: </strong>{{=response.result.quantity}}</li>
