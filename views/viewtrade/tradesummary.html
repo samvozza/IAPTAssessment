@@ -1,0 +1,71 @@
+{{extend 'layout.html'}}
+
+<div class="page-title">
+  <div class="container">
+  <h1>Trade Summary</h1>
+  <div class="breadcrums">
+    <ul>
+      <li>You are here:</li>
+      <li><a href="{{=URL('default')}}">Home</a></li>
+      <li><a href="{{=URL('default')}}">Home</a></li>
+    </ul>
+  </div>
+</div>
+  <div class="clearfix"></div>
+</div>
+
+
+<div class = "summary_box">
+	<div class = "summary_title">
+		<h2>SUMMARY</h2>
+	</div>
+	<div class = "sender_part">
+		<div class = "sender_name">
+		{{for result in trade_record:}}
+		{{=result.sender}}
+		{{pass}}
+		</div>
+		<div class = "sender_items">
+		{{for result in sender_items:}}
+		<div class = "item_image">
+			{{=TAG.img(_width=180, _src=URL(r=request, c='default', f='download', args=[result.image]))}}
+		</div>
+		{{pass}}
+		</div>
+	</div>
+	
+	<div class = "receiver_items">
+		<div class = "receiver_name">
+		{{for result in trade_record:}}
+		{{=result.receiver}}
+		{{pass}}
+		</div>
+		<div class = "receiver_items">
+		{{for result in receiver_items:}}
+		<div class = "item_image">
+			{{=TAG.img(_width=180, _src=URL(r=request, c='default', f='download', args=[result.image]))}}
+		</div>
+		{{pass}}
+		</div>
+	</div>
+	
+	<div class = "message_box">
+	{{for result in trade_record:}}
+	<div class = "trade_message">
+		{{=result.message}}
+	</div>
+	{{pass}}
+	</div>
+	
+	<div class = "reject_but">
+		<button type="button">Reject</button>
+	</div>
+	
+	<div class = "accept_but">
+		<button type="button">Accept</button>
+	</div>
+	
+	<div class = "counter_but">
+		<button type="button">Counter</button>
+	</div>
+</div>
