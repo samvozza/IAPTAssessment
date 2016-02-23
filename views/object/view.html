@@ -14,17 +14,36 @@
   <div class="clearfix"></div>
 </div>
 <div class="container">
-	<div class = "obj_detail">
-		<img src="{{=URL('default','download', args=[str(response.result.image)])}}" width="180"/>
-		<ul>
-			<li><strong>Name: </strong>{{=response.result.name}}</li>
-			<li><strong>Owner: </strong>{{=response.result.owner}}</li>
-			<li><strong>Category: </strong>{{=response.result.category}}</li>
-			<li><strong>Price: </strong>{{=response.result.price}}</li>
-			<li><strong>Quantity: </strong>{{=response.result.quantity}}</li>
-			<li><strong>Tradable Quantity: </strong>{{=response.result.tradable_quantity}}</li>
-			<li><strong>Wanted Quantity: </strong>{{=response.result.wanted_quantity}}</li>
-			<li><strong>Description: </strong>{{=response.result.description}}</li>
-		</ul>
-	</div>
+  <div class="col-md-8">
+  	<div class = "obj_detail">
+  		<img src="{{=URL('default','download', args=[str(response.result.image)])}}" width="180"/>
+  		<ul>
+  			<li><strong>Name: </strong>{{=response.result.name}}</li>
+  			<li><strong>Owner: </strong>{{=response.result.owner}}</li>
+  			<li><strong>Category: </strong>{{=response.result.category}}</li>
+  			<li><strong>Price: </strong>{{=response.result.price}}</li>
+  			<li><strong>Quantity: </strong>{{=response.result.quantity}}</li>
+  			<li><strong>Tradable Quantity: </strong>{{=response.result.tradable_quantity}}</li>
+  			<li><strong>Wanted Quantity: </strong>{{=response.result.wanted_quantity}}</li>
+  			<li><strong>Description: </strong>{{=response.result.description}}</li>
+  		</ul>
+  	</div>
+  </div>
+  <div class="col-md-4">
+    {{if auth.user_id == response.result.owner:}}
+    <div class="btn-group pull-right" role="group" aria-label="Options">
+      <div class="btn-group btn-group-sm" role="group">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Settings
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+          <li><a href="{{=URL('object', 'update', args=[response.result.id])}}">Edit</a></li>
+          <li role="seperator" class="divider"></li>
+          <li><a href="{{=URL('collection','delete', args=[response.result.id])}}">Delete</a></li>
+        </ul>
+      </div>
+    </div>
+    {{pass}}
+  </div>
 </div>
