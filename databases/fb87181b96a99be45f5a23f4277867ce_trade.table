@@ -43,13 +43,13 @@ ssS'title'
 p16
 (dp17
 g4
-I512
+I64
 sg5
 I00
 sg6
 I4
 sg7
-S'CHAR(512) NOT NULL'
+S'CHAR(64) NOT NULL'
 p18
 sg9
 I01
@@ -137,5 +137,6 @@ p36
 sg9
 I00
 sg10
-g34
+S'id'
+p37
 ss.

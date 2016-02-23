@@ -110,3 +110,4 @@ CREATE TABLE trade_contains_object(
     quantity INTEGER
 );
 success!
+success!

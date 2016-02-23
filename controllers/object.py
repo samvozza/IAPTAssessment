@@ -39,6 +39,6 @@ def checking_quantity(form):
 		form.vars.tradable_quantity = form.vars.tradable_quantity
 
 
-def viewobject():
-	results = db(db.object.id == request.args[0]).select().first()
-	return dict(results = results)
+def view():
+	response.result = db(db.object.id == request.args[0]).select().first()
+	return dict()

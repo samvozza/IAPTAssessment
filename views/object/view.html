@@ -1,0 +1,30 @@
+{{extend 'layout.html'}}
+
+<div class="page-title">
+  <div class="container">
+  <h1>{{=response.result.name}}</h1>
+  <div class="breadcrums">
+    <ul>
+      <li>You are here:</li>
+      <li><a href="{{=URL('default')}}">Home</a></li>
+      <li><a href="{{=URL('default')}}">Home</a></li>
+    </ul>
+  </div>
+</div>
+  <div class="clearfix"></div>
+</div>
+<div class="container">
+	<div class = "obj_detail">
+		<img src="{{=URL('default','download', args=[str(response.result.image)])}}" width="180"/>
+		<ul>
+			<li><strong>Name: </strong>{{=response.result.name}}</li>
+			<li><strong>Owner: </strong>{{=response.result.owner}}</li>
+			<li><strong>Category: </strong>{{=response.result.category}}</li>
+			<li><strong>Price: </strong>{{=response.result.price}}</li>
+			<li><strong>Quantity: </strong>{{=response.result.quantity}}</li>
+			<li><strong>Tradable Quantity: </strong>{{=response.result.tradable_quantity}}</li>
+			<li><strong>Wanted Quantity: </strong>{{=response.result.wanted_quantity}}</li>
+			<li><strong>Description: </strong>{{=response.result.description}}</li>
+		</ul>
+	</div>
+</div>
