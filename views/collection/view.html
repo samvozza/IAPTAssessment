@@ -80,7 +80,9 @@
             {{for o in response.objects:}}
             <div class="col-sm-6 col-md-4">
               <div class="thumbnail">
-                <img src="{{=URL('static', 'images', args=['thumbnail.jpg'])}}"/>
+                <a href="{{=URL('object', 'view', args=[o.id])}}">
+                  <img src="{{=URL('static', 'images', args=['thumbnail.jpg'])}}"/>
+                </a>
                 <div class="caption">
                   <h3><a href="{{=URL('object', 'view', args=[o.id])}}">{{=o.name}}</a></h3>
                   <hr/>
