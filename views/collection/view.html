@@ -73,16 +73,20 @@
           <option value="{{=o.name}}"></option>
           {{pass}}
         </datalist>
-        <!-- Tab panes -->
+        <!-- Tab panes -->{{include 'messages.html'}}
         <div class="tab-content">
-          <div role="tabpanel" class="tab-pane active" id="all">
+          <div role="tabpanel" class="tab-pane active padding-top-20" id="all">
             {{if len(response.objects)> 0:}}
             {{for o in response.objects:}}
-            <div class="panel panel-default col-md-4">
-              <img src="{{=URL('static', 'images', args=['thumbnail.jpg'])}}" style="max-width:100%;"/>
-              <div class="panel-body">
-                <h3><a href="{{=URL('object', 'view', args=[o.id])}}">{{=o.name}}</a></h3>
-                <hr/>
+            <div class="col-sm-6 col-md-4">
+              <div class="thumbnail">
+                <img src="{{=URL('static', 'images', args=['thumbnail.jpg'])}}"/>
+                <div class="caption">
+                  <h3><a href="{{=URL('object', 'viewobject', args=[o.id])}}">{{=o.name}}</a></h3>
+                  <hr/>
+                  <a href="{{=URL('collection', 'wantit', args=[o.id], vars=dict(url=URL('collection', 'view', args=[request.args[0]])))}}" class="btn btn-primary btn-sm">Want It</a>
+                  <a href="{{=URL('collection', 'getit', args=[o.id])}}" class="btn btn-warning btn-sm pull-right">Get It</a>
+                </div>
               </div>
             </div>
             {{pass}}
@@ -90,30 +94,37 @@
             <div class="alert alert-info">There are no objects in this collection.</div>
             {{pass}}
           </div>
-          <div role="tabpanel" class="tab-pane" id="owned">
+          <div role="tabpanel" class="tab-pane padding-top-20" id="owned">
             {{if len(response.owned)> 0:}}
             {{for o in response.owned:}}
-            <div class="panel panel-default col-md-4">
-              <img src="{{=URL('static', 'images', args=['thumbnail.jpg'])}}" style="max-width:100%;"/>
-              <div class="panel-body">
-                <h3><a href="{{=URL('object', 'viewobject', args=[o.id])}}">{{=o.name}}</a></h3>
-                <hr/>
+              <div class="col-sm-6 col-md-4">
+                <div class="thumbnail">
+                  <img src="{{=URL('static', 'images', args=['thumbnail.jpg'])}}"/>
+                  <div class="caption">
+                    <h3><a href="{{=URL('object', 'viewobject', args=[o.id])}}">{{=o.name}}</a></h3>
+                    <hr/>
+                    <a href="{{=URL('collection', 'wantit', args=[o.id])}}" class="btn btn-primary btn-sm">Want It</a>
+                    <a href="{{=URL('collection', 'getit', args=[o.id])}}" class="btn btn-warning btn-sm pull-right">Get It</a>
+                  </div>
+                </div>
               </div>
-            </div>
             {{pass}}
-
             {{else:}}
             <div class="alert alert-info">There are no 'owned' objects in this collection.</div>
             {{pass}}
           </div>
-          <div role="tabpanel" class="tab-pane" id="wanted">
+          <div role="tabpanel" class="tab-pane padding-top-20" id="wanted">
             {{if len(response.wanted)> 0:}}
             {{for o in response.wanted:}}
-            <div class="panel panel-default col-md-4">
-              <img src="{{=URL('static', 'images', args=['thumbnail.jpg'])}}" style="max-width:100%;"/>
-              <div class="panel-body">
-                <h3><a href="{{=URL('object', 'view', args=[o.id])}}">{{=o.name}}</a></h3>
-                <hr/>
+            <div class="col-sm-6 col-md-4">
+              <div class="thumbnail">
+                <img src="{{=URL('static', 'images', args=['thumbnail.jpg'])}}"/>
+                <div class="caption">
+                  <h3><a href="{{=URL('object', 'viewobject', args=[o.id])}}">{{=o.name}}</a></h3>
+                  <hr/>
+                  <a href="{{=URL('collection', 'wantit', args=[o.id])}}" class="btn btn-primary btn-sm">Want It</a>
+                  <a href="{{=URL('collection', 'getit', args=[o.id])}}" class="btn btn-warning btn-sm pull-right">Get It</a>
+                </div>
               </div>
             </div>
             {{pass}}
@@ -121,14 +132,18 @@
             <div class="alert alert-info">There are no 'wanted' objects in this collection.</div>
             {{pass}}
           </div>
-          <div role="tabpanel" class="tab-pane" id="tradable">
+          <div role="tabpanel" class="tab-pane padding-top-20" id="tradable">
             {{if len(response.tradable) > 0:}}
             {{for o in response.tradable:}}
-            <div class="panel panel-default col-md-4">
-              <img src="{{=URL('static', 'images', args=['thumbnail.jpg'])}}" style="max-width:100%;"/>
-              <div class="panel-body">
-                <h3><a href="{{=URL('object', 'view', args=[o.id])}}">{{=o.name}}</a></h3>
-                <hr/>
+            <div class="col-sm-6 col-md-4">
+              <div class="thumbnail">
+                <img src="{{=URL('static', 'images', args=['thumbnail.jpg'])}}"/>
+                <div class="caption">
+                  <h3><a href="{{=URL('object', 'viewobject', args=[o.id])}}">{{=o.name}}</a></h3>
+                  <hr/>
+                  <a href="{{=URL('collection', 'wantit', args=[o.id])}}" class="btn btn-primary btn-sm">Want It</a>
+                  <a href="{{=URL('collection', 'getit', args=[o.id])}}" class="btn btn-warning btn-sm pull-right">Get It</a>
+                </div>
               </div>
             </div>
             {{pass}}

@@ -1,0 +1,5 @@
+{{if request.vars.message == 'wantit':}}
+<div class="alert alert-info">We added this collectable to your <strong>Default</strong> collection.</div>
+{{elif request.vars.message == 'newcollection':}}
+<div class="alert alert-success">You've succesfully created a new collection</div>
+{{pass}}

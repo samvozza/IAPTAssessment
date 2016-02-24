@@ -162,3 +162,18 @@ def my():
 def user():
     response.col = db((db.collection.owner == request.args[0]) & (db.collection.public == 'T')).select().first()
     redirect(URL('collection', 'view', args=[response.col.id]))
+
+def getit():
+
+    redurect(URL('trade'));
+
+def wantit():
+    o = db(db.object.id == request.args[0]).select().first()
+    new_item = db.object.insert(**db.object._filter_fields(o))
+    db(db.object.id == new_item).update(owner = auth.user_id)
+    default = db((db.collection.owner == auth.user_id) & (db.collection.name=='Default')).select().first()
+    db(db.object.id == new_item).update(collection = default.id)
+    if request.vars.url:
+        redirect(request.vars.url+('?' if '?' not in request.vars.url else '&')+"message=wantit")
+    else:
+        redirect(URL('default', 'index'))
