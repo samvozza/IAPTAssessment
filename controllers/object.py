@@ -22,7 +22,7 @@ def create():
 	addobjectform = SQLFORM(db.object, fields = ['name', 'collection', 'price', 'category', 'quantity', 'tradable_quantity', 'wanted_quantity','description', 'image'])
 	addobjectform.vars.owner = auth.user_id
 	if addobjectform.process(onvalidation = checking_quantity).accepted:
-		redirect(URL('object', 'view', args=[addobjectform.vars.id]))
+		redirect(URL('object', 'view', args=[addobjectform.vars.id], vars=dict(message='object_created')))
 
 	elif addobjectform.errors:
 		response.flash = "One or more errors in your form field. Please see below for more information."
