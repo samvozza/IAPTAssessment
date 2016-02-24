@@ -259,6 +259,7 @@ input.invalidinput:focus {
 	margin-left:10px;
 }
 
+/* css for tradesummary.html
 .summary_box{
 	border:.1em solid #ccc;
 	margin-bottom: 3em;
@@ -302,6 +303,17 @@ input.invalidinput:focus {
 	margin-top: 2em;
 	margin-bottom: 1em;
 }
+
+/*css for viewtradestatus.html*/
+.trade_status{
+	border:.1em solid #ccc; 
+	margin-bottom:3em;
+}
+
+.table_title{
+	text-align: center;
+}
+
 
 footer {
 	clear: both;
