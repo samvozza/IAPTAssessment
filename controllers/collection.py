@@ -173,6 +173,7 @@ def wantit():
     db(db.object.id == new_item).update(owner = auth.user_id)
     default = db((db.collection.owner == auth.user_id) & (db.collection.name=='Default')).select().first()
     db(db.object.id == new_item).update(collection = default.id)
+    db(db.object.id == new_item).update(wanted_quantity = 1)
     if request.vars.url:
         redirect(request.vars.url+('?' if '?' not in request.vars.url else '&')+"message=wantit")
     else:
