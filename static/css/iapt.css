@@ -259,6 +259,50 @@ input.invalidinput:focus {
 	margin-left:10px;
 }
 
+.summary_box{
+	border:.1em solid #ccc;
+	margin-bottom: 3em;
+}
+
+.summary_title{
+	text-align: center;
+}
+
+.sender_part{
+	border-top:.1em solid #ccc;
+	border-right: .1em solid #ccc;
+}
+
+.receiver_part{
+	border-top:.1em solid #ccc;
+	border-left: .1em solid #ccc;
+}
+
+
+.user_name{
+	text-align: center;
+	border-bottom: .1em solid #ccc;
+	margin-bottom: 1em;
+}
+
+.item_image{
+	margin-bottom: .5em;
+}
+
+.message_box{
+	border-top:.1em solid #ccc; 
+	margin-top: 1em;
+}
+
+.trade_message{
+	border:.1em solid #ccc;
+}
+
+.trade_but{
+	margin-top: 2em;
+	margin-bottom: 1em;
+}
+
 footer {
 	clear: both;
   position: relative;
