@@ -1,11 +1,11 @@
 def view():
     response.collection = db(db.collection.id == request.args[0]).select().first()
     response.q = request.vars.q if request.vars.q != None else ''
-    response.collections = db(db.collection.owner == response.collection.owner).select()
-    response.objects = db((db.object.collection == response.collection.id) & (db.object.name.like('%' +response.q+'%'))).select()
-    response.tradable = db((db.object.collection == response.collection.id) &  (db.object.name.like('%' +response.q+'%')) & (db.object.tradable_quantity > 0)).select()
-    response.wanted = db((db.object.collection == response.collection.id) & (db.object.name.like('%' +response.q+'%')) & (db.object.wanted_quantity > 0)).select()
-    response.owned = db((db.object.collection == response.collection.id) & (db.object.name.like('%' +response.q+'%')) & (db.object.quantity > 0)).select()
+    response.collections = db(db.collection.owner == response.collection.owner).select(orderby=db.collection.name)
+    response.objects = db((db.object.collection == response.collection.id) & (db.object.name.like('%' +response.q+'%'))).select(orderby=db.object.name)
+    response.tradable = db((db.object.collection == response.collection.id) &  (db.object.name.like('%' +response.q+'%')) & (db.object.tradable_quantity > 0)).select(orderby=db.object.name)
+    response.wanted = db((db.object.collection == response.collection.id) & (db.object.name.like('%' +response.q+'%')) & (db.object.wanted_quantity > 0)).select(orderby=db.object.name)
+    response.owned = db((db.object.collection == response.collection.id) & (db.object.name.like('%' +response.q+'%')) & (db.object.quantity > 0)).select(orderby=db.object.name)
     response.owner = db(db.auth_user.id == response.collection.owner).select().first()
     response.datalist = db(db.object.collection == response.collection.id).select(db.object.name,distinct=True)
 
@@ -162,3 +162,19 @@ def my():
 def user():
     response.col = db((db.collection.owner == request.args[0]) & (db.collection.public == 'T')).select().first()
     redirect(URL('collection', 'view', args=[response.col.id]))
+
+def getit():
+
+    redurect(URL('trade'));
+
+def wantit():
+    o = db(db.object.id == request.args[0]).select().first()
+    new_item = db.object.insert(**db.object._filter_fields(o))
+    db(db.object.id == new_item).update(owner = auth.user_id)
+    default = db((db.collection.owner == auth.user_id) & (db.collection.name=='Default')).select().first()
+    db(db.object.id == new_item).update(collection = default.id)
+    db(db.object.id == new_item).update(wanted_quantity = 1)
+    if request.vars.url:
+        redirect(request.vars.url+('?' if '?' not in request.vars.url else '&')+"message=wantit")
+    else:
+        redirect(URL('default', 'index'))

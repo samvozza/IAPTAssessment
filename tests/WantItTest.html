@@ -4,47 +4,22 @@
 <head profile="http://selenium-ide.openqa.org/profiles/test-case">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="selenium.base" href="http://127.0.0.1:8000/" />
-<title>EditingCollection</title>
+<title>WantItTest</title>
 </head>
 <body>
 <table cellpadding="1" cellspacing="1" border="1">
 <thead>
-<tr><td rowspan="1" colspan="3">EditingCollection</td></tr>
+<tr><td rowspan="1" colspan="3">WantItTest</td></tr>
 </thead><tbody>
 <tr>
 	<td>open</td>
-	<td>/IAPTAssessment/collection/view/1</td>
-	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>link=Edit</td>
-	<td></td>
-</tr>
-<tr>
-	<td>verifyText</td>
-	<td>id=name</td>
-	<td>Collection 1</td>
-</tr>
-<tr>
-	<td>verifySelectedLabel</td>
-	<td>id=title-field</td>
-	<td>no</td>
-</tr>
-<tr>
-	<td>open</td>
-	<td>/IAPTAssessment/collection/view/2</td>
+	<td>/IAPTAssessment/collection/create/</td>
 	<td></td>
 </tr>
 <tr>
 	<td>type</td>
 	<td>id=name</td>
-	<td>Collection 1a</td>
-</tr>
-<tr>
-	<td>select</td>
-	<td>id=title-field</td>
-	<td>label=yes</td>
+	<td>Collection 5</td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
@@ -52,10 +27,16 @@
 	<td></td>
 </tr>
 <tr>
-	<td>assertTextPresent</td>
+	<td>clickAndWait</td>
+	<td>link=Want It</td>
 	<td></td>
-	<td>Collection 1a</td>
 </tr>
+<tr>
+	<td>verifyElementPresent</td>
+	<td>css=div.alert.alert-info</td>
+	<td></td>
+</tr>
+
 </tbody></table>
 </body>
 </html>

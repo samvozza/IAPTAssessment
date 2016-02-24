@@ -4,12 +4,12 @@
 <head profile="http://selenium-ide.openqa.org/profiles/test-case">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="selenium.base" href="http://127.0.0.1:8000/" />
-<title>EditingCollection</title>
+<title>NewObject</title>
 </head>
 <body>
 <table cellpadding="1" cellspacing="1" border="1">
 <thead>
-<tr><td rowspan="1" colspan="3">EditingCollection</td></tr>
+<tr><td rowspan="1" colspan="3">NewObject</td></tr>
 </thead><tbody>
 <tr>
 	<td>open</td>
@@ -18,44 +18,55 @@
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>link=Edit</td>
+	<td>link=New Object</td>
 	<td></td>
-</tr>
-<tr>
-	<td>verifyText</td>
-	<td>id=name</td>
-	<td>Collection 1</td>
-</tr>
-<tr>
-	<td>verifySelectedLabel</td>
-	<td>id=title-field</td>
-	<td>no</td>
-</tr>
-<tr>
-	<td>open</td>
-	<td>/IAPTAssessment/collection/view/2</td>
-	<td></td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>id=name</td>
-	<td>Collection 1a</td>
 </tr>
 <tr>
 	<td>select</td>
-	<td>id=title-field</td>
-	<td>label=yes</td>
+	<td>id=object_collection</td>
+	<td>label=Collection 1</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=object_name</td>
+	<td>1856 Queen Victoria Stamp</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=object_price</td>
+	<td>5000</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>id=object_category</td>
+	<td>label=Magazines and paper</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=object_quantity</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=object_description</td>
+	<td>This is a very special kind of stamp.</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=object_image</td>
+	<td>C:\Users\Dawid\Downloads\Stamp_Canada_1929_50c_Bluenose.jpg</td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>id=submit-button</td>
+	<td>css=input.btn.btn-primary</td>
 	<td></td>
 </tr>
 <tr>
-	<td>assertTextPresent</td>
+	<td>assertElementPresent</td>
+	<td>css=div.alert.alert-success</td>
 	<td></td>
-	<td>Collection 1a</td>
 </tr>
+
 </tbody></table>
 </body>
 </html>

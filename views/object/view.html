@@ -16,19 +16,9 @@
   <div class="clearfix"></div>
 </div>
 <div class="container">
+  {{include 'messages.html'}}
   <div class="col-md-8">
-  	<div class = "obj_detail">
-  		<img src="{{=URL('default','download', args=[str(response.result.image)])}}" width="180"/>
-  		<ul>
-  			<li><strong>Name: </strong>{{=response.result.name}}</li>
-  			<li><strong>Category: </strong>{{=response.result.category}}</li>
-  			<li><strong>Price: </strong>{{=response.result.price}}</li>
-  			<li><strong>Quantity: </strong>{{=response.result.quantity}}</li>
-  			<li><strong>Tradable Quantity: </strong>{{=response.result.tradable_quantity}}</li>
-  			<li><strong>Wanted Quantity: </strong>{{=response.result.wanted_quantity}}</li>
-  			<li><strong>Description: </strong>{{=response.result.description}}</li>
-  		</ul>
-  	</div>
+    <img src="{{=URL('default','download', args=[str(response.result.image)])}}" alt="Thumbnail of {{=response.result.name}}" width="100%"/>
   </div>
   <div class="col-md-4">
     {{if auth.user_id == response.result.owner:}}
@@ -45,6 +35,25 @@
         </ul>
       </div>
     </div>
+    <div class="clearfix"></div>
     {{pass}}
+    <div class="panel panel-default">
+      <div class="panel-heading">Description</div>
+      <div class="panel-body">{{=response.result.description}}</div>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading">Details</div>
+      <div class="panel-body">
+    		<ul>
+    			<li><strong>Category: </strong>{{=response.result.category}}</li>
+    			<li><strong>Price: </strong>{{=response.result.price}}</li>
+    			<li><strong>Quantity: </strong>{{=response.result.quantity}}</li>
+    			<li><strong>Tradable Quantity: </strong>{{=response.result.tradable_quantity}}</li>
+    			<li><strong>Wanted Quantity: </strong>{{=response.result.wanted_quantity}}</li>
+    		</ul>
+      </div>
+    </div>
+  	</div>
   </div>
+
 </div>

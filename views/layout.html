@@ -51,9 +51,9 @@
           <div class="main-menu">
             <form class="main-menu-search-from" method="get" action="{{=URL('default', 'search')}}" role="search">
               <div class="input-group">
-                <input type="text" class="form-control" placeholder="Search for objects...">
+                <input type="text" class="form-control" name="q" placeholder="Search for objects..." value="{{=request.vars.q}}">
                 <span class="input-group-btn">
-                  <button class="btn btn-default" type="button">Go!</button>
+                  <button class="btn btn-default" type="submit">Go!</button>
                 </span>
               </div><!-- /input-group -->
               <small><a href="{{=URL('default', 'search')}}" class="pull-right">Advanced Search</a></small>
