@@ -20,12 +20,12 @@ def update():
 @auth.requires_login()
 def create():
 	addobjectform = SQLFORM(db.object, fields = ['name', 'collection', 'price', 'category', 'quantity', 'tradable_quantity', 'wanted_quantity','description', 'image'])
+	addobjectform.vars.owner = auth.user_id
 	if addobjectform.process(onvalidation = checking_quantity).accepted:
-		response.flash = "New object is added."
+		redirect(URL('object', 'view', args=[addobjectform.vars.id]))
 
 	elif addobjectform.errors:
 		response.flash = "One or more errors in your form field. Please see below for more information."
-
 	else:
 		response.flash = "Please complete the form below to add a new object."
 
@@ -42,5 +42,5 @@ def checking_quantity(form):
 def view():
 	response.result = db(db.object.id == request.args[0]).select().first()
 	response.collection = db(db.collection.id == response.result.collection).select().first()
-	response.owner = db(db.auth_user.id == response.collection.id).select().first()
+	response.owner = db(db.auth_user.id == response.collection.owner).select().first()
 	return dict()
