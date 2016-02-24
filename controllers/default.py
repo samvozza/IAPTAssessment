@@ -29,11 +29,17 @@ def search():
     if response.q == '' and response.min == '' and response.max == '' and response.u == '':
         response.r = None
     else:
+        query = ((db.object.collection == db.collection.id)  & (db.collection.public == 'T'))
+        query &= db.object.name.like('%' + response.q + '%')
+        if response.min != '':
+            query &= db.object.price >= response.min
+        if response.max != '':
+            query &= db.object.price <= response.max
         if response.u != '':
             userx = db(db.auth_user.username == response.u).select().first()
-            response.results = db(db.object.name.like('%' + response.q + '%') & ((db.object.price >= response.min) | (db.object.price <= response.max)) & (db.object.collection == db.collection.id) & (db.collection.owner == userx.id) & (db.collection.public == 'T')).select()
-        else:
-            response.results = db(db.object.name.like('%' + response.q + '%') & ((db.object.price >= response.min) | (db.object.price <= response.max)) & (db.object.collection == db.collection.id) & (db.collection.public == 'T')).select()
+            #response.results =  db(((db.object.price >= response.min) | ).select()
+
+        response.results = db(query).select()
         response.r = ''
 
     return dict();
