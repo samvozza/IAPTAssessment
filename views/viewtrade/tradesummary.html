@@ -15,58 +15,73 @@
 </div>
 
 <div class = "container">
-  <div class = "summary_box">
-		<div class = "summary_title">
-			<h2>SUMMARY</h2>
-		</div>
-		<div class = "sender_part">
-			<div class = "sender_name">
-				{{for result in trade_record:}}
-				{{=result.sender}}
-				{{pass}}
+	<div class = "row">
+		<div class = "summary_box col-md-6 col-md-offset-3">	
+			<div class = "summary_title">
+				<h2>SUMMARY</h2>
 			</div>
-			<div class = "sender_items">
-				{{for result in sender_items:}}
-				<div class = "item_image">
-					{{=TAG.img(_width=80, _hight = 80, _src=URL(r=request, c='default', f='download', args=[result.image]))}}
+			
+			<div class = "sender_part col-md-6">
+				<div class = "user_name">
+					{{for result in trade_record:}}
+					<h4>{{=result.sender}}'s items</h4>
+					{{pass}}
+				</div>
+					
+				<div class = "user_items">
+					{{for result in sender_items:}}
+					<div class = "item_image col-md-4">
+					{{=TAG.img(_width=60, _height = 80, _src=URL(r=request, c='default', f='download', args=[result.image]))}}
+					</div>
 					{{pass}}
 				</div>
 			</div>
-		</div>
-	
-		<div class = "receiver_part">
-			<div class = "receiver_name">
-				{{for result in trade_record:}}
-				{{=result.receiver}}
-				{{pass}}
-			</div>
-			<div class = "receiver_items">
-				{{for result in receiver_items:}}
-				<div class = "item_image">
-					{{=TAG.img(_width=80, _hight = 80, _src=URL(r=request, c='default', f='download', args=[result.image]))}}
+			
+			<div class = "receiver_part col-md-6">
+				<div class = "user_name">
+					{{for result in trade_record:}}
+					<h4>{{=result.receiver}}'s items</h4>
+					{{pass}}
+				</div>
+				<div class = "user_items">
+					{{for result in receiver_items:}}
+					<div class = "item_image col-md-4">
+					{{=TAG.img(_width=60, _height = 80, _src=URL(r=request, c='default', f='download', args=[result.image]))}}
+					</div>
 					{{pass}}
 				</div>
 			</div>
-		</div>
-	
-		<div class = "message_box">
-			{{for result in trade_record:}}
-			<div class = "trade_message">
-				{{=result.message}}
-				{{pass}}
+			
+			<div class = "col-md-12">
+				<div class = "message_box">
+					<h4 class = "message_title">Messages:</h4>
+					{{for result in trade_record:}}
+					<div class = "trade_message">
+						{{=result.message}}
+						{{pass}}
+					</div>
+				</div>
 			</div>
-		</div>
-	
-		<div class = "reject_but">
-			<button type="button">Reject</button>
-		</div>
-	
-		<div class = "accept_but">
-			<button type="button">Accept</button>
-		</div>
-	
-		<div class = "counter_but">
-			<button type="button">Counter</button>
+			
+			<div class = "trade_button col-md-12">
+				<div class = "col-md-2 col-md-offset-1">
+					<div class = "trade_but">
+						<button type="button" class = "btn btn-success">Accept</button>
+					</div>
+				</div>
+			
+				<div class = "col-md-2 col-md-offset-2">
+					<div class = "trade_but">
+						<button type="button" class = "btn btn-warning">Reject</button>
+					</div>
+				</div>
+			
+				<div class = "col-md-2 col-md-offset-2">
+					<div class = "trade_but">
+						<button type="button" class = "btn btn-danger">Counter</button>
+					</div>
+				</div>	
+			</div>
 		</div>
 	</div>
 </div>
