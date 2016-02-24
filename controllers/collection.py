@@ -164,8 +164,8 @@ def user():
     redirect(URL('collection', 'view', args=[response.col.id]))
 
 def getit():
-
-    redurect(URL('trade'));
+    item = db(db.object.id == request.args(0)).select().first()
+    redirect(URL('trade', 'new_proposal', vars={'with': item.owner, 'collection': item.collection, 'add': item.id}));
 
 def wantit():
     o = db(db.object.id == request.args[0]).select().first()
