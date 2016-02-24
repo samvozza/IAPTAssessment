@@ -20,7 +20,7 @@
       <div class="list-group">
         {{for collection in response.collections:}}
         <a href="{{=URL('collection', 'view', args=[collection.id])}}" class="list-group-item {{if collection.id == response.collection.id:}}active{{pass}}">
-          {{=collection.name}}
+          {{=collection.name}} {{if collection.public:}}<span class="badge" aria-label="Public Collection"><span class="glyphicon glyphicon-eye-open"></span></span>{{pass}}
         </a>
         {{pass}}
       </div>
