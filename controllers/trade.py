@@ -73,9 +73,34 @@ def new_proposal():
                 selected_collection=selected_collection,
                 all_collection_items=all_collection_items,
                 selected_items=selected_items,
+                current_proposal=current_proposal,
                 all_propoal_items=all_propoal_items,
                 proposal_items_from_sender=proposal_items_from_sender,
                 proposal_items_from_receiver=proposal_items_from_receiver)
+
+
+def send_proposal():
+    db(db.trade.id == request.args(0)).update(status=STATUS_OFFERED)
+    remove_active_proposal(request.args(0))
+    redirect(URL('trade', 'index'))
+
+
+def accept_proposal():
+    db(db.trade.id == request.args(0)).update(status=STATUS_ACCEPTED)
+    remove_active_proposal(request.args(0))
+    redirect(URL('trade', 'index'))
+
+
+def reject_proposal():
+    db(db.trade.id == request.args(0)).update(status=STATUS_REJECTED)
+    remove_active_proposal(request.args(0))
+    redirect(URL('trade', 'index'))
+
+
+def cancel_proposal():
+    db(db.trade.id == request.args(0)).update(status=STATUS_CANCELLED)
+    remove_active_proposal(request.args(0))
+    redirect(URL('trade', 'index'))
 
 
 
@@ -89,20 +114,25 @@ def get_active_proposal(receiver):
     If there isn't an active trade with the receiver a new proposal
     is created.
     """
-    if not session.proposals or receiver.id not in session.proposals:
-        if not session.proposals:
-            session.proposals = {}
-        
-        if receiver.id not in session.proposals:
-            session.proposals[receiver.id] = []
-        
-        new_proposal_id = db.trade.insert(receiver=receiver.id,
-                                          title='Trade with ' + receiver.username)
-        new_proposal = db(db.trade.id == new_proposal_id).select().first()
-        
-        session.proposals[receiver.id].append(new_proposal)
+    if not session.proposals:
+        session.proposals = []
     
-    return session.proposals[receiver.id][0]
+    for proposal in session.proposals:
+        if proposal.receiver == receiver.id:
+            return proposal
+    
+    new_proposal_id = db.trade.insert(receiver=receiver.id,
+                                      title='Trade with ' + receiver.username)
+    new_proposal = db(db.trade.id == new_proposal_id).select().first()
+    
+    session.proposals.append(new_proposal)
+    
+    return new_proposal
+
+
+def remove_active_proposal(proposal_id):
+    if session.proposals:
+        session.proposals = [proposal for proposal in session.proposals if str(proposal.id) != proposal_id]
 
 
 def get_items_in_proposal(proposal):

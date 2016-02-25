@@ -68,9 +68,9 @@
             {{for item in selected_items:}}
             {{item_selected = item in all_propoal_items}}
             {{if item_selected:}}
-            <a href="{{=URL('trade', 'new_proposal', vars={'with': receiver.id, 'user': auth.user.id, 'remove': item.id, 'collection': selected_collection.id})}}">
+            <a href="{{=URL('trade', 'new_proposal', vars={'with': receiver.id, 'user': selected_user.id, 'remove': item.id, 'collection': selected_collection.id})}}">
             {{else:}}
-            <a href="{{=URL('trade', 'new_proposal', vars={'with': receiver.id, 'user': auth.user.id, 'add': item.id, 'collection': selected_collection.id})}}">
+            <a href="{{=URL('trade', 'new_proposal', vars={'with': receiver.id, 'user': selected_user.id, 'add': item.id, 'collection': selected_collection.id})}}">
             {{pass}}
               <div class="panel panel-default col-md-4 {{if item_selected:}}selected-panel{{pass}}">
                 <img src="{{=URL('static', 'images', args=['thumbnail.jpg'])}}" style="max-width:100%;"/>
@@ -99,13 +99,15 @@
     		<div class="panel panel-default col-md-12" style="min-height: 250px;">
     			<div class="panel-body">
     				{{for item in proposal_items_from_receiver:}}
-            <div class="panel panel-default col-md-4">
-              <img src="{{=URL('static', 'images', args=['thumbnail.jpg'])}}" style="max-width:100%;"/>
-              <div class="panel-body">
-                <h4>{{=item.name}}</h4>
-                <hr/>
+    				<a href="{{=URL('trade', 'new_proposal', vars={'with': receiver.id, 'user': selected_user.id, 'remove': item.id, 'collection': selected_collection.id})}}">
+              <div class="panel panel-default col-md-4">
+                <img src="{{=URL('static', 'images', args=['thumbnail.jpg'])}}" style="max-width:100%;"/>
+                <div class="panel-body">
+                  <h4>{{=item.name}}</h4>
+                  <hr/>
+                </div>
               </div>
-            </div>
+            </a>
             {{pass}}
     	    </div>
     	  </div>
@@ -115,14 +117,25 @@
     		<div class="panel panel-default col-md-12" style="min-height: 250px;">
     			<div class="panel-body">
     				{{for item in proposal_items_from_sender:}}
-            <div class="panel panel-default col-md-4">
-              <img src="{{=URL('static', 'images', args=['thumbnail.jpg'])}}" style="max-width:100%;"/>
-              <div class="panel-body">
-                <h4>{{=item.name}}</h4>
-                <hr/>
+            <a href="{{=URL('trade', 'new_proposal', vars={'with': receiver.id, 'user': selected_user.id, 'remove': item.id, 'collection': selected_collection.id})}}">
+              <div class="panel panel-default col-md-4">
+                <img src="{{=URL('static', 'images', args=['thumbnail.jpg'])}}" style="max-width:100%;"/>
+                <div class="panel-body">
+                  <h4>{{=item.name}}</h4>
+                  <hr/>
+                </div>
               </div>
-            </div>
+            </a>
             {{pass}}
+    	    </div>
+    	  </div>
+    	</div>
+    	
+    	<div class="row">
+    		<div class="col-md-12" style="margin-top: 20px;">
+    		  <div class="btn-toolbar pull-right">
+    		    <a href="{{=URL('trade', 'cancel_proposal', args=[current_proposal.id])}}" class="btn btn-default">Cancel</a>
+    		    <a href="{{=URL('trade', 'send_proposal', args=[current_proposal.id])}}" class="btn btn-success">Send Trade Proposal</a>
     	    </div>
     	  </div>
     	</div>
