@@ -147,14 +147,23 @@
     	  </div>
     	</div>
     	
-    	<div class="row">
-        <div class="col-md-12" style="margin-top: 20px;">
-          <div class="btn-toolbar pull-right">
-            <a href="{{=URL('trade', 'cancel_proposal', args=[current_proposal.id])}}" class="btn btn-default">Cancel</a>
-            <a href="{{=URL('trade', 'send_proposal', args=[current_proposal.id])}}" class="btn btn-success">Send Trade Proposal</a>
+      <form method="get" action="{{=URL('trade', 'send_proposal', args=[current_proposal.id])}}">
+        <div class="row">
+          <div class="col-md-12" style="margin-top: 20px; padding: 0;">
+            <label>Message:</label>
+            <textarea name="message" class="form-control" rows="3" style="min-width: 100%; max-width: 100%;"></textarea>
           </div>
         </div>
-    	</div>
+
+        <div class="row">
+          <div class="col-md-12" style="margin-top: 20px;">
+            <div class="btn-toolbar pull-right">
+              <a href="{{=URL('trade', 'cancel_proposal', args=[current_proposal.id])}}" class="btn btn-default">Cancel</a>
+              <button class="btn btn-success">Send Trade Proposal</a>
+            </div>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
 </div>
