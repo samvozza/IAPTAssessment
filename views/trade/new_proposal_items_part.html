@@ -1,0 +1,25 @@
+<div class="row">
+  <div class="panel panel-default col-md-12" style="min-height: 250px;">
+    <div class="panel-body">
+      {{for item in proposal_items:}}
+      <a href="{{=URL('trade', 'new_proposal', vars={'with': receiver.id, 'user': selected_user.id, 'remove': item.id, 'collection': selected_collection.id})}}">
+        <div class="panel panel-default col-md-4">
+          <img src="{{=URL('static', 'images', args=['thumbnail.jpg'])}}" style="max-width:100%;"/>
+            <div class="panel-body">
+              <h4>{{=item.name}}</h4>
+              <div class="btn-toolbar">
+                <a href="{{=URL('trade', 'new_proposal', vars={'with': receiver.id, 'user': selected_user.id, 'remove': item.id, 'collection': selected_collection.id})}}">&lt;</a>
+                {{item_quantity = proposal_items[item]}}
+                {{=item_quantity[0]}}/{{=item_quantity[1]}}
+                {{if item_quantity[0] < item_quantity[1]:}}
+                <a href="{{=URL('trade', 'new_proposal', vars={'with': receiver.id, 'user': selected_user.id, 'add': item.id, 'collection': selected_collection.id})}}">&gt;</a>
+                {{pass}}
+              </div>
+              <hr/>
+           </div>
+         </div>
+       </a>
+      {{pass}}
+    </div>
+  </div>
+</div>
