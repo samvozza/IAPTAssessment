@@ -15,7 +15,7 @@
 </div>
 <div class="container">
   <div class="row">
-    <div class="col-xs-12 col-sm-4">
+    <div class="col-xs-12 col-sm-4" style="min-height: 135px;">
       <div class="panel panel-default">
         <div class="panel-heading">
           In Preparation
@@ -24,7 +24,7 @@
           {{if len(response.prepare) > 0:}}
             {{for i in response.prepare:}}
               <a href="{{=URL('trade', 'view', args=[i.id])}}" class="list-group-item">
-                with{{=i.title}}
+                {{=i.title}}
               </a>
             {{pass}}
           {{else:}}
@@ -33,7 +33,7 @@
         </div>
       </div>
     </div>
-    <div class="col-xs-12 col-sm-4">
+    <div class="col-xs-12 col-sm-4" style="min-height: 135px;">
       <div class="panel panel-default">
         <div class="panel-heading">
           Active
@@ -42,7 +42,7 @@
           {{if len(response.prepare) > 0:}}
             {{for i in response.active:}}
             <a href="{{=URL('trade', 'view', args=[i.id])}}" class="list-group-item">
-              with{{=i.title}}
+              {{=i.title}}
             </a>
             {{pass}}
           {{else:}}
@@ -51,7 +51,7 @@
         </div>
       </div>
     </div>
-    <div class="col-xs-12 col-sm-4">
+    <div class="col-xs-12 col-sm-4" style="min-height: 135px;">
       <div class="panel panel-default">
         <div class="panel-heading">
           Sent
@@ -60,7 +60,7 @@
           {{if len(response.sent) > 0:}}
             {{for i in response.sent:}}
             <a href="{{=URL('trade', 'view', args=[i.id])}}" class="list-group-item">
-              with{{=i.title}}
+              {{=i.title}}
             </a>
             {{pass}}
           {{else:}}
@@ -69,7 +69,7 @@
         </div>
       </div>
     </div>
-    <div class="col-xs-12 col-sm-4">
+    <div class="col-xs-12 col-sm-4" style="min-height: 135px;">
       <div class="panel panel-success">
         <div class="panel-heading">
           Accepted
@@ -78,7 +78,7 @@
           {{if len(response.accepted) > 0:}}
             {{for i in response.accepted:}}
             <a href="{{=URL('trade', 'view', args=[i.id])}}" class="list-group-item">
-              with{{=i.title}}
+              {{=i.title}}
             </a>
             {{pass}}
           {{else:}}
@@ -87,7 +87,7 @@
         </div>
       </div>
     </div>
-    <div class="col-xs-12 col-sm-4">
+    <div class="col-xs-12 col-sm-4" style="min-height: 135px;">
       <div class="panel panel-danger">
         <div class="panel-heading">
           Rejected
@@ -96,7 +96,7 @@
           {{if len(response.rejected) > 0:}}
             {{for i in response.rejected:}}
             <a href="{{=URL('trade', 'view', args=[i.id])}}" class="list-group-item">
-              with{{=i.title}}
+              {{=i.title}}
             </a>
             {{pass}}
           {{else:}}
@@ -105,7 +105,7 @@
         </div>
       </div>
     </div>
-    <div class="col-xs-12 col-sm-4">
+    <div class="col-xs-12 col-sm-4" style="min-height: 135px;">
       <div class="panel panel-warning">
         <div class="panel-heading">
           Cancelled
@@ -114,7 +114,7 @@
           {{if len(response.cancelled) > 0:}}
             {{for i in response.cancelled:}}
             <a href="{{=URL('trade', 'view', args=[i.id])}}" class="list-group-item">
-              with{{=i.title}}
+              {{=i.title}}
             </a>
             {{pass}}
           {{else:}}
