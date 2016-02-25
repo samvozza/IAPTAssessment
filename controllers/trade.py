@@ -38,7 +38,7 @@ def new_proposal():
     
     selected_users_settings = db(db.user_settings.user == selected_user.id).select().first()
     
-    if auth.user.id or selected_users_settings.trade_non_tradable_items:
+    if selected_user.id == auth.user.id or selected_users_settings.trade_non_tradable_items:
         all_collection_items = db((db.object.collection == selected_collection.id)
                                   & (db.object.quantity > 0)).select()
         selected_items = db((db.object.collection == selected_collection.id)
@@ -54,17 +54,43 @@ def new_proposal():
     current_proposal = get_active_proposal(receiver)
     
     if request.vars['add']:
-        db.trade_contains_object.insert(trade=current_proposal.id,
-                                        object=request.vars['add'],
-                                        quantity=1)
+        quantity = (request.vars['quantity'] if request.vars['quantity'] else 1)
+        link = db((db.trade_contains_object.trade == current_proposal.id)
+                  & (db.trade_contains_object.object == request.vars['add']))
+        link_results = link.select()
+
+        if len(link_results) > 0:
+            new_quantity = link_results.first().quantity + quantity
+            link.update(quantity=new_quantity)
+        else:
+            db.trade_contains_object.insert(trade=current_proposal.id,
+                                            object=request.vars['add'],
+                                            quantity=quantity)
     
     if request.vars['remove']:
-        db((db.trade_contains_object.trade == current_proposal.id)
-           & (db.trade_contains_object.object == request.vars['remove'])).delete()
-    
-    all_propoal_items = get_items_in_proposal(current_proposal)
-    proposal_items_from_sender = all_propoal_items.find(lambda item: item.owner == auth.user.id)
-    proposal_items_from_receiver = all_propoal_items.find(lambda item: item.owner == receiver.id)
+        quantity = (request.vars['quantity'] if request.vars['quantity'] else 1)
+        link = db((db.trade_contains_object.trade == current_proposal.id)
+                  & (db.trade_contains_object.object == request.vars['remove']))
+        new_quantity = link.select().first().quantity - quantity
+
+        assert new_quantity >= 0
+
+        if new_quantity > 0:
+            link.update(quantity=new_quantity)
+        else:
+            db((db.trade_contains_object.trade == current_proposal.id)
+               & (db.trade_contains_object.object == request.vars['remove'])).delete()
+
+    all_proposal_items = get_items_in_proposal(current_proposal)
+
+    proposal_items_from_sender = {}
+    proposal_items_from_receiver = {}
+    for item in all_proposal_items:
+        quantity = all_proposal_items[item]
+        if item.owner == auth.user.id:
+            proposal_items_from_sender[item] = quantity
+        else:
+            proposal_items_from_receiver[item] = quantity
     
     return dict(search=search,
                 receiver=receiver,
@@ -74,7 +100,7 @@ def new_proposal():
                 all_collection_items=all_collection_items,
                 selected_items=selected_items,
                 current_proposal=current_proposal,
-                all_propoal_items=all_propoal_items,
+                all_proposal_items=all_proposal_items,
                 proposal_items_from_sender=proposal_items_from_sender,
                 proposal_items_from_receiver=proposal_items_from_receiver)
 
@@ -135,10 +161,18 @@ def remove_active_proposal(proposal_id):
         session.proposals = [proposal for proposal in session.proposals if str(proposal.id) != proposal_id]
 
 
-def get_items_in_proposal(proposal):
-    trade_object_links = db(db.trade_contains_object.trade == proposal.id).select()
+def get_items_in_proposal(proposal, selected_user=None, selected_users_settings=None):
+    trade_item_links = db(db.trade_contains_object.trade == proposal.id).select()
+
+    items = {}
+    for link in trade_item_links:
+        item = db(db.object.id == link.object).select().first()
+
+        if selected_user and (selected_user.id == auth.user.id or selected_users_settings.trade_non_tradable_items):
+            quantity_limit = db(db.object.id == item.id).select().first().quantity
+        else:
+            quantity_limit = db(db.object.id == item.id).select().first().tradable_quantity
+
+        items[item] = (link.quantity, quantity_limit)
     
-    object_ids = []
-    [object_ids.append(link.object) for link in trade_object_links]
-    
-    return db(db.object.id.belongs(object_ids)).select()
+    return items
