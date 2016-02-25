@@ -17,13 +17,13 @@ def index():
 def new_proposal():
     if request.vars['with'] == None:
         raise Exception('No user has been specified to trade with (use the \'with\' parameter).')
+    receiver_id = request.vars['with']
     
     # Get request parameters
-    # Selected user defaults to the user being traded with
     # Search defaults to '' (i.e. all items)
-    receiver_id = request.vars['with']
-    selected_user_id = (request.vars['user'] if request.vars['user'] else receiver_id)
+    # Selected user defaults to the user being traded with
     search = request.vars['search'] or ''
+    selected_user_id = (request.vars['user'] if request.vars['user'] else receiver_id)
     
     receiver = db(db.auth_user.id == receiver_id).select().first()
     selected_user = db(db.auth_user.id == selected_user_id).select().first()
@@ -98,6 +98,18 @@ def new_proposal():
                 proposal_items_from_receiver=proposal_items_from_receiver)
 
 
+def set_proposal_message():
+    if request.vars['proposal'] == None:
+        raise Exception('No proposal has been specified (use the \'proposal\' parameter).')
+    elif request.vars['message'] == None:
+        raise Exception('No message has been specified (use the \'message\' parameter).')
+
+    proposal_id = request.vars['proposal']
+    message = request.vars['message']
+
+    db(db.trade.id == proposal_id).update(message=message)
+
+
 def send_proposal():
     message = request.vars['message'] if request.vars['message'] else ''
     db(db.trade.id == request.args(0)).update(status=STATUS_OFFERED, message=message)
@@ -137,17 +149,16 @@ def get_active_proposal(receiver):
     if not session.proposals:
         session.proposals = []
     
-    for proposal in session.proposals:
-        if proposal.receiver == receiver.id:
-            return proposal
+    # If a proposal already exists then return it
+    for proposal_pair in session.proposals:
+        if proposal_pair[0] == receiver.id:
+            return db(db.trade.id == proposal_pair[1]).select().first()
     
-    new_proposal_id = db.trade.insert(receiver=receiver.id,
-                                      title='Trade with ' + receiver.username)
-    new_proposal = db(db.trade.id == new_proposal_id).select().first()
+    # Otherwise create a new proposal
+    proposal_id = db.trade.insert(receiver=receiver.id, title='Trade with ' + receiver.username)
+    session.proposals.append((receiver.id, proposal_id))
     
-    session.proposals.append(new_proposal)
-    
-    return new_proposal
+    return db(db.trade.id == proposal_id).select().first()
 
 
 def remove_active_proposal(proposal_id):
@@ -155,7 +166,10 @@ def remove_active_proposal(proposal_id):
     Removes a proposal from the session.
     """
     if session.proposals:
-        session.proposals = [proposal for proposal in session.proposals if str(proposal.id) != proposal_id]
+        session_proposals = []
+        for proposal_pair in session.proposals:
+            if str(proposal_pair[1]) != proposal_id:
+                session_proposals.append(proposal_pair)
 
 
 def get_available_quantity(item):
