@@ -41,17 +41,17 @@
             <div class="btn-group" role="group" aria-label="Options">
               <a href="{{=URL('object', 'create', vars=dict(collection=response.collection.id))}}" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-plus"></span> New Object</a>
               <div class="btn-group btn-group-sm" role="group">
+                {{if response.collection.name != 'Default': }}
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <span class="glyphicon glyphicon-cog"></span> Settings
                   <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu">
-                  <li><a href="{{=URL('collection', 'edit', args=[response.collection.id])}}">Edit</a></li>
-                  <li role="seperator" class="divider"></li>
-                  {{if response.collection.name != 'Default':}}
-                  <li><a href="{{=URL('collection','delete', args=[response.collection.id])}}">Delete</a></li>
-                  {{pass}}
+                    <li><a href="{{=URL('collection', 'edit', args=[response.collection.id])}}">Edit</a></li>
+                    <li role="seperator" class="divider"></li>
+                    <li><a href="{{=URL('collection','delete', args=[response.collection.id])}}">Delete</a></li>
                 </ul>
+                {{pass}}
               </div>
             </div>
           </li>

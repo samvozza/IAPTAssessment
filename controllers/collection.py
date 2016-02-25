@@ -67,12 +67,19 @@ def create():
     return  dict(form=form)
 
 @auth.requires_login()
+
 def edit():
+    collection = db(db.collection.id == request.args[0]).select().first()
+    default_collection = db((db.collection.name == 'Default') & (db.collection.owner == auth.user)).select().first()
+
     if(not auth.is_logged_in()):
         redirect(URL('default', 'index'))
         return
 
-    collection = db(db.collection.id == request.args[0]).select().first()
+    if(collection.id == default_collection.id):
+        redirect(URL('collection', 'my'))
+        return
+
     form=FORM(
               DIV(DIV(LABEL('Name'),_class='col-sm-12 col-md-12 col-lg-12'),
                   DIV(INPUT(_id='name-field', _class='form-control', _name='name', _value= collection.name,
