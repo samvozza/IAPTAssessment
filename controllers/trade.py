@@ -31,6 +31,8 @@ def new_proposal():
     selected_users_collections = db((db.collection.owner == selected_user.id)
                                     & (db.collection.public == True)).select()
     
+    # Get the currently displayed collection
+    # This defaults to the selected user's first collection
     if request.vars['collection']:
         selected_collection = db(db.collection.id == request.vars['collection']).select().first()
     else:
@@ -38,6 +40,9 @@ def new_proposal():
     
     selected_users_settings = db(db.user_settings.user == selected_user.id).select().first()
     
+    # If the selected user is the current user, or if the selected user allows
+    # trading non-tradable items, then get any items that the user has
+    # Otherwise, only get items marked as tradable
     if selected_user.id == auth.user.id or selected_users_settings.trade_non_tradable_items:
         all_collection_items = db((db.object.collection == selected_collection.id)
                                   & (db.object.quantity > 0)).select()
@@ -51,38 +56,26 @@ def new_proposal():
                             & (db.object.tradable_quantity > 0)
                             & (db.object.name.like('%' + search + '%'))).select()
     
+    # Get the active proposal with the recipient
+    # If a proposal doesn't exist then create one
     current_proposal = get_active_proposal(receiver)
     
+    # Handle adding an item to the trade
     if request.vars['add']:
-        quantity = (request.vars['quantity'] if request.vars['quantity'] else 1)
-        link = db((db.trade_contains_object.trade == current_proposal.id)
-                  & (db.trade_contains_object.object == request.vars['add']))
-        link_results = link.select()
+        quantity = request.vars['quantity'] or 1
+        item = db(db.object.id == request.vars['add']).select().first()
+        add_item_to_proposal(current_proposal, item, quantity)
+    # Handle removing an item from the trade
+    elif request.vars['remove']:
+        quantity = request.vars['quantity'] or 1
+        remove_entirely = request.vars['quantity'] == None
+        item = db(db.object.id == request.vars['remove']).select().first()
+        remove_item_from_proposal(current_proposal, item, quantity, remove_entirely)
 
-        if len(link_results) > 0:
-            new_quantity = link_results.first().quantity + quantity
-            link.update(quantity=new_quantity)
-        else:
-            db.trade_contains_object.insert(trade=current_proposal.id,
-                                            object=request.vars['add'],
-                                            quantity=quantity)
-    
-    if request.vars['remove']:
-        quantity = (request.vars['quantity'] if request.vars['quantity'] else 1)
-        link = db((db.trade_contains_object.trade == current_proposal.id)
-                  & (db.trade_contains_object.object == request.vars['remove']))
-        new_quantity = link.select().first().quantity - quantity
-
-        assert new_quantity >= 0
-
-        if new_quantity > 0:
-            link.update(quantity=new_quantity)
-        else:
-            db((db.trade_contains_object.trade == current_proposal.id)
-               & (db.trade_contains_object.object == request.vars['remove'])).delete()
-
+    # Get all the items in the current proposal
     all_proposal_items = get_items_in_proposal(current_proposal)
 
+    # Split the full dict of items into the sender's and receiver's items
     proposal_items_from_sender = {}
     proposal_items_from_receiver = {}
     for item in all_proposal_items:
@@ -137,7 +130,7 @@ def cancel_proposal():
 def get_active_proposal(receiver):
     """
     Gets the active proposal with the receiver.
-    
+
     If there isn't an active trade with the receiver a new proposal
     is created.
     """
@@ -158,22 +151,95 @@ def get_active_proposal(receiver):
 
 
 def remove_active_proposal(proposal_id):
+    """
+    Removes a proposal from the session.
+    """
     if session.proposals:
         session.proposals = [proposal for proposal in session.proposals if str(proposal.id) != proposal_id]
 
 
-def get_items_in_proposal(proposal, selected_user=None, selected_users_settings=None):
+def get_available_quantity(item):
+    """
+    Gets the available quantity of an item.
+
+    If the current user owns the item, or if the item's owner allows trading
+    non-tradable items, this returns the item's quantity.
+    Otherwise this returns the item's *tradable* quantity.
+    """
+    if auth.user and item.owner == auth.user.id:
+            return db(db.object.id == item.id).select().first().quantity
+    else:
+        owners_settings = db(db.user_settings.user == item.owner).select().first()
+        if owners_settings.trade_non_tradable_items:
+            return db(db.object.id == item.id).select().first().quantity
+
+    return db(db.object.id == item.id).select().first().tradable_quantity
+
+
+def get_items_in_proposal(proposal):
+    """
+    Gets the items in the specified proposal.
+
+    This returns a dict with the structure:
+    {
+    <item>: (<quantity_in_trade>, <total_quantity>)
+    ...
+    }
+    """
     trade_item_links = db(db.trade_contains_object.trade == proposal.id).select()
 
     items = {}
     for link in trade_item_links:
         item = db(db.object.id == link.object).select().first()
-
-        if selected_user and (selected_user.id == auth.user.id or selected_users_settings.trade_non_tradable_items):
-            quantity_limit = db(db.object.id == item.id).select().first().quantity
-        else:
-            quantity_limit = db(db.object.id == item.id).select().first().tradable_quantity
-
+        quantity_limit = get_available_quantity(item)
         items[item] = (link.quantity, quantity_limit)
-    
+
     return items
+
+
+def add_item_to_proposal(proposal, item, quantity=1):
+    """
+    Adds the specified item to the specified proposal.
+
+    Checks that the quantity in the trade doesn't exceed the available
+    quantity.
+    """
+    trade_item_link_query = db((db.trade_contains_object.trade == proposal.id)
+                               & (db.trade_contains_object.object == item.id))
+    trade_item_link = trade_item_link_query.select().first()
+    new_quantity = trade_item_link.quantity + quantity if trade_item_link else quantity
+
+    quantity_limit = get_available_quantity(item)
+
+    assert new_quantity <= quantity_limit
+
+    if trade_item_link:
+        trade_item_link_query.update(quantity=new_quantity)
+    else:
+        db.trade_contains_object.insert(trade=proposal.id, object=item.id, quantity=quantity)
+
+
+def remove_item_from_proposal(proposal, item, quantity=1, remove_entirely=False):
+    """
+    Removes a quantity of the specified item from the specified proposal.
+
+    Checks that the quantity in the trade doesn't drop below zero.
+
+    Raises an exception if the specified item isn't already in the
+    specified proposal.
+    """
+    trade_item_link_query = db((db.trade_contains_object.trade == proposal.id)
+                               & (db.trade_contains_object.object == item.id))
+    trade_item_link = trade_item_link_query.select().first()
+
+    # If the item isn't in the trade, raise an exception
+    assert trade_item_link is not None
+
+    new_quantity = trade_item_link.quantity - quantity if trade_item_link else quantity
+
+    assert new_quantity >= 0
+
+    if new_quantity == 0 or remove_entirely:
+        trade_item_link_query.delete()
+    else:
+        trade_item_link_query.update(quantity=new_quantity)
