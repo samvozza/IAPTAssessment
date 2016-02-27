@@ -23,6 +23,19 @@ def view():
     response.receiver_items = db(db.object.id.belongs(group_trade_items) & (db.object.owner == response.receiver)).select()
     return dict()
 
+
+def accept():
+    db(db.trade.id == request.args(0)).update(status == STATUS_ACCEPTED)
+    redirect(URL('trade', 'view', args=[request.args(0)]))
+
+def reject():
+    db(db.trade.id == request.args(0)).update(status == STATUS_REJECTED)
+    redirect(URL('trade', 'view', args=[request.args(0)]))
+
+def cancel():
+    db(db.trade.id == request.args(0)).update(status == STATUS_CANCELLED)
+    redirect(URL('trade', 'view', args=[request.args(0)]))
+
 def new():
     response.users = db().select(db.auth_user.ALL)
     return dict()
