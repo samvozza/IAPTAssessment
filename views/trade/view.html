@@ -2,85 +2,81 @@
 
 <div class="page-title">
   <div class="container">
-    <h1>Trade Summary</h1>
-    <div class="breadcrums">
-      <ul>
-        <li>You are here:</li>
-        <li><a href="{{=URL('default')}}">Home</a></li>
-      </ul>
+    <div class="row">
+      <h1>Trade Deal Details</h1>
+      <div class="breadcrums">
+        <ul>
+          <li>You are here:</li>
+          <li><a href="{{=URL('default')}}">Home</a></li>
+          <li><a href="{{=URL('trade', 'index')}}">My Trades</a></li>
+          <li>with user {{=response.sender.username}}</li>
+        </ul>
+      </div>
     </div>
   </div>
-  <div class="clearfix"></div>
 </div>
 
 <div class = "container">
-  <div class = "row">
-    <div class = "summary_box col-md-6 col-md-offset-3">
-      <div class = "summary_title">
-        <h2>SUMMARY</h2>
+  <div class="row">
+    {{if response.trade.status == STATUS_PREPARE:}}
+    <div class="alert alert-info">This deal is in preparation. </div>
+    <div class="row text-center">
+      <a href="{{=URL()}}" class="btn btn-success">Edit Deal</a>
+    </div>
+    {{elif response.trade.status == STATUS_ACTIVE:}}
+    <div class="alert alert-info">This deal is still active.<br/><strong>Accept</strong> - if you like this deal<br/><strong>Reject</strong> - if don't want to carry on with negeotiations<br/><strong>Counter</strong> - if you want you want to make a counter offer</div>
+    <div class="row">
+      <div class = "col-md-2 col-md-offset-1">
+        <button type="button" class = "btn btn-success">Accept</button>
+      </div>
+      <div class = "col-md-2 col-md-offset-2">
+        <button type="button" class = "btn btn-warning">Counter</button>
+      </div>
+      <div class = "col-md-2 col-md-offset-2">
+        <button type="button" class = "btn btn-danger">Reject</button>
       </div>
 
-      <div class = "sender_part col-md-6">
-        <div class = "user_name">
-          {{for result in trade_record:}}
-          <h4>{{=result.sender}}'s items</h4>
-          {{pass}}
-        </div>
-
-        <div class = "user_items">
-          {{for result in sender_items:}}
-          <div class = "item_image col-md-4">
-            {{=TAG.img(_width=60, _height = 80, _src=URL(r=request, c='default', f='download', args=[result.image]))}}
-          </div>
-          {{pass}}
-        </div>
+    </div>
+    {{pass}}
+  </div>
+  <div class="row">
+    <hr/>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 col-sm-6">
+      <div class="user_name">
+        <h4>{{=response.sender.username}}'s items</h4>
       </div>
 
-      <div class = "receiver_part col-md-6">
-        <div class = "user_name">
-          {{for result in trade_record:}}
-          <h4>{{=result.receiver}}'s items</h4>
-          {{pass}}
+      <div class = "user_items">
+        {{for result in response.sender_items:}}
+        <div class = "item_image col-md-4">
+          {{=TAG.img(_width=60, _height = 80, _src=URL(r=request, c='default', f='download', args=[result.image]))}}
         </div>
-        <div class = "user_items">
-          {{for result in receiver_items:}}
-          <div class = "item_image col-md-4">
-            {{=TAG.img(_width=60, _height = 80, _src=URL(r=request, c='default', f='download', args=[result.image]))}}
-          </div>
-          {{pass}}
-        </div>
+        {{pass}}
       </div>
-
-      <div class = "col-md-12">
-        <div class = "message_box">
-          <h4 class = "message_title">Messages:</h4>
-          {{for result in trade_record:}}
-          <div class = "trade_message">
-            {{=result.message}}
-            {{pass}}
-          </div>
-        </div>
+    </div>
+    <div class="col-xs-12 col-sm-6">
+      <div class = "user_name">
+        <h4>{{=response.receiver.username}}'s items</h4>
       </div>
-
-      <div class = "trade_button col-md-12">
-        <div class = "col-md-2 col-md-offset-1">
-          <div class = "trade_but">
-            <button type="button" class = "btn btn-success">Accept</button>
-          </div>
+      <div class = "user_items">
+        {{for result in response.receiver_items:}}
+        <div class = "item_image col-md-4">
+          {{=TAG.img(_width=60, _height = 80, _src=URL(r=request, c='default', f='download', args=[result.image]))}}
         </div>
-
-        <div class = "col-md-2 col-md-offset-2">
-          <div class = "trade_but">
-            <button type="button" class = "btn btn-warning">Reject</button>
-          </div>
-        </div>
-
-        <div class = "col-md-2 col-md-offset-2">
-          <div class = "trade_but">
-            <button type="button" class = "btn btn-danger">Counter</button>
-          </div>
-        </div>
+        {{pass}}
       </div>
     </div>
   </div>
+  <div class="col-xs-12">
+    <div class="message_box">
+      <h4 class="message_title">Messages:</h4>
+      <div class="trade_message">
+        {{=response.trade.message}}
+      </div>
+    </div>
+  </div>
+
+</div>
 </div>

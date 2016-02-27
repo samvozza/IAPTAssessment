@@ -13,17 +13,15 @@ def index():
     return dict()
 
 def view():
-    #get the corresponding trade.id
-	trade_id = db.trade(request.args(0))
-	trade_record = db(db.trade.id == trade_id).select()
-	sender_id = db(db.trade.id == trade_id)._select(db.trade.sender)
-	receiver_id = db(db.trade.id == trade_id)._select(db.trade.receiver)
-	trade_items = db(db.trade_contains_object.trade == trade_id).select()
-	group_trade_items = []
-	[group_trade_items.append(each.object) for each in trade_items]
-	sender_items = db(db.object.id.belongs(group_trade_items) & db.object.owner.belongs(sender_id)).select()
-	receiver_items = db(db.object.id.belongs(group_trade_items) & db.object.owner.belongs(receiver_id)).select()
-	return dict(trade_record = trade_record, sender_items = sender_items, receiver_items = receiver_items)
+    response.trade = db(db.trade.id == request.args(0)).select().first()
+    response.receiver = db(db.auth_user.id == response.trade.receiver).select().first()
+    response.sender = db(db.auth_user.id == response.trade.sender).select().first()
+    trade_items = db(db.trade_contains_object.trade == response.trade.id).select()
+    group_trade_items = []
+    [group_trade_items.append(each) for each in trade_items]
+    response.sender_items = db(db.object.id.belongs(group_trade_items) & (db.object.owner == response.sender.id)).select()
+    response.receiver_items = db(db.object.id.belongs(group_trade_items) & (db.object.owner == response.receiver)).select()
+    return dict()
 
 def new():
     response.users = db().select(db.auth_user.ALL)
