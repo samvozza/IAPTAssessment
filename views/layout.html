@@ -76,6 +76,11 @@
   <script src="{{=URL('static','js/web2py.js')}}"></script>
   <script src="{{=URL('static','js/web2py-bootstrap3.js')}}"></script>
   <script src="{{=URL('static','js/modernizr-2.8.3.min.js')}}"></script>
+  <script>
+  $('*[data-toggle="tooltip"]').each(function() {
+      $(this).tooltip()
+  });
+  </script>
   {{block page_js}}{{end page_js}}
 </body>
 </html>

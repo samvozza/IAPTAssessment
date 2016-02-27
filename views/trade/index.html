@@ -2,7 +2,7 @@
 
 <div class="page-title">
   <div class="container">
-  <h1>My Trades</h1>
+  <h1>My Trades - Dashboard</h1>
   <div class="breadcrums">
     <ul>
       <li>You are here:</li>
@@ -15,12 +15,18 @@
 </div>
 <div class="container">
   <div class="row">
+    <div class="col-xs-12">
+      <div class="pull-right">
+        <a href="{{=URL('trade', 'new')}}" class="btn btn-success">New Trade Deal</a>
+      </div>
+    </div>
+  </div>
+  <div class="row">
     <div class="col-xs-12 col-sm-4" style="min-height: 135px;">
       <div class="panel panel-default">
         <div class="panel-heading">
-          In Preparation
-        </div>
-        <div class="list-group">
+          In Preparation <a href="#" id="prep-help" data-toggle="tooltip" class="pull-right" title="Only you can see and edit these."><span aria-label="Get help here" class="glyphicon glyphicon-question-sign"></span></a></div>
+        <div class="list-group trade-list-group">
           {{if len(response.prepare) > 0:}}
             {{for i in response.prepare:}}
               <a href="{{=URL('trade', 'view', args=[i.id])}}" class="list-group-item">
@@ -36,27 +42,9 @@
     <div class="col-xs-12 col-sm-4" style="min-height: 135px;">
       <div class="panel panel-default">
         <div class="panel-heading">
-          Active
+          Offered<a href="#" id="offered-help" data-toggle="tooltip" class="pull-right" title="Deals you offered to other users. You cannot edit them but they can be cancelled."><span aria-label="Get help here" class="glyphicon glyphicon-question-sign"></span></a>
         </div>
-        <div class="list-group">
-          {{if len(response.prepare) > 0:}}
-            {{for i in response.active:}}
-            <a href="{{=URL('trade', 'view', args=[i.id])}}" class="list-group-item">
-              {{=i.title}}
-            </a>
-            {{pass}}
-          {{else:}}
-          <div class="alert alert-info">No active trades.</div>
-          {{pass}}
-        </div>
-      </div>
-    </div>
-    <div class="col-xs-12 col-sm-4" style="min-height: 135px;">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          Sent
-        </div>
-        <div class="list-group">
+        <div class="list-group trade-list-group">
           {{if len(response.sent) > 0:}}
             {{for i in response.sent:}}
             <a href="{{=URL('trade', 'view', args=[i.id])}}" class="list-group-item">
@@ -70,11 +58,30 @@
       </div>
     </div>
     <div class="col-xs-12 col-sm-4" style="min-height: 135px;">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          Active<a href="#" id="active-help" data-toggle="tooltip" class="pull-right" title="Deals you can respond to."><span aria-label="Get help here" class="glyphicon glyphicon-question-sign"></span></a>
+        </div>
+        <div class="list-group trade-list-group">
+          {{if len(response.prepare) > 0:}}
+            {{for i in response.active:}}
+            <a href="{{=URL('trade', 'view', args=[i.id])}}" class="list-group-item">
+              {{=i.title}}
+            </a>
+            {{pass}}
+          {{else:}}
+          <div class="alert alert-info">No active trades.</div>
+          {{pass}}
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xs-12 col-sm-4" style="min-height: 135px;">
       <div class="panel panel-success">
         <div class="panel-heading">
           Accepted
         </div>
-        <div class="list-group">
+        <div class="list-group trade-list-group">
           {{if len(response.accepted) > 0:}}
             {{for i in response.accepted:}}
             <a href="{{=URL('trade', 'view', args=[i.id])}}" class="list-group-item">
@@ -92,7 +99,7 @@
         <div class="panel-heading">
           Rejected
         </div>
-        <div class="list-group">
+        <div class="list-group trade-list-group">
           {{if len(response.rejected) > 0:}}
             {{for i in response.rejected:}}
             <a href="{{=URL('trade', 'view', args=[i.id])}}" class="list-group-item">
@@ -110,7 +117,7 @@
         <div class="panel-heading">
           Cancelled
         </div>
-        <div class="list-group">
+        <div class="list-group trade-list-group">
           {{if len(response.cancelled) > 0:}}
             {{for i in response.cancelled:}}
             <a href="{{=URL('trade', 'view', args=[i.id])}}" class="list-group-item">
