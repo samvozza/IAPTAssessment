@@ -51,7 +51,7 @@
           <div class="main-menu">
             <form class="main-menu-search-from" method="get" action="{{=URL('default', 'search')}}" role="search">
               <div class="input-group">
-                <input type="text" class="form-control" name="q" placeholder="Search for objects..." value="{{=request.vars.q}}">
+                <input type="text" class="form-control" name="q" placeholder="Search for objects..." value="{{if request.vars.q:}}{{=request.vars.q}}{{pass}}">
                 <span class="input-group-btn">
                   <button class="btn btn-default" type="submit">Go!</button>
                 </span>
