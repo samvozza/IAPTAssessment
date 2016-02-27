@@ -1,0 +1,40 @@
+
+{{extend 'layout.html'}}
+<div class="page-title">
+  <div class="container">
+  <h1>My Trades</h1>
+  <div class="breadcrums">
+    <ul>
+      <li>You are here:</li>
+      <li><a href="{{=URL('default')}}">Home</a></li>
+      <li><a href="{{=URL('trade')}}">My Trades</a></li>
+      <li>New Trade</li>
+    </ul>
+  </div>
+  </div>
+  <div class="clearfix"></div>
+</div>
+<div class="container">
+  <div class="col-md-offset-3 col-md-6 col-xs-12 col-sm-2 col-sm-8">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Start a new trade:
+      </div>
+      <div class="panel-body">
+        <p>Trading allows you to exchange objects with users of the system. Start typing the username of the user you would like to trade with and click "Continue".</p>
+        <form action="{{=URL('trade', 'new_proposal')}}" method="get" class="form-inline">
+          <div class="form-group">
+            <label for="receiver">User</label>
+            <input type="text" name="receiver" id="receiver" list="users" class="form-control"/>
+          </div>
+          <button type="submit" class="btn btn-success"/>Continue</button>
+        </form>
+        <datalist id="users">
+          {{for user in response.users:}}
+          <option value="{{=user.username}}"/>
+          {{pass}}
+        </datalist>
+      </div>
+    </div>
+  </div>
+</div>

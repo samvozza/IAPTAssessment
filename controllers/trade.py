@@ -13,33 +13,41 @@ def index():
     return dict()
 
 
+def new():
+    response.users = db().select(db.auth_user.ALL)
+    return dict()
+
 @auth.requires_login()
 def new_proposal():
-    if request.vars['with'] == None:
+    if request.vars['with'] == None and request.vars['receiver'] == None:
         raise Exception('No user has been specified to trade with (use the \'with\' parameter).')
-    receiver_id = request.vars['with']
-    
+
+    if request.vars['receiver'] != None:
+        receiver_id = db(db.auth_user.username == request.vars['receiver']).select().first().id
+    else:
+        receiver_id = request.vars['with']
+
     # Get request parameters
     # Search defaults to '' (i.e. all items)
     # Selected user defaults to the user being traded with
     search = request.vars['search'] or ''
     selected_user_id = (request.vars['user'] if request.vars['user'] else receiver_id)
-    
+
     receiver = db(db.auth_user.id == receiver_id).select().first()
     selected_user = db(db.auth_user.id == selected_user_id).select().first()
-    
+
     selected_users_collections = db((db.collection.owner == selected_user.id)
                                     & (db.collection.public == True)).select()
-    
+
     # Get the currently displayed collection
     # This defaults to the selected user's first collection
     if request.vars['collection']:
         selected_collection = db(db.collection.id == request.vars['collection']).select().first()
     else:
         selected_collection = selected_users_collections.first()
-    
+
     selected_users_settings = db(db.user_settings.user == selected_user.id).select().first()
-    
+
     # If the selected user is the current user, or if the selected user allows
     # trading non-tradable items, then get any items that the user has
     # Otherwise, only get items marked as tradable
@@ -55,11 +63,11 @@ def new_proposal():
         selected_items = db((db.object.collection == selected_collection.id)
                             & (db.object.tradable_quantity > 0)
                             & (db.object.name.like('%' + search + '%'))).select()
-    
+
     # Get the active proposal with the recipient
     # If a proposal doesn't exist then create one
     current_proposal = get_active_proposal(receiver)
-    
+
     # Handle adding an item to the trade
     if request.vars['add']:
         quantity = request.vars['quantity'] or 1
@@ -84,7 +92,7 @@ def new_proposal():
             proposal_items_from_sender[item] = quantity
         else:
             proposal_items_from_receiver[item] = quantity
-    
+
     return dict(search=search,
                 receiver=receiver,
                 selected_user=selected_user,
@@ -148,16 +156,16 @@ def get_active_proposal(receiver):
     """
     if not session.proposals:
         session.proposals = []
-    
+
     # If a proposal already exists then return it
     for proposal_pair in session.proposals:
         if proposal_pair[0] == receiver.id:
             return db(db.trade.id == proposal_pair[1]).select().first()
-    
+
     # Otherwise create a new proposal
     proposal_id = db.trade.insert(receiver=receiver.id, title='Trade with ' + receiver.username)
     session.proposals.append((receiver.id, proposal_id))
-    
+
     return db(db.trade.id == proposal_id).select().first()
 
 
