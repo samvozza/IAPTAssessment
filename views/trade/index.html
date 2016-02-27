@@ -42,6 +42,24 @@
     <div class="col-xs-12 col-sm-4" style="min-height: 135px;">
       <div class="panel panel-default">
         <div class="panel-heading">
+          Recieved<a href="#" id="active-help" data-toggle="tooltip" class="pull-right" title="Deals you can respond to."><span aria-label="Get help here" class="glyphicon glyphicon-question-sign"></span></a>
+        </div>
+        <div class="list-group trade-list-group">
+          {{if len(response.active) > 0:}}
+            {{for i in response.active:}}
+            <a href="{{=URL('trade', 'view', args=[i.id])}}" class="list-group-item">
+              {{=i.title}}
+            </a>
+            {{pass}}
+          {{else:}}
+          <div class="alert alert-info">No recieved trades.</div>
+          {{pass}}
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-12 col-sm-4" style="min-height: 135px;">
+      <div class="panel panel-default">
+        <div class="panel-heading">
           Offered<a href="#" id="offered-help" data-toggle="tooltip" class="pull-right" title="Deals you offered to other users. You cannot edit them but they can be cancelled."><span aria-label="Get help here" class="glyphicon glyphicon-question-sign"></span></a>
         </div>
         <div class="list-group trade-list-group">
@@ -53,24 +71,6 @@
             {{pass}}
           {{else:}}
             <div class="alert alert-info">No sent trades.</div>
-          {{pass}}
-        </div>
-      </div>
-    </div>
-    <div class="col-xs-12 col-sm-4" style="min-height: 135px;">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          Active<a href="#" id="active-help" data-toggle="tooltip" class="pull-right" title="Deals you can respond to."><span aria-label="Get help here" class="glyphicon glyphicon-question-sign"></span></a>
-        </div>
-        <div class="list-group trade-list-group">
-          {{if len(response.prepare) > 0:}}
-            {{for i in response.active:}}
-            <a href="{{=URL('trade', 'view', args=[i.id])}}" class="list-group-item">
-              {{=i.title}}
-            </a>
-            {{pass}}
-          {{else:}}
-          <div class="alert alert-info">No active trades.</div>
           {{pass}}
         </div>
       </div>
