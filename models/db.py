@@ -1,3 +1,4 @@
+from datetime import datetime
 ## app configuration made easy. Look inside private/appconfig.ini
 from gluon.contrib.appconfig import AppConfig
 ## once in production, remove reload=True to gain full speed
@@ -153,8 +154,15 @@ db.define_table('object',
 				"You can upload your image anytime you want."))
 )
 
+#Trade table defaults/enums
+DEFAULT_TRADE_TITLE = "New trade proposal"
 
-from datetime import datetime
+STATUS_PREPARE = 0 #IN PREPARATION
+STATUS_ACTIVE = 1 #SENDER ABLE TO EDIT
+STATUS_OFFERED = 2 #RECEIVER ABLE TO EDIT
+STATUS_ACCEPTED = 3
+STATUS_REJECTED = 4
+STATUS_CANCELLED = 5
 
 #Trade table
 #+sender refers to User; who initially proposed the trade
@@ -171,24 +179,15 @@ db.define_table('trade',
                       notnull=True, ondelete="CASCADE"),
                 Field('title', type="string", length=64, required=True,
                       notnull=True),
-                Field('status', type="integer", default=0, #STATUS_PREPARE
+                Field('status', type="integer", default=STATUS_PREPARE,
                       notnull=True),
-                Field('message', type="string", length=512, default="",
+                Field('message', type="string", length=512, default=DEFAULT_TRADE_TITLE,
                       notnull=True),
                 Field('time_created', type='datetime', default=datetime.now,
                       notnull=True, writable=False),
                 Field('time_modified', type='datetime', default=datetime.now, update=datetime.now,
                       notnull=True, writable=False),
 )
-#IN PREPARATION
-STATUS_PREPARE = 0
-#SENDER ABLE TO EDIT
-STATUS_ACTIVE = 1
-#RECEIVER ABLE TO EDIT
-STATUS_OFFERED = 2
-STATUS_ACCEPTED = 3
-STATUS_REJECTED = 4
-STATUS_CANCELLED = 5
 
 #Trade_contains_Object table
 #+trade refers to Trade
