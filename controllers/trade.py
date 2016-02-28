@@ -5,7 +5,8 @@
 @auth.requires_login()
 def index():
     response.prepare = db((db.trade.sender == auth.user_id) & (db.trade.status == STATUS_PREPARE)).select()
-    response.sent = db((db.trade.sender == auth.user_id) & (db.trade.status == STATUS_OFFERED)).select()
+    response.sent = db(((db.trade.sender == auth.user_id) & (db.trade.status == STATUS_OFFERED))
+                       | ((db.trade.receiver == auth.user_id) & (db.trade.status == STATUS_ACTIVE))).select()
     response.active = db((db.trade.receiver == auth.user_id) & (db.trade.status == STATUS_OFFERED)).select()
     response.accepted = db((db.trade.sender == auth.user_id) & (db.trade.status == STATUS_ACCEPTED)).select()
     response.rejected = db((db.trade.sender == auth.user_id) & (db.trade.status == STATUS_REJECTED)).select()
@@ -156,7 +157,15 @@ def set_proposal_message():
 
 
 def send_proposal():
-    db(db.trade.id == request.args(0)).update(status=STATUS_OFFERED)
+    proposal_query = db(db.trade.id == request.args(0))
+    proposal = proposal_query.select().first()
+
+    if proposal.status == STATUS_OFFERED:
+        new_status = STATUS_ACTIVE
+    else:
+        new_status = STATUS_OFFERED
+
+    proposal_query.update(status=new_status)
     redirect(URL('trade', 'index'))
 
 
