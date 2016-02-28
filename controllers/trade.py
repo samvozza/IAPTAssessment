@@ -83,12 +83,12 @@ def new_proposal():
 
     # Handle adding an item to the trade
     if request.vars['add']:
-        quantity = request.vars['quantity'] or 1
+        quantity = int(request.vars['quantity']) if request.vars['quantity'] else 1
         item = db(db.object.id == request.vars['add']).select().first()
         add_item_to_proposal(current_proposal, item, quantity)
     # Handle removing an item from the trade
     elif request.vars['remove']:
-        quantity = request.vars['quantity'] or 1
+        quantity = int(request.vars['quantity']) if request.vars['quantity'] else 1
         remove_entirely = request.vars['quantity'] == None
         item = db(db.object.id == request.vars['remove']).select().first()
         remove_item_from_proposal(current_proposal, item, quantity, remove_entirely)
