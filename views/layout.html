@@ -20,7 +20,10 @@
     {{ pass }}
     <div class="header">
       <div class="top-bar">
-        <div class=" container">
+        <div class="container">
+          <div class="pull-left login-info">
+            Hello {{if auth.user.username: }}{{= auth.user.username}} {{else:}} stranger. {{pass}}
+          </div>
           <div class="top-bar">
             {{ if auth.user: }}
             <a href="{{=URL('auth', 'sign_out')}}" title="Sign Out">Sign Out</a>

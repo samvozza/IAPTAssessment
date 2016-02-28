@@ -344,3 +344,7 @@ footer {
 	font-size: 0.8em;
 	margin:0px;
 }
+
+.login-info {
+	line-height: 42px;
+}
