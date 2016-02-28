@@ -66,7 +66,13 @@ def edit_proposal():
         raise Exception('The specified proposal cannot be found.')
 
     search = request.vars['search'] or ''
-    receiver = db(db.auth_user.id == current_proposal.receiver).select().first()
+    
+    # If the proposal's status id 'OFFERED' then this is a counter-proposal
+    # So switch the meaning of the 'receiver' of the proposal
+    if current_proposal.status == STATUS_OFFERED:
+        receiver = db(db.auth_user.id == current_proposal.sender).select().first()
+    else:
+        receiver = db(db.auth_user.id == current_proposal.receiver).select().first()
 
     # If the 'user' parameter isn't specified, default to the receiver
     if request.vars['user']:
