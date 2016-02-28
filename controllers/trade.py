@@ -17,11 +17,10 @@ def view():
     response.trade = db(db.trade.id == request.args(0)).select().first()
     response.receiver = db(db.auth_user.id == response.trade.receiver).select().first()
     response.sender = db(db.auth_user.id == response.trade.sender).select().first()
-    trade_items = db(db.trade_contains_object.trade == response.trade.id).select()
-    group_trade_items = []
-    [group_trade_items.append(each) for each in trade_items]
-    response.sender_items = db(db.object.id.belongs(group_trade_items) & (db.object.owner == response.sender.id)).select()
-    response.receiver_items = db(db.object.id.belongs(group_trade_items) & (db.object.owner == response.receiver)).select()
+    trade_item_links = db(db.trade_contains_object.trade == response.trade.id).select()
+    trade_items = [db(db.object.id == link.object).select().first() for link in trade_item_links]
+    response.sender_items = [item for item in trade_items if item.owner == response.sender.id]
+    response.receiver_items = [item for item in trade_items if item.owner == response.receiver.id]
     return dict()
 
 
