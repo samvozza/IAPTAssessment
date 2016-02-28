@@ -119,6 +119,10 @@ def new_proposal():
                 proposal_items_from_receiver=proposal_items_from_receiver)
 
 
+def edit_proposal():
+    return(new_proposal())
+
+
 def set_proposal_message():
     if request.vars['proposal'] == None:
         raise Exception('No proposal has been specified (use the \'proposal\' parameter).')
