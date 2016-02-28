@@ -12,7 +12,7 @@
       </div>
       <hr/>
     </div>
-    
+
     <div class="col-md-5">
       <div class="tabs">
         <ul class="nav nav-tabs" role="tablist">
@@ -22,7 +22,7 @@
           <li role="presentation" {{if selected_user.id == auth.user.id:}}class="active"{{pass}}>
             <a href="{{=URL(vars={'proposal': current_proposal.id, 'user': auth.user.id})}}" class="proposal-button">Your Items</a>
           </li>
-          
+
           <li class="collection-search">
             <form role="search" method="get" class="search-form">
               <div class="input-group input-group-sm">
@@ -36,13 +36,13 @@
             </form>
           </li>
         </ul>
-        
+
         <datalist id="objectsearch">
           {{for item in all_collection_items:}}
           <option value="{{=item.name}}"></option>
           {{pass}}
         </datalist>
-        
+
         <div class="tab-content">
         	{{if selected_user.id == auth.user.id:}}
           <div role="tabpanel" class="tab-pane active" id="your-items">
@@ -57,11 +57,13 @@
             {{else:}}
             <a href="{{=URL(vars={'proposal': current_proposal.id, 'user': selected_user.id, 'add': item.id, 'collection': selected_collection.id})}}" class="proposal-button">
             {{pass}}
-              <div class="panel panel-default col-md-4 {{if item_selected:}}selected-panel{{pass}}">
-                <img src="{{=URL('static', 'images', args=['thumbnail.jpg'])}}" style="max-width:100%;"/>
-                <div class="panel-body">
-                  <h4>{{=item.name}}</h4>
-                  <hr/>
+              <div class="col-md-4 {{if item_selected:}}selected-panel{{pass}}">
+                <div class="thumbnail thumbnail-small">
+                  <img src="{{=URL('default', 'download', args=[item.image])}}" class=""/>
+                  <div class="panel-body">
+                    <h4>{{=item.name}}</h4>
+                    <hr/>
+                  </div>
                 </div>
               </div>
             </a>
@@ -70,7 +72,7 @@
             <div class="alert alert-info">There are no objects in this collection.</div>
             {{pass}}
           </div>
-          
+
           {{if selected_user.id == auth.user.id:}}
         	<div role="tabpanel" class="tab-pane" id="their-items"></div>
           {{else:}}
@@ -82,10 +84,10 @@
     <div class="col-md-5">
       {{proposal_items = proposal_items_from_receiver}}
       {{include 'trade/proposal_items.html'}}
-    	
+
       {{proposal_items = proposal_items_from_sender}}
       {{include 'trade/proposal_items.html'}}
-    	
+
       <div class="row">
         <div class="col-md-12" style="margin-top: 20px; padding: 0;">
           <label>Message:</label>

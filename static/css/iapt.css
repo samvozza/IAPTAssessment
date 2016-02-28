@@ -335,3 +335,12 @@ footer {
 	min-height: 240px;
 	overflow-y: scroll;
 }
+
+.thumbnail-small img {
+	height: 100px !important;
+}
+
+.thumbnail-small h4 {
+	font-size: 0.8em;
+	margin:0px;
+}
