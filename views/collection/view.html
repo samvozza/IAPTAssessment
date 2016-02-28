@@ -101,7 +101,7 @@
             {{for o in response.owned:}}
               <div class="col-sm-6 col-md-4">
                 <div class="thumbnail">
-                  <img src="{{=URL('static', 'images', args=['thumbnail.jpg'])}}"/>
+                  <img src="{{=URL('default', 'download', args=[o.image])}}"/>
                   <div class="caption">
                     <h3><a href="{{=URL('object', 'view', args=[o.id])}}">{{=o.name}}</a></h3>
                     <hr/>
@@ -120,7 +120,7 @@
             {{for o in response.wanted:}}
             <div class="col-sm-6 col-md-4">
               <div class="thumbnail">
-                <img src="{{=URL('static', 'images', args=['thumbnail.jpg'])}}"/>
+                <img src="{{=URL('default', 'download', args=[o.image])}}"/>
                 <div class="caption">
                   <h3><a href="{{=URL('object', 'view', args=[o.id])}}">{{=o.name}}</a></h3>
                   <hr/>
@@ -139,7 +139,7 @@
             {{for o in response.tradable:}}
             <div class="col-sm-6 col-md-4">
               <div class="thumbnail">
-                <img src="{{=URL('static', 'images', args=['thumbnail.jpg'])}}"/>
+                <img src="{{=URL('default', 'download', args=[o.image])}}"/>
                 <div class="caption">
                   <h3><a href="{{=URL('object', 'view', args=[o.id])}}">{{=o.name}}</a></h3>
                   <hr/>
