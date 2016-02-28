@@ -21,26 +21,6 @@
 	<td>link=My Collection</td>
 	<td></td>
 </tr>
-<tr>
-	<td>verifyElementPresent</td>
-	<td>link=Collection 1</td>
-	<td></td>
-</tr>
-<tr>
-	<td>verifyElementPresent</td>
-	<td>link=Collection 2</td>
-	<td></td>
-</tr>
-<tr>
-	<td>verifyElementPresent</td>
-	<td>link=Collection 3</td>
-	<td></td>
-</tr>
-<tr>
-	<td>verifyElementPresent</td>
-	<td>link=Collection 4</td>
-	<td></td>
-</tr>
 </tbody></table>
 </body>
 </html>
