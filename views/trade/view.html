@@ -48,7 +48,7 @@
         <a  data-toggle="modal" data-target="#accept_deal_modal" class = "btn btn-success">Accept</a>
       </div>
       <div class = "col-md-2 col-md-offset-2">
-        <a type="button" class = "btn btn-warning">Counter</a>
+        <a href="{{=URL('trade', 'edit_proposal', vars=dict(proposal=response.trade.id))}}" type="button" class = "btn btn-warning">Counter</a>
       </div>
       <div class = "col-md-2 col-md-offset-2">
         <a  data-toggle="modal" data-target="#reject_deal_modal" class = "btn btn-danger">Reject</a>
