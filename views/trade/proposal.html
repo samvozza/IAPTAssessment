@@ -82,6 +82,13 @@
       </div>
     </div>
     <div class="col-md-5">
+    	<div class="row">
+        <div class="col-md-12" style="margin-top: 20px; padding: 0;">
+          <label>Name this proposal:</label>
+          <input type="text" id="title" name="title" class="form-control" {{='placeholder' if current_proposal.title == DEFAULT_TRADE_TITLE else 'value'}}="{{=current_proposal.title}}" style="min-width: 100%; max-width: 100%;"></input>
+        </div>
+      </div>
+      
       {{proposal_items = proposal_items_from_receiver}}
       {{include 'trade/proposal_items.html'}}
 

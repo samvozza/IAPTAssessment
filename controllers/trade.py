@@ -49,7 +49,7 @@ def new_proposal():
         raise Exception('The specified user cannot be found.')
 
     # Create a new proposal
-    proposal_id = db.trade.insert(receiver=receiver.id, title='Trade with ' + receiver.username)
+    proposal_id = db.trade.insert(receiver=receiver.id)
 
     # Set the 'trade' parameter switch to the edit_proposal controller
     request.vars['proposal'] = proposal_id
@@ -145,6 +145,15 @@ def edit_proposal():
                 all_proposal_items=all_proposal_items,
                 proposal_items_from_sender=proposal_items_from_sender,
                 proposal_items_from_receiver=proposal_items_from_receiver)
+
+
+def set_proposal_title():
+    if request.vars['proposal'] == None:
+        raise Exception('No proposal has been specified (use the \'proposal\' parameter).')
+    elif request.vars['title'] == None:
+        raise Exception('No title has been specified (use the \'title\' parameter).')
+
+    db(db.trade.id == request.vars['proposal']).update(title=request.vars['title'])
 
 
 def set_proposal_message():
