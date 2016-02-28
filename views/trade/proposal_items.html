@@ -3,19 +3,19 @@
     <div class="panel-body">
       {{for item in proposal_items:}}
       <div class="panel panel-default col-md-4">
-      	<a href="{{=URL(vars={'with': receiver.id, 'user': selected_user.id, 'remove': item.id, 'collection': selected_collection.id})}}" class="proposal-button">
+        <a href="{{=URL(vars={'proposal': current_proposal.id, 'user': selected_user.id, 'remove': item.id, 'collection': selected_collection.id})}}" class="proposal-button">
           <img src="{{=URL('static', 'images', args=['thumbnail.jpg'])}}" style="max-width:100%;"/>
         </a>
         <div class="panel-body">
-        	<a href="{{=URL(vars={'with': receiver.id, 'user': selected_user.id, 'remove': item.id, 'collection': selected_collection.id})}}" class="proposal-button">
+          <a href="{{=URL(vars={'proposal': current_proposal.id, 'user': selected_user.id, 'remove': item.id, 'collection': selected_collection.id})}}" class="proposal-button">
             <h4>{{=item.name}}</h4>
           </a>
           <div class="btn-toolbar">
-            <a href="{{=URL(vars={'with': receiver.id, 'user': selected_user.id, 'remove': item.id, 'collection': selected_collection.id, 'quantity': '1'})}}" class="proposal-button">&lt;</a>
+            <a href="{{=URL(vars={'proposal': current_proposal.id, 'user': selected_user.id, 'remove': item.id, 'collection': selected_collection.id, 'quantity': '1'})}}" class="proposal-button">&lt;</a>
             {{item_quantity = proposal_items[item]}}
             {{=item_quantity[0]}}/{{=item_quantity[1]}}
             {{if item_quantity[0] < item_quantity[1]:}}
-            <a href="{{=URL(vars={'with': receiver.id, 'user': selected_user.id, 'add': item.id, 'collection': selected_collection.id, 'quantity': '1'})}}" class="proposal-button">&gt;</a>
+            <a href="{{=URL(vars={'proposal': current_proposal.id, 'user': selected_user.id, 'add': item.id, 'collection': selected_collection.id, 'quantity': '1'})}}" class="proposal-button">&gt;</a>
             {{pass}}
           </div>
           <hr/>

@@ -21,7 +21,7 @@
     {{if response.trade.status == STATUS_PREPARE:}}
     <div class="alert alert-info">This deal is in preparation.</div>
     <div class="row text-center">
-      <a href="{{=URL()}}" class="btn btn-success">Edit Deal</a>
+      <a href="{{=URL('trade', 'edit_proposal', vars={'proposal': response.trade.id})}}" class="btn btn-success">Edit Deal</a>
     </div>
     {{elif response.trade.status == STATUS_OFFERED:}}
     <div class="alert alert-info">You have offered this deal.</div>

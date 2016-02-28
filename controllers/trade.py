@@ -32,22 +32,48 @@ def new():
 
 @auth.requires_login()
 def new_proposal():
+    # Short-circuit if a proposal has been specified
+    if request.vars['proposal'] != None:
+        return(edit_proposal())
+
     if request.vars['with'] == None and request.vars['receiver'] == None:
-        raise Exception('No user has been specified to trade with (use the \'with\' parameter).')
+        raise Exception('No user has been specified to trade with '
+                        + '(use the \'with\' or \'receiver\' parameters).')
 
-    if request.vars['receiver'] != None:
-        receiver_id = db(db.auth_user.username == request.vars['receiver']).select().first().id
+    if request.vars['with'] != None:
+        receiver = db(db.auth_user.id == request.vars['with']).select().first()
     else:
-        receiver_id = request.vars['with']
+        receiver = db(db.auth_user.username == request.vars['receiver']).select().first()
 
-    # Get request parameters
-    # Search defaults to '' (i.e. all items)
-    # Selected user defaults to the user being traded with
+    if receiver == None:
+        raise Exception('The specified user cannot be found.')
+
+    # Create a new proposal
+    proposal_id = db.trade.insert(receiver=receiver.id, title='Trade with ' + receiver.username)
+
+    # Set the 'trade' parameter switch to the edit_proposal controller
+    request.vars['proposal'] = proposal_id
+    return(edit_proposal())
+
+
+@auth.requires_login()
+def edit_proposal():
+    if request.vars['proposal'] == None:
+        raise Exception('No proposal has been specified to edit '
+                        + '(use the \'proposal\' parameter).')
+    current_proposal = db(db.trade.id == request.vars['proposal']).select().first()
+
+    if current_proposal == None:
+        raise Exception('The specified proposal cannot be found.')
+
     search = request.vars['search'] or ''
-    selected_user_id = (request.vars['user'] if request.vars['user'] else receiver_id)
+    receiver = db(db.auth_user.id == current_proposal.receiver).select().first()
 
-    receiver = db(db.auth_user.id == receiver_id).select().first()
-    selected_user = db(db.auth_user.id == selected_user_id).select().first()
+    # If the 'user' parameter isn't specified, default to the receiver
+    if request.vars['user']:
+        selected_user = db(db.auth_user.id == request.vars['user']).select().first()
+    else:
+        selected_user = receiver
 
     selected_users_collections = db((db.collection.owner == selected_user.id)
                                     & (db.collection.public == True)).select()
@@ -76,10 +102,6 @@ def new_proposal():
         selected_items = db((db.object.collection == selected_collection.id)
                             & (db.object.tradable_quantity > 0)
                             & (db.object.name.like('%' + search + '%'))).select()
-
-    # Get the active proposal with the recipient
-    # If a proposal doesn't exist then create one
-    current_proposal = get_active_proposal(receiver)
 
     # Handle adding an item to the trade
     if request.vars['add']:
@@ -119,10 +141,6 @@ def new_proposal():
                 proposal_items_from_receiver=proposal_items_from_receiver)
 
 
-def edit_proposal():
-    return(new_proposal())
-
-
 def set_proposal_message():
     if request.vars['proposal'] == None:
         raise Exception('No proposal has been specified (use the \'proposal\' parameter).')
@@ -137,64 +155,27 @@ def set_proposal_message():
 
 def send_proposal():
     db(db.trade.id == request.args(0)).update(status=STATUS_OFFERED)
-    remove_active_proposal(request.args(0))
     redirect(URL('trade', 'index'))
 
 
 def accept_proposal():
     db(db.trade.id == request.args(0)).update(status=STATUS_ACCEPTED)
-    remove_active_proposal(request.args(0))
     redirect(URL('trade', 'index'))
 
 
 def reject_proposal():
     db(db.trade.id == request.args(0)).update(status=STATUS_REJECTED)
-    remove_active_proposal(request.args(0))
     redirect(URL('trade', 'index'))
 
 
 def cancel_proposal():
     db(db.trade.id == request.args(0)).update(status=STATUS_CANCELLED)
-    remove_active_proposal(request.args(0))
     redirect(URL('trade', 'index'))
 
 
 
 
 # Helper Functions
-
-def get_active_proposal(receiver):
-    """
-    Gets the active proposal with the receiver.
-
-    If there isn't an active trade with the receiver a new proposal
-    is created.
-    """
-    if not session.proposals:
-        session.proposals = []
-
-    # If a proposal already exists then return it
-    for proposal_pair in session.proposals:
-        if proposal_pair[0] == receiver.id:
-            return db(db.trade.id == proposal_pair[1]).select().first()
-
-    # Otherwise create a new proposal
-    proposal_id = db.trade.insert(receiver=receiver.id, title='Trade with ' + receiver.username)
-    session.proposals.append((receiver.id, proposal_id))
-
-    return db(db.trade.id == proposal_id).select().first()
-
-
-def remove_active_proposal(proposal_id):
-    """
-    Removes a proposal from the session.
-    """
-    if session.proposals:
-        session_proposals = []
-        for proposal_pair in session.proposals:
-            if str(proposal_pair[1]) != proposal_id:
-                session_proposals.append(proposal_pair)
-
 
 def get_available_quantity(item):
     """
