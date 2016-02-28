@@ -97,7 +97,7 @@
         <div class="col-md-12" style="margin-top: 20px;">
           <div class="btn-toolbar pull-right">
             <a href="{{=URL('trade', 'cancel_proposal', args=[current_proposal.id])}}" class="btn btn-default proposal-button">Cancel</a>
-            <button class="btn btn-success">Send Trade Proposal</a>
+            <a href="{{=URL('trade', 'send_proposal', args=[current_proposal.id])}}" class="btn btn-success proposal-button">Send Trade Proposal</a>
           </div>
         </div>
       </div>

@@ -136,8 +136,7 @@ def set_proposal_message():
 
 
 def send_proposal():
-    message = request.vars['message'] if request.vars['message'] else ''
-    db(db.trade.id == request.args(0)).update(status=STATUS_OFFERED, message=message)
+    db(db.trade.id == request.args(0)).update(status=STATUS_OFFERED)
     remove_active_proposal(request.args(0))
     redirect(URL('trade', 'index'))
 
