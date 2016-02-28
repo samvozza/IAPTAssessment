@@ -23,7 +23,7 @@
     <div class="row text-center">
       <a href="{{=URL('trade', 'edit_proposal', vars={'proposal': response.trade.id})}}" class="btn btn-success">Edit Deal</a>
     </div>
-    {{elif (response.trade.status == STATUS_OFFERED and auth.user.id == response.trade.sender) or (response.trade.status == STATUS_ACTIVE and auth.user.id == response.trade.reciever):}}
+    {{elif (response.trade.status == STATUS_OFFERED and auth.user.id == response.trade.sender) or (response.trade.status == STATUS_ACTIVE and auth.user.id == response.trade.receiver):}}
     <div class="alert alert-info">You have offered this deal.</div>
     <div class="text-right">
       <a class="btn btn-danger" data-toggle="modal" data-target="#cancel_deal_modal" title="This button opens up a confirmation model.">Cancel This Deal</a>
