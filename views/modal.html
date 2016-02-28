@@ -1,0 +1,25 @@
+{{#Requires 'modal_id', 'modal_label', 'modal_body' and 'modal_link' to be set ('modal_aria_label' is optional)}}
+{{
+try:
+    modal_aria_label
+except NameError:
+    modal_aria_label = ""
+pass
+}}
+<div class="modal fade" id="{{=modal_id}}" tabindex="-1" role="dialog" aria-labelledby="{{=modal_aria_label}}">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">{{=modal_label}}</h4>
+      </div>
+      <div class="modal-body">
+        {{=modal_body}}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        {{=modal_link}}
+      </div>
+    </div>
+  </div>
+</div>

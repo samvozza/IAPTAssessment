@@ -28,25 +28,17 @@
     <div class="text-right">
       <a class="btn btn-danger" data-toggle="modal" data-target="#cancel_deal_modal" title="This button opens up a confirmation model.">Cancel This Deal</a>
     </div>
-
     <!-- Modal -->
-    <div class="modal fade" id="cancel_deal_modal" tabindex="-1" role="dialog" aria-labelledby="dealCancellationModal">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel">Cancel Deal</h4>
-          </div>
-          <div class="modal-body">
-            You can cancel this deal. This process cannot be reversed. Are you sure you want to proceed?
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <a href="{{=URL('trade', 'cancel_proposal', args=[response.trade.id])}}" type="button" class="btn btn-danger">Cancel This Deal</a>
-          </div>
-        </div>
-      </div>
-    </div>
+    {{
+    modal_id = 'cancel_deal_modal'
+    modal_label = 'Cancel Deal'
+    modal_body = 'You can cancel this deal. This process cannot be reversed. Are you sure you want to proceed?'
+    modal_link = A('Cancel This Deal', _href=URL('trade', 'cancel_proposal', args=[response.trade.id]),
+    							 _type='button', _class='btn btn-danger')
+    modal_aria_label = 'dealCancellationModal'
+    }}
+    {{include 'modal.html'}}
+    <!-- /Modal -->
     {{elif response.trade.status == STATUS_ACTIVE:}}
     <div class="alert alert-info">
       This deal is still active.<br/><strong>Accept</strong> - if you like this deal<br/><strong>Reject</strong> - if don't want to carry on with negeotiations<br/><strong>Counter</strong> - if you want you want to make a counter offer
@@ -63,41 +55,28 @@
       </div>
     </div>
     <!-- Modal -->
-    <div class="modal fade" id="reject_deal_modal" tabindex="-1" role="dialog" aria-labelledby="RejectDealModal">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel">Cancel Deal</h4>
-          </div>
-          <div class="modal-body">
-            Are you sure you are no longer interested in this trade deal. Once the deal has been rejected....
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <a href="{{=URL('trade', 'reject_proposal', args=[response.trade.id])}}" type="button" class="btn btn-danger">Reject</a>
-          </div>
-        </div>
-      </div>
-    </div>
+    {{
+    modal_id = 'reject_deal_modal'
+    modal_label = 'Reject Deal'
+    modal_body = 'Are you sure you are no longer interested in this trade deal. Once the deal has been rejected....'
+    modal_link = A('Reject This Deal', _href=URL('trade', 'reject_proposal', args=[response.trade.id]),
+    							 _type='button', _class='btn btn-danger')
+    modal_aria_label = 'RejectDealModal'
+    }}
+    {{include 'modal.html'}}
+    <!-- /Modal -->
     <!-- Modal -->
-    <div class="modal fade" id="accept_deal_modal" tabindex="-1" role="dialog" aria-labelledby="AcceptDealModal">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel">Cancel Deal</h4>
-          </div>
-          <div class="modal-body">
-            This deal is legally binding. Once you accept a deal all the items will be exchanged. Are you sure you want to proceed.
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <a href="{{=URL('trade', 'accept_proposal', args=[response.trade.id])}}" type="button" class="btn btn-success">Accept</a>
-          </div>
-        </div>
-      </div>
-    </div>
+    {{
+    modal_id = 'accept_deal_modal'
+    modal_label = 'Accept Deal'
+    modal_body = ('This deal is legally binding. Once you accept a deal all the items will be exchanged. '
+                  'Are you sure you wish to proceed?')
+    modal_link = A('Accept This Deal', _href=URL('trade', 'accept_proposal', args=[response.trade.id]),
+    							 _type='button', _class='btn btn-danger')
+    modal_aria_label = 'AcceptDealModal'
+    }}
+    {{include 'modal.html'}}
+    <!-- /Modal -->
     {{elif response.trade.status == STATUS_ACCEPTED:}}
     <div class="alert alert-success">This deal has been accepted.</div>
     {{elif response.trade.status == STATUS_REJECTED:}}
