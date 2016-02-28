@@ -42,7 +42,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <a href="{{=URL('trade', 'cancel', args=[response.trade.id])}}" type="button" class="btn btn-danger">Cancel This Deal</a>
+            <a href="{{=URL('trade', 'cancel_proposal', args=[response.trade.id])}}" type="button" class="btn btn-danger">Cancel This Deal</a>
           </div>
         </div>
       </div>
@@ -75,7 +75,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <a href="{{=URL('trade', 'reject', args=[response.trade.id])}}" type="button" class="btn btn-danger">Reject</a>
+            <a href="{{=URL('trade', 'reject_proposal', args=[response.trade.id])}}" type="button" class="btn btn-danger">Reject</a>
           </div>
         </div>
       </div>
@@ -93,7 +93,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <a href="{{=URL('trade', 'accept', args=[response.trade.id])}}" type="button" class="btn btn-success">Accept</a>
+            <a href="{{=URL('trade', 'accept_proposal', args=[response.trade.id])}}" type="button" class="btn btn-success">Accept</a>
           </div>
         </div>
       </div>

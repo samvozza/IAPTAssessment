@@ -12,6 +12,7 @@ def index():
     response.cancelled = db((db.trade.sender == auth.user_id) & (db.trade.status == STATUS_CANCELLED)).select()
     return dict()
 
+
 def view():
     response.trade = db(db.trade.id == request.args(0)).select().first()
     response.receiver = db(db.auth_user.id == response.trade.receiver).select().first()
@@ -24,21 +25,10 @@ def view():
     return dict()
 
 
-def accept():
-    db(db.trade.id == request.args(0)).update(status == STATUS_ACCEPTED)
-    redirect(URL('trade', 'view', args=[request.args(0)]))
-
-def reject():
-    db(db.trade.id == request.args(0)).update(status == STATUS_REJECTED)
-    redirect(URL('trade', 'view', args=[request.args(0)]))
-
-def cancel():
-    db(db.trade.id == request.args(0)).update(status == STATUS_CANCELLED)
-    redirect(URL('trade', 'view', args=[request.args(0)]))
-
 def new():
     response.users = db().select(db.auth_user.ALL)
     return dict()
+
 
 @auth.requires_login()
 def new_proposal():
