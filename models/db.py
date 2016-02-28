@@ -173,7 +173,7 @@ db.define_table('trade',
                       notnull=True),
                 Field('status', type="integer", default=0, #STATUS_PREPARE
                       notnull=True),
-                Field('message', type="string", length=512, default="", update="",
+                Field('message', type="string", length=512, default="",
                       notnull=True),
                 Field('time_created', type='datetime', default=datetime.now,
                       notnull=True, writable=False),

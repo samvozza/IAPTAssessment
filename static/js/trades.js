@@ -2,9 +2,9 @@
 
 function set_proposal_message(proposal) {
   var message = $('#message').val();
-	$.get('set_proposal_message',
-	      { 'proposal': proposal,
-	        'message' : message });
+	$.post('set_proposal_message',
+	       { 'proposal': proposal,
+	         'message' : message });
 	return true;
 }
 

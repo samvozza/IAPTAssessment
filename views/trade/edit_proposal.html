@@ -15,3 +15,10 @@
 </div>
 
 {{include 'trade/proposal.html'}}
+
+{{block page_js}}
+<script>
+var current_proposal_id = {{=current_proposal.id}};
+</script>
+<script src="{{=URL('static', 'js/trades.js')}}"></script>
+{{end page_js}}

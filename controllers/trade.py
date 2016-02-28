@@ -146,10 +146,7 @@ def set_proposal_message():
     elif request.vars['message'] == None:
         raise Exception('No message has been specified (use the \'message\' parameter).')
 
-    proposal_id = request.vars['proposal']
-    message = request.vars['message']
-
-    db(db.trade.id == proposal_id).update(message=message)
+    db(db.trade.id == request.vars['proposal']).update(message=request.vars['message'])
 
 
 def send_proposal():
