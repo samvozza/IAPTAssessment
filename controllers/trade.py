@@ -27,7 +27,15 @@ def view():
 
 @auth.requires_login()
 def new():
-    response.users = db(db.auth_user.id != auth.user.id).select()
+    response.users = []
+    other_users = db(db.auth_user.id != auth.user.id).select()
+
+    for user in other_users:
+        users_collections_count = db((db.collection.owner == user.id)
+                                     & (db.collection.public == True)).count()
+        if users_collections_count > 0:
+            response.users.append(user)
+
     return dict()
 
 
@@ -97,12 +105,20 @@ def edit_proposal():
     selected_users_collections = db((db.collection.owner == selected_user.id)
                                     & (db.collection.public == True)).select()
 
+    # Check that the selected user has at least one collection
+    if selected_users_collections.first() == None:
+        raise Exception("The selected user doesn't have any public collections.")
+
     # Get the currently displayed collection
     # This defaults to the selected user's first collection
     if request.vars['collection']:
         selected_collection = db(db.collection.id == request.vars['collection']).select().first()
     else:
         selected_collection = selected_users_collections.first()
+
+    # Check that a collection has been selected
+    if selected_collection == None:
+        raise Exception("The selected collection cannot be found, or doesn't exist.")
 
     selected_users_settings = db(db.user_settings.user == selected_user.id).select().first()
 
