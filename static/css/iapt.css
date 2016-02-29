@@ -1,197 +1,62 @@
+/*---------------------------------------------   Top Bar   ----------------------------------------------*/
 
-/*													  												  BASE ^
------------------------------------------------------------------------------------------------------------*/
-
-@font-face {
-	font-family: 'FontAwesome';
-	src: url('../fonts/icon/fontawesome.eot?v=3.0.1');
-	src: url('../fonts/icon/fontawesome.eot?#iefix&v=3.0.1') format('embedded-opentype'),
-		 url('../fonts/icon/fontawesome.woff?v=3.0.1') format('woff'),
-		 url('../fonts/icon/fontawesome.ttf?v=3.0.1') format('truetype');
-	font-weight: normal;
-	font-style: normal;
-}
-
-@font-face {
-	font-family: 'OpenSansBold';
-    src: url('../fonts/OpenSans-Bold.eot');
-    src: url('../fonts/OpenSans-Bold.eot?#iefix') format('embedded-opentype'),
-         url('../fonts/OpenSans-Bold.woff') format('woff'),
-         url('../fonts/OpenSans-Bold.ttf') format('truetype'),
-         url('../fonts/OpenSans-Bold.svg#OpenSansBold') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-	font-family: 'OpenSansSemiboldRegular_italic';
-    src: url('../fonts/OpenSans-SemiboldItalic.eot');
-    src: url('../fonts/OpenSans-SemiboldItalic.eot?#iefix') format('embedded-opentype'),
-         url('../fonts/OpenSans-SemiboldItalic.woff') format('woff'),
-         url('../fonts/OpenSans-SemiboldItalic.ttf') format('truetype'),
-         url('../fonts/OpenSans-SemiboldItalic.svg#OpenSansSemiboldRegular_italic') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-	font-family: 'OpenSansSemiboldRegular';
-    src: url('../fonts/OpenSans-Semibold.eot');
-    src: url('../fonts/OpenSans-Semibold.eot?#iefix') format('embedded-opentype'),
-         url('../fonts/OpenSans-Semibold.woff') format('woff'),
-         url('../fonts/OpenSans-Semibold.ttf') format('truetype'),
-         url('../fonts/OpenSans-Semibold.svg#OpenSansSemiboldRegular') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-	font-family: 'OpenSansRegular';
-    src: url('../fonts/opensans-regular.eot');
-    src: url('../fonts/opensans-regular.eot?#iefix') format('embedded-opentype'),
-         url('../fonts/opensans-regular.woff') format('woff'),
-         url('../fonts/opensans-regular.ttf') format('truetype'),
-         url('../fonts/opensans-regular.svg#OpenSansRegular') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-	font-family: 'OpenSansLightItalic';
-    src: url('../fonts/opensans-lightitalic.eot');
-    src: url('../fonts/opensans-lightitalic.eot?#iefix') format('embedded-opentype'),
-         url('../fonts/opensans-lightitalic.woff') format('woff'),
-         url('../fonts/opensans-lightitalic.ttf') format('truetype'),
-         url('../fonts/opensans-lightitalic.svg#OpenSansLightItalic') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-	font-family: 'OpenSansLightRegular';
-    src: url('../fonts/opensans-light.eot');
-    src: url('../fonts/opensans-light.eot?#iefix') format('embedded-opentype'),
-         url('../fonts/opensans-light.woff') format('woff'),
-         url('../fonts/opensans-light.ttf') format('truetype'),
-         url('../fonts/opensans-light.svg#OpenSansLightRegular') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-	font-family: 'OpenSansItalic';
-    src: url('../fonts/opensans-italic.eot');
-    src: url('../fonts/opensans-italic.eot?#iefix') format('embedded-opentype'),
-         url('../fonts/opensans-italic.woff') format('woff'),
-         url('../fonts/opensans-italic.ttf') format('truetype'),
-         url('../fonts/opensans-italic.svg#OpenSansItalic') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-	font-family: 'OpenSansExtraboldRegular';
-    src: url('../fonts/opensans-extrabold.eot');
-    src: url('../fonts/opensans-extrabold.eot?#iefix') format('embedded-opentype'),
-         url('../fonts/opensans-extrabold.woff') format('woff'),
-         url('../fonts/opensans-extrabold.ttf') format('truetype'),
-         url('../fonts/opensans-extrabold.svg#OpenSansExtraboldRegular') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-	font-family: 'OpenSansBold_italic';
-    src: url('../fonts/OpenSans-BoldItalic.eot');
-    src: url('../fonts/OpenSans-BoldItalic.eot?#iefix') format('embedded-opentype'),
-         url('../fonts/OpenSans-BoldItalic.woff') format('woff'),
-         url('../fonts/OpenSans-BoldItalic.ttf') format('truetype'),
-         url('../fonts/OpenSans-BoldItalic.svg#OpenSansBold_italic') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-	font-family: 'bebas_neueregular';
-    src: url('../fonts/bebasneue.eot');
-    src: url('../fonts/bebasneue.eot?#iefix') format('embedded-opentype'),
-         url('../fonts/bebasneue.woff') format('woff'),
-         url('../fonts/bebasneue.ttf') format('truetype'),
-         url('../fonts/bebasneue.svg#bebas_neueregular') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-	font-family: 'great_vibesregular';
-    src: url('../fonts/greatvibes-regular.eot');
-    src: url('../fonts/greatvibes-regular.eot?#iefix') format('embedded-opentype'),
-         url('../fonts/greatvibes-regular.woff') format('woff'),
-         url('../fonts/greatvibes-regular.ttf') format('truetype'),
-         url('../fonts/greatvibes-regular.svg#great_vibesregular') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
-
-html, body, .content-wrapper {
-  height: 100% !important;
-}
-body > .content-wrapper {
-  height: auto !important;
-  min-height: 100% !important;
-}
-
-.top-bar{
-  background: rgb(47,51,56);
-  color: rgb(155, 159, 162);
+.top-bar {
+	padding: 0 15px;
   height: 42px;
+  color: rgb(155, 159, 162);
+  background: rgb(47, 51, 56);
 }
-.top-bar .brand{
-  float: left;
-  font-weight: 400;
-  font-size: 30px;
-  margin-left:10px;
-  text-shadow: 1px 1px black;
-}
-.top-bar a{
+
+.top-bar a {
   line-height: 42px;
   color: rgb(155, 159, 162);
-  float:right;
   margin-left: 10px;
-  margin-right:10px;
-  font-size:12px;
-}
-.menu {
-  background:white;
-  height:80px;
-}
-.menu .logo {
-  line-height: 80px;
-  font-size: 22px;
-  float:left;
-}
-.main-menu {
-  float:right;
+  margin-right: 10px;
+  font-size: 12px;
 }
 
-.main-menu-search-from {
-  width:250px;
-  float:right;
+
+/*---------------------------------------------   Navbar   -----------------------------------------------*/
+
+.navbar {
+  padding: 0 15px;
+	margin-bottom: 0;
+}
+
+.brand {
+	font-size: 23px;
+	line-height: 80px;
+	margin-right: 30px;
+}
+
+.brand a {
+	color: black;
+  text-decoration: none;
+}
+
+.main-search-form {
+  width: 250px;
   margin-top: 23px;
 }
+
+
+/*------------------------------------   Page Title & Breadcrumbs   --------------------------------------*/
+
 .page-title {
   border-top: 1px solid #E4E4E4;
-  border-bottom:1px solid #E4E4E4;
+  border-bottom: 1px solid #E4E4E4;
   margin-bottom: 20px;
 }
-.page-title h1{
-  line-height:54px;
+
+.page-title h1 {
+  line-height: 54px;
   font-size: 20px;
   color: #313538;
   margin: 0 0 0 10px !important;
   padding: 0 !important;
-  float:left;
+  float: left;
 }
+
 .page-title .breadcrums {
   float: right;
   margin: 0;
@@ -199,14 +64,15 @@ body > .content-wrapper {
   font-size: 11px;
   color: #c4c4c4;
 }
+
 .page-title .breadcrums li {
   display: inline-block;
-  line-height:54px;
+  line-height: 54px;
   list-style: none;
   font-size: 11px;
   color: #c4c4c4;
   margin-right: 10px;
-  float:left;
+  float: left;
 }
 
 .page-title .breadcrums li:first-child:after {
@@ -221,17 +87,20 @@ body > .content-wrapper {
 }
 
 .page-title .breadcrums li a{
-	line-height:54px;
+	line-height: 54px;
 	color: #c4c4c4;
 }
 
+
 .collection-settings {
-	float:right !important;
+	float: right !important;
 }
+
 .collection-search {
-	float:right !important;
+	float: right !important;
 	margin-right: 30px;
 }
+
 .collection-search form {
 	max-width: 200px !important;
 }
@@ -239,10 +108,12 @@ body > .content-wrapper {
 input.invalidinput {
   border-color: red !important;
 }
+
 input.invalidinput:focus {
   -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(255, 92, 92, .6) !important;
           box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(255, 92, 92, .6) !important;
 }
+
 .error_wrapper .error {
   color: red;
 }
@@ -251,80 +122,59 @@ input.invalidinput:focus {
   font-size: 13px !important;
 }
 
-.brand {
-	line-height: 80px;
-	font-size: 23px;
-	margin-right: 30px;
-	float:left;
-	margin-left:10px;
-}
-
 /* css for tradesummary.html*/
-.summary_box{
-	border:.1em solid #ccc;
+.summary_box {
+	border: .1em solid #ccc;
 	margin-bottom: 3em;
 }
 
-.summary_title{
+.summary_title {
 	text-align: center;
 }
 
-.sender_part{
-	border-top:.1em solid #ccc;
+.sender_part {
+	border-top: .1em solid #ccc;
 	border-right: .1em solid #ccc;
 }
 
-.receiver_part{
-	border-top:.1em solid #ccc;
+.receiver_part {
+	border-top: .1em solid #ccc;
 	border-left: .1em solid #ccc;
 }
 
 
-.user_name{
+.user_name {
 	text-align: center;
 	border-bottom: .1em solid #ccc;
 	margin-bottom: 1em;
 }
 
-.item_image{
+.item_image {
 	margin-bottom: .5em;
 }
 
-.message_box{
-	border-top:.1em solid #ccc;
+.message_box {
+	border-top: .1em solid #ccc;
 	margin-top: 1em;
 }
 
-.trade_message{
+.trade_message {
 	border:.1em solid #ccc;
 }
 
-.trade_but{
+.trade_but {
 	margin-top: 2em;
 	margin-bottom: 1em;
 }
 
 /*css for viewtradestatus.html*/
-.trade_status{
-	border:.1em solid #ccc;
-	margin-bottom:3em;
+.trade_status {
+	border: .1em solid #ccc;
+	margin-bottom: 3em;
 }
 
-.table_title{
+.table_title {
 	text-align: center;
-}
-
-
-footer {
-	clear: both;
-  position: relative;
-  z-index: 10;
-	background: #2F3338;
-	height: 74px;
-	line-height: 64px;
-  margin-top: -74px;
-	border-top: 10px solid white;
-	color: #65686D;
 }
 
 .selected-panel {
@@ -342,9 +192,84 @@ footer {
 
 .thumbnail-small h4 {
 	font-size: 0.8em;
-	margin:0px;
+	margin: 0px;
 }
 
 .login-info {
 	line-height: 42px;
+}
+
+
+/*----------------------------------------------   Footer   ----------------------------------------------*/
+
+html {
+  position: relative !important;
+  min-height: 100% !important;
+}
+
+body {
+  min-height: 100% !important;
+  height: 100% !important;
+  margin-bottom: 80px !important;
+  width: 100% !important;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding-top: 20px;
+	height: 60px;
+	color: #65686D;
+	background: #2F3338;
+}
+
+.footer p {
+  margin-bottom: 0;
+  text-align: center;
+}
+
+@media (max-width: 1300px) {
+	body {
+    margin-bottom: 100px !important;
+  }
+
+  .footer {
+	  height: 80px;
+  }
+}
+
+@media (max-width: 650px) {
+	body {
+    margin-bottom: 120px !important;
+  }
+
+  .footer {
+	  height: 100px;
+  }
+}
+
+@media (max-width: 450px) {
+	body {
+    margin-bottom: 140px !important;
+  }
+
+  .footer {
+	  height: 120px;
+  }
+}
+
+@media (max-width: 350px) {
+	body {
+    margin-bottom: 160px !important;
+  }
+
+  .footer {
+	  height: 140px;
+  }
+}
+
+.container-fluid {
+	padding-left: 0;
+	padding-right: 0;
 }
