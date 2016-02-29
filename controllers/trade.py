@@ -25,8 +25,9 @@ def view():
     return dict()
 
 
+@auth.requires_login()
 def new():
-    response.users = db().select(db.auth_user.ALL)
+    response.users = db(db.auth_user.id != auth.user.id).select()
     return dict()
 
 
@@ -48,6 +49,10 @@ def new_proposal():
     if receiver == None:
         raise Exception('The specified user cannot be found.')
 
+    # Check that the user is not trying to open a proposal with themselves
+    if auth.user.id == receiver.id:
+        raise Exception('You are trying to open a trade with yourself.')
+
     # Create a new proposal
     proposal_id = db.trade.insert(receiver=receiver.id)
 
@@ -66,8 +71,16 @@ def edit_proposal():
     if current_proposal == None:
         raise Exception('The specified proposal cannot be found.')
 
-    search = request.vars['search'] or ''
-    
+    # Check that the logged in user is a participant in the proposal
+    if auth.user.id != current_proposal.sender and auth.user.id != current_proposal.receiver:
+        raise Exception('You are not involved in this proposal.')
+
+    # Check that the proposal is in the correct state for the user to edit it
+    if (not (current_proposal.status == STATUS_PREPARE and auth.user.id == current_proposal.sender)
+        and not (current_proposal.status == STATUS_ACTIVE and auth.user.id == current_proposal.sender)
+        and not (current_proposal.status == STATUS_OFFERED and auth.user.id == current_proposal.receiver)):
+        raise Exception('You are not able to edit this proposal at present.')
+
     # If the proposal's status id 'OFFERED' then this is a counter-proposal
     # So switch the meaning of the 'receiver' of the proposal
     if current_proposal.status == STATUS_OFFERED:
@@ -92,6 +105,9 @@ def edit_proposal():
         selected_collection = selected_users_collections.first()
 
     selected_users_settings = db(db.user_settings.user == selected_user.id).select().first()
+
+    # Get the current search term, if there is one
+    search = request.vars['search'] or ''
 
     # If the selected user is the current user, or if the selected user allows
     # trading non-tradable items, then get any items that the user has
