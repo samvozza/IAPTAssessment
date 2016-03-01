@@ -46,8 +46,8 @@ def new_proposal():
         return(edit_proposal())
 
     if request.vars['with'] == None and request.vars['receiver'] == None:
-        raise Exception('No user has been specified to trade with '
-                        + '(use the \'with\' or \'receiver\' parameters).')
+        raise EX(500, 'No user has been specified to trade with '
+                      + '(use the \'with\' or \'receiver\' parameters).')
 
     if request.vars['with'] != None:
         receiver = db(db.auth_user.id == request.vars['with']).select().first()
@@ -55,11 +55,11 @@ def new_proposal():
         receiver = db(db.auth_user.username == request.vars['receiver']).select().first()
 
     if receiver == None:
-        raise Exception('The specified user cannot be found.')
+        raise EX(500, 'The specified user cannot be found.')
 
     # Check that the user is not trying to open a proposal with themselves
     if auth.user.id == receiver.id:
-        raise Exception('You are trying to open a trade with yourself.')
+        raise EX(500, 'You are trying to open a trade with yourself.')
 
     # Create a new proposal
     proposal_id = db.trade.insert(receiver=receiver.id)
@@ -72,22 +72,22 @@ def new_proposal():
 @auth.requires_login()
 def edit_proposal():
     if request.vars['proposal'] == None:
-        raise Exception('No proposal has been specified to edit '
-                        + '(use the \'proposal\' parameter).')
+        raise EX(500, 'No proposal has been specified to edit '
+                      + '(use the \'proposal\' parameter).')
     current_proposal = db(db.trade.id == request.vars['proposal']).select().first()
 
     if current_proposal == None:
-        raise Exception('The specified proposal cannot be found.')
+        raise EX(500, 'The specified proposal cannot be found.')
 
     # Check that the logged in user is a participant in the proposal
     if auth.user.id != current_proposal.sender and auth.user.id != current_proposal.receiver:
-        raise Exception('You are not involved in this proposal.')
+        raise EX(403, 'You are not involved in this proposal.')
 
     # Check that the proposal is in the correct state for the user to edit it
     if (not (current_proposal.status == STATUS_PREPARE and auth.user.id == current_proposal.sender)
         and not (current_proposal.status == STATUS_ACTIVE and auth.user.id == current_proposal.sender)
         and not (current_proposal.status == STATUS_OFFERED and auth.user.id == current_proposal.receiver)):
-        raise Exception('You are not able to edit this proposal at present.')
+        raise EX(403, 'You are not able to edit this proposal at present.')
 
     # If the proposal's status id 'OFFERED' then this is a counter-proposal
     # So switch the meaning of the 'receiver' of the proposal
@@ -107,7 +107,7 @@ def edit_proposal():
 
     # Check that the selected user has at least one collection
     if selected_users_collections.first() == None:
-        raise Exception("The selected user doesn't have any public collections.")
+        raise EX(500, 'The selected user doesn\'t have any public collections.')
 
     # Get the currently displayed collection
     # This defaults to the selected user's first collection
@@ -118,7 +118,7 @@ def edit_proposal():
 
     # Check that a collection has been selected
     if selected_collection == None:
-        raise Exception("The selected collection cannot be found, or doesn't exist.")
+        raise EX(500, 'The selected collection cannot be found, or does not exist.')
 
     selected_users_settings = db(db.user_settings.user == selected_user.id).select().first()
 
@@ -181,18 +181,18 @@ def edit_proposal():
 
 def set_proposal_title():
     if request.vars['proposal'] == None:
-        raise Exception('No proposal has been specified (use the \'proposal\' parameter).')
+        raise EX(500, 'No proposal has been specified (use the \'proposal\' parameter).')
     elif request.vars['title'] == None:
-        raise Exception('No title has been specified (use the \'title\' parameter).')
+        raise EX(500, 'No title has been specified (use the \'title\' parameter).')
 
     db(db.trade.id == request.vars['proposal']).update(title=request.vars['title'])
 
 
 def set_proposal_message():
     if request.vars['proposal'] == None:
-        raise Exception('No proposal has been specified (use the \'proposal\' parameter).')
+        raise EX(500, 'No proposal has been specified (use the \'proposal\' parameter).')
     elif request.vars['message'] == None:
-        raise Exception('No message has been specified (use the \'message\' parameter).')
+        raise EX(500, 'No message has been specified (use the \'message\' parameter).')
 
     db(db.trade.id == request.vars['proposal']).update(message=request.vars['message'])
 
@@ -282,7 +282,9 @@ def add_item_to_proposal(proposal, item, quantity=1):
 
     quantity_limit = get_available_quantity(item)
 
-    assert new_quantity <= quantity_limit
+    if new_quantity > quantity_limit:
+        raise EX(500, 'The item quantity requested exceeds the available '
+                      + 'quantity of this item.')
 
     if trade_item_link:
         trade_item_link_query.update(quantity=new_quantity)
@@ -304,11 +306,15 @@ def remove_item_from_proposal(proposal, item, quantity=1, remove_entirely=False)
     trade_item_link = trade_item_link_query.select().first()
 
     # If the item isn't in the trade, raise an exception
-    assert trade_item_link is not None
+    if trade_item_link == None:
+        raise EX(500, 'The requested item is not in the current trade '
+                      + 'proposal, and so cannot be removed.')
 
     new_quantity = trade_item_link.quantity - quantity if trade_item_link else quantity
 
-    assert new_quantity >= 0
+    if new_quantity < 0:
+        raise EX(500, 'You have requested to remove more than the '
+                      + 'quantity in the current trade proposal.')
 
     if new_quantity == 0 or remove_entirely:
         trade_item_link_query.delete()
