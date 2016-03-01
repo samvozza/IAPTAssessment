@@ -27,8 +27,10 @@
 	  <div class="error-recovery-link">
 	  	<a href="{{=recovery_link}}">Back To Safety</a>
 	  </div>
+	  {{if request.vars.ticket != 'None':}}
 	  <div class="web2py-error-message" style="margin-top: 20px;">
 	    &lt; Ticket issued: <a href="/admin/default/ticket/{{=request.vars.ticket}}" target="_blank" data-toggle="tooltip" data-placement="bottom" title="This link will be removed before submitting the assessment">{{=request.vars.ticket}}</a> &gt;
 	  </div>
+	  {{pass}}
   </div>
 </div>
