@@ -104,17 +104,10 @@ def setup():
 def error_handler():
     """
     This is a catch-all route which acts as the destination for all server errors.
+
     Use:
-    raise HTTP(403)
-    raise HTTP(404)
-    raise HTTP(500)
-
-    To have such errors handled appropriately.
-
-    Any other exception will cause a generic 'there was a problem' message to
-    be displayed.
-
-    A more detailed error can be displayed by setting 'session.error_message'.
+    raise EX(status_code, message)
+    To ensure that exceptions are handled appropriately.
     """
     error_title = 'Oops ...'
     error_details = ('Somewhere in the universe, a butterfly has spread it\'s wings '
