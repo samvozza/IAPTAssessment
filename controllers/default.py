@@ -95,3 +95,51 @@ def setup():
     db.category.insert(name='Toyes and Games')
 
     return dict()
+
+
+
+
+# Error handling
+
+def error_handler():
+    """
+    This is a catch-all route which acts as the destination for all server errors.
+    Use:
+    raise HTTP(403)
+    raise HTTP(404)
+    raise HTTP(500)
+
+    To have such errors handled appropriately.
+
+    Any other exception will cause a generic 'there was a problem' message to
+    be displayed.
+
+    A more detailed error can be displayed by setting 'session.error_message'.
+    """
+    error_title = 'Oops ...'
+    error_details = ('Somewhere in the universe, a butterfly has spread it\'s wings '
+                     + 'and leapt into the world. As a result, our servers seem to be '
+                     + 'misbehaving. Hopefully, refreshing the page will magically kick '
+                     + 'our servers back into action. If that doesn\'t resolve the issue, '
+                     + 'you can use the link below to get back to safety.')
+    recovery_link = URL('default', 'index')
+
+    code = request.vars.code
+    if code == '403':
+        error_title = 'You Don\'t Have Permission'
+        error_details = ('Uh oh - you shouldn\'t have ended up here. '
+                         + 'But that\'s OK - we can help you get back to '
+                         + 'wherever you needed to be.')
+    elif code == '404':
+        error_title = 'You Look A Little Lost'
+        error_details = ('You seem to have wandered off the beaten path. '
+                         + 'But that\'s OK - everyone ends up here at some point.')
+    elif code == '500':
+        pass
+
+    if session.error_message:
+        error_details = error_details + ' See the message below for more details.'
+
+    return dict(error_title=error_title,
+                error_details=error_details,
+                recovery_link=recovery_link)
