@@ -21,18 +21,15 @@ def update():
 def create():
 	response.collection = db(db.collection.id == request.vars['collection']).select().first()
 	response.owner = db(db.auth_user.id == auth.user_id).select().first()
-	
-	addobjectform = SQLFORM(db.object, fields = ['name', 'collection', 'price', 'category', 'quantity', 'tradable_quantity', 'wanted_quantity','description', 'image'], submit_button='Create')
-	addobjectform.vars.owner = auth.user_id
-	if addobjectform.process(onvalidation = checking_quantity).accepted:
-		redirect(URL('object', 'view', args=[addobjectform.vars.id], vars=dict(message='object_created')))
 
-	elif addobjectform.errors:
+	form = SQLFORM(db.object, fields = ['name', 'collection', 'price', 'category', 'quantity', 'tradable_quantity', 'wanted_quantity','description', 'image'], submit_button='Create')
+	form.vars.owner = auth.user_id
+	if form.process(onvalidation = checking_quantity).accepted:
+		redirect(URL('object', 'view', args=[form.vars.id], vars=dict(message='object_created')))
+	elif form.errors:
 		response.flash = "One or more errors in your form field. Please see below for more information."
-	else:
-		response.flash = "Please complete the form below to add a new object."
 
-	return dict(addobjectform = addobjectform)
+	return dict(form = form)
 
 #check the quantity and tradable_quantity to ensure that tradable_quantity is less than quantity.
 def checking_quantity(form):
