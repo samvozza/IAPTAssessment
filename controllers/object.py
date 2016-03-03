@@ -19,6 +19,9 @@ def update():
 
 @auth.requires_login()
 def create():
+	response.collection = db(db.collection.id == request.vars['collection']).select().first()
+	response.owner = db(db.auth_user.id == auth.user_id).select().first()
+	
 	addobjectform = SQLFORM(db.object, fields = ['name', 'collection', 'price', 'category', 'quantity', 'tradable_quantity', 'wanted_quantity','description', 'image'])
 	addobjectform.vars.owner = auth.user_id
 	if addobjectform.process(onvalidation = checking_quantity).accepted:
