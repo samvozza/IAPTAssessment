@@ -22,11 +22,21 @@
         <div class="row">
           {{if auth.user:}}
           <div class="dropdown pull-right">
-            <a href="#" class="dropdown-toggle nounderline" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span> {{=auth.user.username}} <span class="caret"></span></a>
+            <a href="#" class="dropdown-toggle nounderline" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+              <span class="glyphicon glyphicon-user"></span> {{=auth.user.username}} <span class="caret"></span></a>
             <ul class="dropdown-menu">
               <li><a href="{{=URL('auth', 'edit')}}" title="Edit Your Details">Settings</a></li>
               <li><a href="{{=URL('auth', 'sign_out')}}" title="Sign Out">Sign Out</a></li>
             </ul>
+          </div>
+          <div class="dropdown pull-right">
+              <a href="#" class="dropdown-toggle nounderline" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                <span class="glyphicon glyphicon-plus"></span> New <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="{{=URL('collection', 'create')}}">Collection</a></li>
+                <li><a href="{{=URL('object', 'create')}}">Object</a></li>
+                <li><a href="{{=URL('trade', 'new')}}">Trade</a></li>
+              </ul>
           </div>
           {{else:}}
           <div class="pull-right">
@@ -46,20 +56,13 @@
           <li class="{{if URL('default', 'index') == URL():}}active{{pass}}"><a href="{{=URL('default', 'index')}}"><span class="glyphicon glyphicon-home"></span> Home</a></li>
           <li class="{{if request.controller == 'collection' or request.controller == 'object':}}active{{pass}}"><a href="{{=URL('collection', 'my')}}"><span class="glyphicon glyphicon-folder-open"></span> Collections</a></li>
           <li class="{{if request.controller == 'trade':}}active{{pass}}"><a href="{{=URL('trade', 'index')}}"><span class="glyphicon glyphicon-transfer"></span> Trades</a></li>
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle {{if request.function == 'create':}}active{{pass}}" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-plus"></span> New</a>
-            <ul class="dropdown-menu">
-              <li><a href="{{=URL('collection', 'create')}}">Collection</a></li>
-              <li><a href="{{=URL('object', 'create')}}">Object</a></li>
-              <li><a href="{{=URL('trade', 'new')}}">Trade</a></li>
-            </ul>
-          </li>
+
         </ul>
         <form class="main-search-form pull-right" method="get" action="{{=URL('default', 'search')}}" role="search">
           <div class="input-group">
-            <input type="text" class="form-control" name="q" placeholder="Search for objects..." value="{{if request.vars.q:}}{{=request.vars.q}}{{pass}}">
+            <input type="text" class="form-control" name="q" placeholder="Search for object name..." value="{{if request.vars.q:}}{{=request.vars.q}}{{pass}}">
             <span class="input-group-btn">
-              <button class="btn btn-default" type="submit">Go!</button>
+              <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search" aria-label="Search"></span></button>
             </span>
           </div>
           <small><a href="{{=URL('default', 'search')}}" class="pull-right">Advanced Search</a></small>
