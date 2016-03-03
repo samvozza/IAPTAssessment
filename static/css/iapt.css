@@ -283,3 +283,7 @@ nav ul li.active {
 nav ul li.active * {
 	color: #4874cd !important;
 }
+
+.nounderline:hover,.nounderline:focus {
+	text-decoration: none;
+}
