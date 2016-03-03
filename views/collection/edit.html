@@ -1,19 +1,53 @@
 {{extend 'layout.html'}}
 <div class="page-title">
   <div class="container">
-    <h1>Edit Collection</h1>
-    <div class="breadcrums">
-      <ul>
-        <li>You are here:</li>
-        <li><a href="{{=URL('default')}}">Home</a></li>
-        <li><a href="{{=URL('default')}}">Collections</a></li>
-        <li>Edit</a></li>
-      </ul>
+    <div class="row">
+      <h1>Edit Collection</h1>
+      <div class="breadcrums">
+        <ul>
+          <li>You are here:</li>
+          <li><a href="{{=URL('default')}}">Home</a></li>
+          <li><a href="{{=URL('collection', 'my')}}">Collections</a></li>
+          <li>Edit</a></li>
+        </ul>
+      </div>
+      <div class="clearfix"></div>
     </div>
-    <div class="clearfix"></div>
   </div>
 </div>
 <div class="container">
-  <div>{{=response.flash}}</div>
-  <div style= "margin-top:10px">{{=form}}</div>
+  <div class="row">
+    <div class="col-md-offset-1 col-md-10">
+      {{if response.flash:}}
+      <div class="alert alert-danger">{{=response.flash}}</div>
+      {{else:}}
+      <div class="alert">Use the form below to edit your collection.</div>
+      {{pass}}
+      <div class="form-horizontal">
+        {{=form.custom.begin}}
+        <div class="form-group {{if form.errors['name']:}} has-error{{pass}}">
+          <label for="collection_name" class="col-xs-12">Name</label><div class="col-sm-8 help-block">
+            {{=form.custom.widget.name}}
+          </div>
+          <div class="col-sm-4 form-helper">Name your collection e.g. Original Pokemon or British Stamps. The name must be <strong>unique</strong> within your collection.</div>
+        </div>
+        <div class="form-group {{if form.errors['public']:}} has-error{{pass}}">
+          <label for="collection_public" class="col-xs-12">Public</label>
+          <div class="col-sm-8 help-block">
+            <select name="public" id="collection_public" class="form-control">
+              <option {{if not response.collection.public:}}selected{{pass}}>No</option>
+              <option {{if response.collection.public:}}selected{{pass}}>Yes</option>
+            </select>
+          </div>
+          <div class="col-sm-4 form-helper">Public collections will be visible by the entire CollectShare community. <strong>Nobody will be able to edit your items</strong>, but they will be able to copy your items to their collections.</div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-8">
+            <input type="submit" value="Edit Collection" class="btn btn-success pull-right"/>
+          </div>
+        </div>
+        {{=form.custom.end}}
+      </div>
+    </div>
+  </div>
 </div>

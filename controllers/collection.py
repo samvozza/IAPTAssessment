@@ -26,61 +26,19 @@ def create():
 
 @auth.requires_login()
 def edit():
-    collection = db(db.collection.id == request.args[0]).select().first()
+    response.collection = db(db.collection.id == request.args[0]).select().first()
     default_collection = db((db.collection.name == 'Default') & (db.collection.owner == auth.user)).select().first()
 
-    if(collection.id == default_collection.id):
+    if(response.collection.id == default_collection.id):
         redirect(URL('collection', 'my'))
         return
 
-    form=FORM(
-              DIV(DIV(LABEL('Name'),_class='col-sm-12 col-md-12 col-lg-12'),
-                  DIV(INPUT(_id='name-field', _class='form-control', _name='name', _value= collection.name,
-                            requires=[IS_NOT_EMPTY(error_message='Please pick a name'),
-                            IS_NOT_IN_DB(db((db.collection.owner==auth.user_id) & (db.collection.name != collection.name)), 'collection.name',
-                            error_message=('This collection already exists. '
-                            + 'Please try a different name.'))]),
-                            _class='col-sm-6 col-md-6 col-lg-6'),
-                            DIV(P('Enter a name for your collection',
-                                _class='form-field-description'),
-                                _class='col-sm-8 col-md-8 col-lg-8'),
-                                _class='form-group row'),
-
-              DIV(DIV(LABEL('Public'),_class='col-sm-12 col-md-12 col-lg-12'),
-                  DIV(SELECT(OPTION('Yes', _value = True, _selected=True),OPTION('No', _value = False, _selected=False), _id='public-field',
-                   _class='form-control', _name='public', value = collection.public),
-                      _class='col-sm-6 col-md-6 col-lg-6'),
-                      DIV(P('This determines if other users can see the objects in your collection ',
-                          _class='form-field-description'),
-                          _class='col-sm-8 col-md-8 col-lg-8'),
-                          _class='form-group row'),
-
-              DIV(DIV(INPUT(_type='button', _value='Back', _onclick='window.location=\'%s\';;return false' %
-              URL('collection','my'), _class='btn btn-primary pull-right'),
-                            _class='col-sm-5 col-md-5 col-lg-5')),
-
-                    DIV(INPUT(_id='submit-button', _name='Submit', _type='submit',
-                     _value='Update', _class='btn btn-primary pull-right'),
-                     _class='col-sm-1 col-md-1 col-lg-1'),
-              )
-
+    form = SQLFORM(db.collection, response.collection, fields=['name'])
     form.vars.owner = auth.user_id
-
-    if form.accepts(request,session):
-            response.flash = 'Your collection updated.'
-            if(form.vars.public == 'No'):
-                db(db.collection.id == collection.id).update(name=form.vars.name , public= False)
-            else:
-                db(db.collection.id == collection.id).update(name=form.vars.name , public= True)
-            redirect(URL('my'))
-
-    elif form.errors:
-        response.flash = "We couldn't process your form because it contain errors. Check below for more detail."
-
-    else:
-        response.flash = 'Use the form below to update a collection.'
-
-    return  dict(form=form)
+    form.vars.public = True if request.vars.public == 'Yes' else False
+    if form.process(keepvalues=True).accepted:
+        redirect(URL('collection', 'view', args=[form.vars.id], vars=dict(message='edit_collection')))
+    return dict(form=form)
 
 def delete():
 

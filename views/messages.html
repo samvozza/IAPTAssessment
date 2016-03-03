@@ -11,4 +11,11 @@
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
+{{elif request.vars.message == 'edit_collection':}}
+<div class="alert alert-success">
+  You have successfully edited the collection.
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
 {{pass}}

@@ -16,9 +16,11 @@
 </div>
 <div class="container">
   <div class="row">
-    <div class="col-md-10">
+    <div class="col-md-offset-1 col-md-10">
       {{if response.flash:}}
       <div class="alert alert-danger">{{=response.flash}}</div>
+      {{else:}}
+      <div class="alert">Use the form below to create a new collection. Remember, you can always return and edit it.</div>
       {{pass}}
       <div class="form-horizontal">
         {{=form.custom.begin}}
@@ -39,8 +41,8 @@
           <div class="col-sm-4 form-helper">Public collections will be visible by the entire CollectShare community. <strong>Nobody will be able to edit your items</strong>, but they will be able to copy your items to their collections.</div>
         </div>
         <div class="form-group">
-          <div class="col-xs-offset-2 col-xs-10">
-            <input type="submit" value="Create Collection" class="btn btn-success"/>
+          <div class="col-md-8">
+            <input type="submit" value="Create Collection" class="btn btn-success pull-right"/>
           </div>
         </div>
         {{=form.custom.end}}
