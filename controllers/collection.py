@@ -12,72 +12,22 @@ def view():
     response.owner = db(db.auth_user.id == response.collection.owner).select().first()
     response.datalist = db(db.object.collection == response.collection.id).select(db.object.name,distinct=True)
 
-    return dict(message=T('Welcome to web2py!'))
+    return dict()
 
 @auth.requires_login()
-
 def create():
-    if(not auth.is_logged_in()):
-        redirect(URL('default', 'index'))
-        return
-    form=FORM(
-              DIV(DIV(LABEL('Name'),_class='col-sm-12 col-md-12 col-lg-12'),
-                  DIV(INPUT(_id='name', _class='form-control', _name='name',
-                            requires=[IS_NOT_EMPTY(error_message='Please pick a name'),
-                            IS_NOT_IN_DB(db(db.collection.owner==auth.user_id), 'collection.name',
-                            error_message=('This collection already exists. '
-                            + 'Please try a different name.'))]),
-                            _class='col-sm-6 col-md-6 col-lg-6'),
-                            DIV(P('Enter a name for your collection',
-                                _class='form-field-description'),
-                                _class='col-sm-8 col-md-8 col-lg-8'),
-                                _class='form-group row'),
-
-              DIV(DIV(LABEL('Public'),_class='col-sm-12 col-md-12 col-lg-12'),
-                  DIV(SELECT(OPTION('No', _value = False),OPTION('Yes', _value = True), _id='public-field', _class='form-control', _name='public'),
-                      _class='col-sm-6 col-md-6 col-lg-6'),
-                      DIV(P('This determines if other users can see the objects in your collection ',
-                          _class='form-field-description'),
-                          _class='col-sm-8 col-md-8 col-lg-8'),
-                          _class='form-group row'),
-
-              DIV(DIV(INPUT(_type='button', _value='Back', _onclick='window.location=\'%s\';;return false'
-              % URL('collection','my'), _class='btn btn-primary pull-right'),
-                            _class='col-sm-5 col-md-5 col-lg-5')),
-
-                    DIV(INPUT(_id='submit-button', _name='Submit', _type='submit',
-                     _value='Create', _class='btn btn-primary pull-right'),
-                     _class='col-sm-1 col-md-1 col-lg-1'),
-              )
-
+    form = SQLFORM(db.collection, fields=['name'])
     form.vars.owner = auth.user_id
+    form.vars.public = True if request.vars.public == 'Yes' else False
+    if form.process(keepvalues=True).accepted:
+        redirect(URL('collection', 'view', args=[form.vars.id], vars=dict(message='new_collection')))
+    return dict(form=form)
 
-    if form.accepts(request,session):
-            response.flash = 'Collection created.'
-            if(form.vars.public == 'No'):
-                db.collection.insert(name=form.vars.name, public= False)
-            else:
-                db.collection.insert(name=form.vars.name, public= True)
-            redirect(URL('my'))
-
-
-    elif form.errors:
-        response.flash = "We couldn't process your form because it contain errors. Check below for more detail."
-
-    else:
-        response.flash = 'Use the form below to create a new collection.'
-
-    return  dict(form=form)
 
 @auth.requires_login()
-
 def edit():
     collection = db(db.collection.id == request.args[0]).select().first()
     default_collection = db((db.collection.name == 'Default') & (db.collection.owner == auth.user)).select().first()
-
-    if(not auth.is_logged_in()):
-        redirect(URL('default', 'index'))
-        return
 
     if(collection.id == default_collection.id):
         redirect(URL('collection', 'my'))

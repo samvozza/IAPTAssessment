@@ -1,19 +1,50 @@
 {{extend 'layout.html'}}
 <div class="page-title">
   <div class="container">
-    <h1>New Collection</h1>
-    <div class="breadcrums">
-      <ul>
-        <li>You are here:</li>
-        <li><a href="{{=URL('default')}}">Home</a></li>
-        <li><a href="{{=URL('view')}}">Collections</a></li>
-        <li>New</li>
-      </ul>
+    <div class="row">
+      <h1>New Collection</h1>
+      <div class="breadcrums">
+        <ul>
+          <li>You are here:</li>
+          <li><a href="{{=URL('default')}}">Home</a></li>
+          <li><a href="{{=URL('view')}}">Collections</a></li>
+          <li>New</li>
+        </ul>
+      </div>
     </div>
-    <div class="clearfix"></div>
   </div>
 </div>
 <div class="container">
-  <div>{{=response.flash}}</div>
-  <div style= "margin-top:10px">{{=form}}</div>
+  <div class="row">
+    <div class="col-md-10">
+      {{if response.flash:}}
+      <div class="alert alert-danger">{{=response.flash}}</div>
+      {{pass}}
+      <div class="form-horizontal">
+        {{=form.custom.begin}}
+        <div class="form-group {{if form.errors['name']:}} has-error{{pass}}">
+          <label for="collection_name" class="col-xs-12">Name</label><div class="col-sm-8 help-block">
+            {{=form.custom.widget.name}}
+          </div>
+          <div class="col-sm-4 form-helper">Name your collection e.g. Original Pokemon or British Stamps. The name must be <strong>unique</strong>.</div>
+        </div>
+        <div class="form-group {{if form.errors['public']:}} has-error{{pass}}">
+          <label for="collection_public" class="col-xs-12">Public</label>
+          <div class="col-sm-8 help-block">
+            <select name="public" id="collection_public" class="form-control">
+              <option>No</option>
+              <option>Yes</option>
+            </select>
+          </div>
+          <div class="col-sm-4 form-helper">Public collections will be visible by the entire CollectShare community. <strong>Nobody will be able to edit your items</strong>, but they will be able to copy your items to their collections.</div>
+        </div>
+        <div class="form-group">
+          <div class="col-xs-offset-2 col-xs-10">
+            <input type="submit" value="Create Collection" class="btn btn-success"/>
+          </div>
+        </div>
+        {{=form.custom.end}}
+      </div>
+    </div>
+  </div>
 </div>

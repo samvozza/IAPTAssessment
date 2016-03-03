@@ -77,7 +77,7 @@ db.define_table('collection',
                 Field('owner', db.auth_user, default=auth.user_id,
                       notnull=True, ondelete="CASCADE"),
                 Field('name', type='string', length=64, required=True,
-                      notnull=True),
+                      notnull=True, unique=True),
                 Field('public', type="boolean", default=False,
                       notnull=True)
 )
