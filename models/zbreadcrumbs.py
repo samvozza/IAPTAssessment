@@ -1,22 +1,12 @@
-# Breadcrumbs are represented as a 3-tuple:
-# (<text>, <link>, <title>)
-#
-# <text>  -> the text to display in the breadcrumb
-# <link>  -> the link to use for the breadcrumb if this is not
-#            set, the breadcrumb will not be given a hyperlink
-# <title> -> the page title
-#            if this is not set, the title defaults to the
-#            breadcrumb's text
-
+# Breadcrumbs
 
 class Breadcrumb(object):
-    def __init__(self, text, link=None, title=None):
+    def __init__(self, text, link=None):
         self._text = text
         self._link = link
-        self._title = title or text
 
-    def title(self):
-        return self._title
+    def text(self):
+        return self._text
     
     def make_link(self, active=False):
         if active:
@@ -32,15 +22,15 @@ def start_breadcrumbs():
         response.breadcrumbs = [Breadcrumb('Home', URL('default', 'index'))]
 
 
-def add_breadcrumb(text, link=None, title=None):
+def add_breadcrumb(text, link=None):
     start_breadcrumbs()
-    breadcrumb = Breadcrumb(text, link, title)
+    breadcrumb = Breadcrumb(text, link)
     response.breadcrumbs.append(breadcrumb)
 
 
-def page_title():
+def last_breadcrumb_text():
     start_breadcrumbs()
-    return response.breadcrumbs[-1].title()
+    return response.breadcrumbs[-1].text()
 
 
 def make_breadcrumbs():

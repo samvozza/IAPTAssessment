@@ -178,7 +178,8 @@ def edit_proposal():
 
 
     add_breadcrumb('My Trades', URL('trade', 'index'))
-    add_breadcrumb('Edit Trade Proposal', None, 'Editing proposal \'' + current_proposal.title + '\'')
+    add_breadcrumb('Edit Trade Proposal', None)
+    response.title = 'Editing Trade Proposal \'' + current_proposal.title + '\''
     return dict(search=search,
                 receiver=receiver,
                 selected_user=selected_user,
