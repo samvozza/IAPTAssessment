@@ -166,6 +166,44 @@ input.invalidinput:focus {
 	margin-top: 2em;
 	margin-bottom: 1em;
 }
+/*------------------------------------  css for object/create.html   --------------------------------------*/
+.form_field_top{
+	margin-top:10px;
+	
+}
+
+.form_field{
+	margin-top:30px;
+}
+
+.obj_label{
+    	margin-right: -20px;
+    	margin-left: -20px;
+	
+    	display: inline-block;
+    	max-width: 100%;
+    	margin-bottom: 5px;
+    	font-weight: bold;
+}
+
+.obj_field{
+	margin-right: -20px;
+    	margin-left: -20px;
+}
+
+
+.description{
+	font-size: 13px !important;
+	margin: 0 0 10px;
+	box-sizing: border-box;
+	display: block;
+	margin:0 0 0 1.5em;	
+}
+
+.obj_submit{
+	margin-left: 18em;;
+}
+
 
 /*css for viewtradestatus.html*/
 .trade_status {
