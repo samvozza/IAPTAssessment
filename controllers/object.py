@@ -19,7 +19,10 @@ def update():
 
 @auth.requires_login()
 def create():
-	addobjectform = SQLFORM(db.object, fields = ['name', 'collection', 'price', 'category', 'quantity', 'tradable_quantity', 'wanted_quantity','description', 'image'])
+	response.collection = db(db.collection.id == request.vars['collection']).select().first()
+	response.owner = db(db.auth_user.id == auth.user_id).select().first()
+	
+	addobjectform = SQLFORM(db.object, fields = ['name', 'collection', 'price', 'category', 'quantity', 'tradable_quantity', 'wanted_quantity','description', 'image'], submit_button='Create')
 	addobjectform.vars.owner = auth.user_id
 	if addobjectform.process(onvalidation = checking_quantity).accepted:
 		redirect(URL('object', 'view', args=[addobjectform.vars.id], vars=dict(message='object_created')))
