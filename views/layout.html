@@ -40,14 +40,14 @@
   </div>
   <div class="container">
     <div class="row">
-      <nav class="navbar">
+      <nav class="navbar ">
         <ul class="nav navbar-nav navbar-left">
           <li><div class="brand"><a href="{{=URL('default', 'index')}}">CollectShare</a></div></li>
-          <li><a href="{{=URL('default', 'index')}}"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-          <li><a href="{{=URL('collection', 'my')}}"><span class="glyphicon glyphicon-folder-open"></span> My Collection</a></li>
-          <li><a href="{{=URL('trade', 'index')}}"><span class="glyphicon glyphicon-transfer"></span> My Trades</a></li>
+          <li class="{{if URL('default', 'index') == URL():}}active{{pass}}"><a href="{{=URL('default', 'index')}}"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+          <li class="{{if request.controller == 'collection' or request.controller == 'object':}}active{{pass}}"><a href="{{=URL('collection', 'my')}}"><span class="glyphicon glyphicon-folder-open"></span> Collections</a></li>
+          <li class="{{if request.controller == 'trade':}}active{{pass}}"><a href="{{=URL('trade', 'index')}}"><span class="glyphicon glyphicon-transfer"></span> Trades</a></li>
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-plus"></span> New</a>
+            <a href="#" class="dropdown-toggle {{if request.function == 'create':}}active{{pass}}" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-plus"></span> New</a>
             <ul class="dropdown-menu">
               <li><a href="{{=URL('collection', 'create')}}">Collection</a></li>
               <li><a href="{{=URL('object', 'create')}}">Object</a></li>

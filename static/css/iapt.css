@@ -273,3 +273,13 @@ body {
 	padding-left: 0;
 	padding-right: 0;
 }
+
+
+nav ul li.active {
+	text-decoration: none;
+	border-bottom: 1px #4874cd solid;
+	margin-bottom: -1px;
+}
+nav ul li.active * {
+	color: #4874cd !important;
+}
