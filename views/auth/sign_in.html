@@ -2,30 +2,37 @@
 
 <div class="page-title">
   <div class="container">
-    <h1>Sign In</h1>
-    <div class="breadcrums">
-      <ul>
-        <li>You are here:</li>
-        <li><a href="{{=URL('default')}}">Home</a>
-        <li>Sign In</li>
-      </ul>
+    <div class="row">
+      <h1>Sign In</h1>
+      <div class="breadcrums">
+        <ul>
+          <li>You are here:</li>
+          <li><a href="{{=URL('default')}}">Home</a>
+            <li>Sign In</li>
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
-  <div class="clearfix"></div>
 </div>
 
 <div class="container">
+  {{if request.vars.url != "":}}
+  <div class="row">
+    <div class="alert alert-warning">In order to proceed further, you need to login. Use the form below to do this.</div>
+  </div>
+  {{pass}}
   <div class="row">
     <div class="col-sm-1 col-md-1 col-lg-2"></div>
     <div class="col-sm-12 col-md-12 col-lg-12">
       <div class="col-sm-6 col-md-6" style="border-right: 1px solid lightgray;">
-       	{{=form}}
+        {{=form}}
       </div>
       <div class="col-sm-6 col-md-6" style="padding-top: 25px;">
         <h4 style="text-align: center;">{{=T('Don\'t have an account?')}}</h4>
-       	{{=FORM(INPUT(_id='register-button', _name='register', _type='submit',
-       					 			_value='Register', _class='btn btn-primary center-block'),
-       					_id='registration-form', _role='form', _action=URL('auth', 'register'))}}
+        {{=FORM(INPUT(_id='register-button', _name='register', _type='submit',
+        _value='Register', _class='btn btn-primary center-block'),
+        _id='registration-form', _role='form', _action=URL('auth', 'register'))}}
       </div>
     </div>
     <div class="col-sm-1 col-md-1 col-lg-2"></div>
