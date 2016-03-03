@@ -3,25 +3,25 @@
 {{extend 'layout.html'}}
 <div class="page-title">
   <div class="container">
-    <h1>Index</h1>
-    <div class="breadcrums">
-      <ul>
-        <li>You are here:</li>
-        <li><a href="{{=URL('default')}}">Home</a>
-        <li><a href="{{=URL('default')}}">Home</a>
-        <li><a href="{{=URL('default')}}">Home</a>
-      </ul>
+    <div class="row">
+      <h1>index</h1>
+      <div class="breadcrums">
+        <ul>
+          <li>You are here:</li>
+          <li><a href="{{=URL('default')}}">Home</a></li>
+        </ul>
+      </div>
     </div>
   </div>
-  <div class="clearfix"></div>
 </div>
-{{block header}}
-    <header class="container-fluid background">
-      <div class="jumbotron text-center">
-        {{if response.title:}}
-        <h1>{{=response.title}}
-          <small>{{=response.subtitle or ''}}</small></h1>
-        {{pass}}
-      </div>
-    </header>
-{{end}}
+<div class="container">
+  {{if auth.user:}}
+  {{else:}}
+
+  <div class="jumbotron">
+    <h1>Welcome to CollectShare</h1>
+    <p>Join the fantastic community of collectors! Share your collections. Trade items. <strong>Everything for Free</strong></p>
+    <a href="{{=URL('auth', 'register')}}" class="btn btn-lg btn-primary">Join Community</a>
+  </div>
+  {{pass}}
+</div>

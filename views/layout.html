@@ -15,29 +15,34 @@
   <link rel="apple-touch-icon" href="{{=URL('static', 'images/favicon.png')}}">
 </head>
 <body>
-  <div class="container-fluid">
-  	<!-- Header -->
-    <div class="header">
-      <div class="top-bar">
-        {{if auth.user:}}
-        <div class="dropdown pull-right">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{=auth.user.username}} <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="{{=URL('auth', 'edit')}}" title="Edit Your Details">Edit Your Details</a></li>
-            <li><a href="{{=URL('auth', 'sign_out')}}" title="Sign Out">Sign Out</a></li>
-          </ul>
+  <!-- Header -->
+  <div class="header">
+    <div class="top-bar">
+      <div class="container">
+        <div class="row">
+          {{if auth.user:}}
+          <div class="dropdown pull-right">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{=auth.user.username}} <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="{{=URL('auth', 'edit')}}" title="Edit Your Details">Settings</a></li>
+              <li><a href="{{=URL('auth', 'sign_out')}}" title="Sign Out">Sign Out</a></li>
+            </ul>
+          </div>
+          {{else:}}
+          <div class="pull-right">
+            <a href="{{=URL('auth', 'register', vars={'_next': URL()})}}" title="Register">Register</a>
+            <a href="{{=URL('auth', 'sign_in', vars={'_next': URL()})}}" title="Sign In">Sign In</a>
+          </div>
+          {{pass}}
         </div>
-        {{else:}}
-        <div class="pull-right">
-          <a href="{{=URL('auth', 'register', vars={'_next': URL()})}}" title="Register">Register</a>
-          <a href="{{=URL('auth', 'sign_in', vars={'_next': URL()})}}" title="Sign In">Sign In</a>
-        </div>
-        {{pass}}
       </div>
-
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
       <nav class="navbar">
         <ul class="nav navbar-nav navbar-left">
-        	<li><div class="brand"><a href="{{=URL('default', 'index')}}">CollectShare</a></div></li>
+          <li><div class="brand"><a href="{{=URL('default', 'index')}}">CollectShare</a></div></li>
           <li><a href="{{=URL('collection', 'my')}}">My Collection</a></li>
           <li><a href="{{=URL('trade', 'index')}}">My Trades</a></li>
           <li class="dropdown">
@@ -55,18 +60,15 @@
               <button class="btn btn-default" type="submit">Go!</button>
             </span>
           </div>
-        <small><a href="{{=URL('default', 'search')}}" class="pull-right">Advanced Search</a></small>
+          <small><a href="{{=URL('default', 'search')}}" class="pull-right">Advanced Search</a></small>
         </form>
       </nav>
     </div>
-    <!-- /Header -->
-
-    <!-- Main Content -->
-    <div class="main">
-      {{include}}
-    </div>
-    <!-- /Main Content -->
   </div>
+  <!-- /Header -->
+
+  {{include}}
+  <!-- /Main Content -->
 
   <!-- Footer -->
   <footer class="footer">
@@ -84,7 +86,7 @@
   <script src="{{=URL('static', 'js/modernizr-2.8.3.min.js')}}"></script>
   <script>
   $('*[data-toggle="tooltip"]').each(function() {
-      $(this).tooltip()
+    $(this).tooltip()
   });
   </script>
   {{block page_js}}{{end page_js}}
