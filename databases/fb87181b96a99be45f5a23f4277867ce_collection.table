@@ -22,26 +22,9 @@ sS'type'
 p10
 S'reference auth_user'
 p11
-ssS'public'
+ssS'id'
 p12
 (dp13
-g4
-I512
-sg5
-I00
-sg6
-I4
-sg7
-S'CHAR(1) NOT NULL'
-p14
-sg9
-I01
-sg10
-S'boolean'
-p15
-ssS'id'
-p16
-(dp17
 g4
 I512
 sg5
@@ -50,26 +33,44 @@ sg6
 I1
 sg7
 S'INTEGER PRIMARY KEY AUTOINCREMENT'
-p18
+p14
 sg9
 I00
 sg10
-g16
+S'id'
+p15
 ssS'name'
-p19
-(dp20
+p16
+(dp17
 g4
 I64
 sg5
-I01
+I00
 sg6
 I3
 sg7
-S'CHAR(64) NOT NULL UNIQUE'
-p21
+S'CHAR(64) NOT NULL'
+p18
 sg9
 I01
 sg10
 S'string'
+p19
+ssS'public'
+p20
+(dp21
+g4
+I512
+sg5
+I00
+sg6
+I4
+sg7
+S'CHAR(1) NOT NULL'
 p22
+sg9
+I01
+sg10
+S'boolean'
+p23
 ss.
