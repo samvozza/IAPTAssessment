@@ -1,19 +1,5 @@
 {{extend 'layout.html'}}
 
-<div class="page-title">
-  <div class="container">
-    <h1>Editing proposal '{{=current_proposal.title}}'</h1>
-    <div class="breadcrums">
-      <ul>
-        <li>You are here:</li>
-        <li><a href="{{=URL('default')}}">Home</a></li>
-        <li>Edit Trade Proposal</li>
-      </ul>
-    </div>
-    <div class="clearfix"></div>
-  </div>
-</div>
-
 {{include 'trade/proposal.html'}}
 
 {{block page_js}}

@@ -16,7 +16,7 @@ def index():
     if you need a simple wiki simply replace the two lines below with:
     return auth.wiki()
     """
-    return dict(message=T('Welcome to web2py!'))
+    return dict()
 
 def search():
     response.q = request.vars.q if request.vars.q else ''
@@ -42,6 +42,11 @@ def search():
         response.results = db(query).select()
         response.r = ''
 
+    if response.r == None or response.r == '':
+        add_breadcrumb('Search')
+    else:
+        add_breadcrumb('Search', URL('default', 'search'))
+        add_breadcrumb(response.r)
     return dict();
 
 @cache.action()
@@ -133,6 +138,9 @@ def error_handler():
     if session.error_message:
         error_details = error_details + ' See the message below for more details.'
 
+    error_title = code + ' - ' + error_title
+
+    add_breadcrumb(error_title)
     return dict(error_title=error_title,
                 error_details=error_details,
                 recovery_link=recovery_link)

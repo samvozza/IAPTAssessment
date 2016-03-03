@@ -1,22 +1,9 @@
 {{extend 'layout.html'}}
-<div class="page-title">
-  <div class="container">
-    <h1>{{=response.collection.name}}</h1>
-    <div class="breadcrums">
-      <ul>
-        <li>You are here:</li>
-        <li><a href="{{=URL('default')}}">Home</a></li>
-        <li><a href="{{=URL('collection','user',args=[response.collection.owner])}}">{{=response.owner.username}}'s Collections</a></li>
-        <li>{{=response.collection.name}}</li>
-      </ul>
-    </div>
-    <div class="clearfix"></div>
-  </div>
-</div>
+
 <div class="container">
   <div class="row">
     <div class="col-md-3">
-      <h3>Colections</h3>
+      <h3>Collections</h3>
       <div class="list-group">
         {{for collection in response.collections:}}
         <a href="{{=URL('collection', 'view', args=[collection.id])}}" class="list-group-item {{if collection.id == response.collection.id:}}active{{pass}}">

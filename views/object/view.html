@@ -1,20 +1,5 @@
 {{extend 'layout.html'}}
 
-<div class="page-title">
-  <div class="container">
-  <h1>{{=response.result.name}}</h1>
-  <div class="breadcrums">
-    <ul>
-      <li>You are here:</li>
-      <li><a href="{{=URL('default')}}">Home</a></li>
-      <li><a href="{{=URL('collection', 'user', args=[response.owner.id])}}">{{=response.owner.username}}</a></li>
-      <li><a href="{{=URL('collection', 'view', args=[response.result.collection])}}">{{=response.collection.name}}</a></li>
-      <li>{{=response.result.name}}</li>
-    </ul>
-  </div>
-</div>
-  <div class="clearfix"></div>
-</div>
 <div class="container">
   {{include 'messages.html'}}
   <div class="col-md-8">

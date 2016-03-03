@@ -1,23 +1,5 @@
 {{extend 'layout.html'}}
 
-<div class="page-title">
-  <div class="container">
-    <div class="row">
-      <h1>Add Item</h1>
-      <div class="breadcrums">
-        <ul>
-          <li>You are here:</li>
-          <li><a href="{{=URL('default')}}">Home</a></li>
-          <li><a href="{{=URL('collection','user',args=[response.owner])}}">{{=response.owner.username}}'s Collections</a></li>
-          <li><a href="{{=URL('collection','view',args=[response.collection])}}">{{=response.collection.name}}</a></li>
-          <li><a href="{{=URL('default')}}">Create</a></li>
-        </ul>
-      </div>
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</div>
-
 <div class="container">
   <div class="row">
     <div class="col-md-offset-1 col-md-10">

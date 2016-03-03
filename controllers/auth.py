@@ -7,7 +7,6 @@ def index():
     Immediate redirect to the default controller's index page
     """
     redirect(URL('default', 'index'))
-    return dict()
 
 
 def user():
@@ -15,7 +14,6 @@ def user():
     Immediate redirect to the auth controller's sign in page
     """
     redirect(URL('auth', 'sign_in', vars=request.vars))
-    return dict()
 
 
 def register():
@@ -84,6 +82,7 @@ def register():
     else:
         pass
     
+    add_breadcrumb('Register')
     return dict(form=registration_form)
 
 
@@ -171,6 +170,7 @@ def edit():
     else:
         pass
 
+    add_breadcrumb('Edit Your Details')
     return dict(form=edit_form)
 
 
@@ -208,6 +208,7 @@ def sign_in():
     else:
         pass
 
+    add_breadcrumb('Sign In')
     return dict(form=sign_in_form)
 
 

@@ -1,24 +1,5 @@
 {{extend 'layout.html'}}
-<div class="page-title">
-  <div class="container">
-    {{if response.r == None:}}
-    <h1>Search</h1>
-    {{else:}}
-    <h1>Search Results</h1>
-    {{pass}}
-    <div class="breadcrums">
-      <ul>
-        <li>You are here:</li>
-        <li><a href="{{=URL('default')}}">Home</a></li>
-        <li><a href="{{=URL('default','search')}}">Search</a></li>
-        {{if response.r != None:}}
-        <li>{{=response.q}}</li>
-        {{pass}}
-      </ul>
-    </div>
-    <div class="clearfix"></div>
-  </div>
-</div>
+
 <div class="container">
   <div class="row">
     <div class="{{if response.r != None:}}col-md-3{{else:}}col-md-10 col-md-offset-1{{pass}}">

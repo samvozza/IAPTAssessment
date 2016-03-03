@@ -2,6 +2,7 @@
 
 # Trade routes
 
+
 @auth.requires_login()
 def index():
     response.prepare = db((db.trade.sender == auth.user_id) & (db.trade.status == STATUS_PREPARE)).select()
@@ -11,6 +12,8 @@ def index():
     response.accepted = db((db.trade.sender == auth.user_id) & (db.trade.status == STATUS_ACCEPTED)).select()
     response.rejected = db((db.trade.sender == auth.user_id) & (db.trade.status == STATUS_REJECTED)).select()
     response.cancelled = db((db.trade.sender == auth.user_id) & (db.trade.status == STATUS_CANCELLED)).select()
+
+    add_breadcrumb('My Trades')
     return dict()
 
 
@@ -22,6 +25,11 @@ def view():
     trade_items = [db(db.object.id == link.object).select().first() for link in trade_item_links]
     response.sender_items = [item for item in trade_items if item.owner == response.sender.id]
     response.receiver_items = [item for item in trade_items if item.owner == response.receiver.id]
+    is_sender = response.sender.username == auth.user.username
+    trading_with = STRONG(response.receiver.username if is_sender else response.sender.username)
+
+    add_breadcrumb('My Trades', URL('trade', 'index'))
+    add_breadcrumb(DIV('with user ', trading_with))
     return dict()
 
 
@@ -36,6 +44,8 @@ def new():
         if users_collections_count > 0:
             response.users.append(user)
 
+    add_breadcrumb('My Trades', URL('trade', 'index'))
+    add_breadcrumb('New Trade')
     return dict()
 
 
@@ -43,7 +53,7 @@ def new():
 def new_proposal():
     # Short-circuit if a proposal has been specified
     if request.vars['proposal'] != None:
-        return(edit_proposal())
+        redirect(URL('trade', 'edit_proposal', args=request.args, vars=request.vars))
 
     if request.vars['with'] == None and request.vars['receiver'] == None:
         raise EX(500, 'No user has been specified to trade with '
@@ -66,7 +76,7 @@ def new_proposal():
 
     # Set the 'trade' parameter switch to the edit_proposal controller
     request.vars['proposal'] = proposal_id
-    return(edit_proposal())
+    redirect(URL('trade', 'edit_proposal', args=request.args, vars=request.vars))
 
 
 @auth.requires_login()
@@ -166,6 +176,9 @@ def edit_proposal():
         else:
             proposal_items_from_receiver[item] = quantity
 
+
+    add_breadcrumb('My Trades', URL('trade', 'index'))
+    add_breadcrumb('Edit Trade Proposal', None, 'Editing proposal \'' + current_proposal.title + '\'')
     return dict(search=search,
                 receiver=receiver,
                 selected_user=selected_user,

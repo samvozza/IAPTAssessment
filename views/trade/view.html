@@ -1,21 +1,5 @@
 {{extend 'layout.html'}}
 
-<div class="page-title">
-  <div class="container">
-    <div class="row">
-      <h1>Trade Deal Details</h1>
-      <div class="breadcrums">
-        <ul>
-          <li>You are here:</li>
-          <li><a href="{{=URL('default')}}">Home</a></li>
-          <li><a href="{{=URL('trade', 'index')}}">My Trades</a></li>
-          <li>with user <strong>{{if response.sender.username == auth.user.username:}}{{=response.receiver.username}}{{else:}}{{=response.sender.username}}{{pass}}</strong></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</div>
-
 <div class = "container">
   <div class="row">
     {{if response.trade.status == STATUS_PREPARE:}}
