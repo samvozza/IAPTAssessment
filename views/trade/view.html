@@ -42,7 +42,7 @@
     {{
     modal_id = 'reject_proposal_modal'
     modal_label = 'Reject Trade Proposal'
-    modal_body = 'Are you sure you are no longer interested in this trade? Once the trade has been rejected...'
+    modal_body = 'Are you sure you are no longer interested in this trade? Once the trade has been rejected, it cannot be reopened.'
     modal_link = A('Reject This Trade', _href=URL('trade', 'reject_proposal', args=[response.trade.id]),
     							 _type='button', _class='btn btn-danger')
     modal_aria_label = 'RejectProposalModal'
@@ -53,7 +53,7 @@
     {{
     modal_id = 'accept_proposal_modal'
     modal_label = 'Accept Trade Proposal'
-    modal_body = ('This deal is legally binding. Once you accept a deal all the items will be exchanged. '
+    modal_body = ('This deal is legally binding. Once you accept a trade proposal all the items will be exchanged. '
                   'Are you sure you wish to proceed?')
     modal_link = A('Accept This Trade Proposal', _href=URL('trade', 'accept_proposal', args=[response.trade.id]),
     							 _type='button', _class='btn btn-danger')
@@ -64,9 +64,9 @@
     {{elif response.trade.status == STATUS_ACCEPTED:}}
     <div class="alert alert-success">This trade has been accepted.</div>
     {{elif response.trade.status == STATUS_REJECTED:}}
-    <div class="alert alert-danger">This trade has been accepted.</div>
+    <div class="alert alert-danger">This trade has been rejected.</div>
     {{elif response.trade.status == STATUS_CANCELLED:}}
-    <div class="alert alert-warning">This trade has been accepted.</div>
+    <div class="alert alert-warning">This trade has been cancelled.</div>
     {{pass}}
   </div>
   <div class="row">
