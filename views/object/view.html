@@ -1,5 +1,55 @@
 {{extend 'layout.html'}}
 
+<div class = "container">
+  {{include 'messages.html'}}
+	<div class = "container">
+	  <div class = "row">
+		  <div class = "col-md-4 obj_img">
+        <img src = "{{=URL('default', 'download', args=[str(response.result.image)])}}" alt="Thumbnail of {{=response.result.name}}" width = "100%"/>
+      </div>
+			
+			<div class = "col-md-7 obj_view_all">
+			  <div class = "col-md-12 obj_view_top">
+				  <div class = "col-md-10">
+						  <h2 class = "obj_name">{{=response.result.name}}</h2>					
+				  </div>
+				  <div class = "col-md-2 obj_setting">
+			    {{if auth.user_id == response.result.owner:}}
+          <div class="btn-group pull-right" role="group" aria-label="Options">
+            <div class="btn-group btn-group-sm" role="group">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Settings
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu">
+                <li><a href="{{=URL('object', 'update', args=[response.result.id])}}">Edit</a></li>
+                <li role="seperator" class="divider"></li>
+                <li><a href="{{=URL('collection','delete', args=[response.result.id])}}">Delete</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="clearfix"></div>
+          {{pass}}
+				</div>
+			</div>
+			
+			<div class = "col-md-12 obj_view_detail">
+				  <ul>
+    		    <li><strong>Category: </strong>{{=response.result.category}}</li>
+    		    <li><strong>Price: </strong>{{=response.result.price}}</li>
+    		    <li><strong>Quantity: </strong>{{=response.result.quantity}}</li>
+    		    <li><strong>Tradable Quantity: </strong>{{=response.result.tradable_quantity}}</li>
+    		    <li><strong>Wanted Quantity: </strong>{{=response.result.wanted_quantity}}</li>
+						<li><strong>Description: </strong></li>					
+						<p class = "description_detail">{{=response.result.description}}<p>
+    		  </ul>	
+			</div>
+		</div>
+  </div>
+</div>
+
+
+<!--
 <div class="container">
   {{include 'messages.html'}}
   <div class="col-md-8">
@@ -42,3 +92,4 @@
   </div>
 
 </div>
+-->
