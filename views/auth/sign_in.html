@@ -1,9 +1,11 @@
 {{extend 'layout.html'}}
 
 <div class="container">
-  {{if request.vars.url != "":}}
+  {{if request.vars._next:}}
   <div class="row">
-    <div class="alert alert-warning">In order to proceed further, you need to login. Use the form below to do this.</div>
+    <div class="alert alert-warning">
+      Please sign in to proceed. Once you have signed in you will be redirected automatically.
+    </div>
   </div>
   {{pass}}
   <div class="row">
@@ -14,9 +16,12 @@
       </div>
       <div class="col-sm-6 col-md-6" style="padding-top: 25px;">
         <h4 style="text-align: center;">{{=T('Don\'t have an account?')}}</h4>
-        {{=FORM(INPUT(_id='register-button', _name='register', _type='submit',
-        _value='Register', _class='btn btn-primary center-block'),
-        _id='registration-form', _role='form', _action=URL('auth', 'register'))}}
+        {{
+          =FORM(INPUT(_id='register-button', _name='register', _type='submit',
+                      _value=T('Register'), _class='btn btn-primary center-block'),
+                _id='registration-form', _role='form',
+                _action=URL('auth', 'register', args=request.args, vars=request.vars))
+        }}
       </div>
     </div>
     <div class="col-sm-1 col-md-1 col-lg-2"></div>
