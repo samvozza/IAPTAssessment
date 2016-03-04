@@ -3,70 +3,70 @@
 <div class = "container">
   <div class="row">
     {{if response.trade.status == STATUS_PREPARE:}}
-    <div class="alert alert-info">This deal is in preparation.</div>
+    <div class="alert alert-info">This trade proposal is in preparation.</div>
     <div class="row text-center">
-      <a href="{{=URL('trade', 'edit_proposal', vars={'proposal': response.trade.id})}}" class="btn btn-success">Edit Deal</a>
+      <a href="{{=URL('trade', 'edit_proposal', vars={'proposal': response.trade.id})}}" class="btn btn-success">Edit Trade Proposal</a>
     </div>
     {{elif (response.trade.status == STATUS_OFFERED and auth.user.id == response.trade.sender) or (response.trade.status == STATUS_ACTIVE and auth.user.id == response.trade.receiver):}}
-    <div class="alert alert-info">You have offered this deal.</div>
+    <div class="alert alert-info">You have offered this trade proposal.</div>
     <div class="text-right">
-      <a class="btn btn-danger" data-toggle="modal" data-target="#cancel_deal_modal" title="This button opens up a confirmation model.">Cancel This Deal</a>
+      <a class="btn btn-danger" data-toggle="modal" data-target="#cancel_proposal_modal" title="This button opens up a confirmation model.">Cancel This Trade Proposal</a>
     </div>
     <!-- Modal -->
     {{
-    modal_id = 'cancel_deal_modal'
-    modal_label = 'Cancel Deal'
-    modal_body = 'You can cancel this deal. This process cannot be reversed. Are you sure you want to proceed?'
-    modal_link = A('Cancel This Deal', _href=URL('trade', 'cancel_proposal', args=[response.trade.id]),
+    modal_id = 'cancel_proposal_modal'
+    modal_label = 'Cancel Trade Proposal'
+    modal_body = 'You can cancel this trade proposal. This process cannot be reversed. Are you sure you want to proceed?'
+    modal_link = A('Cancel This Trade Proposal', _href=URL('trade', 'cancel_proposal', args=[response.trade.id]),
     							 _type='button', _class='btn btn-danger')
-    modal_aria_label = 'dealCancellationModal'
+    modal_aria_label = 'proposalCancellationModal'
     }}
     {{include 'modal.html'}}
     <!-- /Modal -->
     {{elif (response.trade.status == STATUS_OFFERED and auth.user.id == response.trade.receiver) or (response.trade.status == STATUS_ACTIVE and auth.user.id == response.trade.sender):}}
     <div class="alert alert-info">
-      This deal is still active.<br/><strong>Accept</strong> - if you like this deal<br/><strong>Reject</strong> - if don't want to carry on with negeotiations<br/><strong>Counter</strong> - if you want you want to make a counter offer
+      This trade proposal is still active.<br/><strong>Accept</strong> - if you like this trade<br/><strong>Reject</strong> - if don't want to carry on with negotiations<br/><strong>Counter</strong> - if you want you want to make a counter offer
     </div>
     <div class="row">
       <div class = "col-md-2 col-md-offset-1">
-        <a  data-toggle="modal" data-target="#accept_deal_modal" class = "btn btn-success">Accept</a>
+        <a  data-toggle="modal" data-target="#accept_proposal_modal" class = "btn btn-success">Accept</a>
       </div>
       <div class = "col-md-2 col-md-offset-2">
         <a href="{{=URL('trade', 'edit_proposal', vars=dict(proposal=response.trade.id))}}" type="button" class = "btn btn-warning">Counter</a>
       </div>
       <div class = "col-md-2 col-md-offset-2">
-        <a  data-toggle="modal" data-target="#reject_deal_modal" class = "btn btn-danger">Reject</a>
+        <a  data-toggle="modal" data-target="#reject_proposal_modal" class = "btn btn-danger">Reject</a>
       </div>
     </div>
     <!-- Modal -->
     {{
-    modal_id = 'reject_deal_modal'
-    modal_label = 'Reject Deal'
-    modal_body = 'Are you sure you are no longer interested in this trade deal. Once the deal has been rejected....'
-    modal_link = A('Reject This Deal', _href=URL('trade', 'reject_proposal', args=[response.trade.id]),
+    modal_id = 'reject_proposal_modal'
+    modal_label = 'Reject Trade Proposal'
+    modal_body = 'Are you sure you are no longer interested in this trade? Once the trade has been rejected...'
+    modal_link = A('Reject This Trade', _href=URL('trade', 'reject_proposal', args=[response.trade.id]),
     							 _type='button', _class='btn btn-danger')
-    modal_aria_label = 'RejectDealModal'
+    modal_aria_label = 'RejectProposalModal'
     }}
     {{include 'modal.html'}}
     <!-- /Modal -->
     <!-- Modal -->
     {{
-    modal_id = 'accept_deal_modal'
-    modal_label = 'Accept Deal'
+    modal_id = 'accept_proposal_modal'
+    modal_label = 'Accept Trade Proposal'
     modal_body = ('This deal is legally binding. Once you accept a deal all the items will be exchanged. '
                   'Are you sure you wish to proceed?')
-    modal_link = A('Accept This Deal', _href=URL('trade', 'accept_proposal', args=[response.trade.id]),
+    modal_link = A('Accept This Trade Proposal', _href=URL('trade', 'accept_proposal', args=[response.trade.id]),
     							 _type='button', _class='btn btn-danger')
-    modal_aria_label = 'AcceptDealModal'
+    modal_aria_label = 'AcceptProposalModal'
     }}
     {{include 'modal.html'}}
     <!-- /Modal -->
     {{elif response.trade.status == STATUS_ACCEPTED:}}
-    <div class="alert alert-success">This deal has been accepted.</div>
+    <div class="alert alert-success">This trade has been accepted.</div>
     {{elif response.trade.status == STATUS_REJECTED:}}
-    <div class="alert alert-danger">This deal has been accepted.</div>
+    <div class="alert alert-danger">This trade has been accepted.</div>
     {{elif response.trade.status == STATUS_CANCELLED:}}
-    <div class="alert alert-warning">This deal has been accepted.</div>
+    <div class="alert alert-warning">This trade has been accepted.</div>
     {{pass}}
   </div>
   <div class="row">
