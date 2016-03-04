@@ -9,63 +9,62 @@
       <div class="alert">Use the form below to update your selected collectable</div>
       {{pass}}
       <div class="form-horizontal">
-        {{=form.custom.begin}}
+        {{=updateobjectform.custom.begin}}
         <h2>General</h2>
-        <div class="form-group {{if form.errors['name']:}}has-error{{pass}}">
-          <div class="col-xs-12">{{=form.custom.label.name}}</div>
-          <div class="col-sm-8 col-xs-12 help-block">{{=form.custom.widget.name}}</div>
-          <div class="col-sm-4 col-xs-12 form-helper">{{=form.custom.comment.name}}</div>
+        <div class="form-group {{if updateobjectform.errors['name']:}}has-error{{pass}}">
+          <div class="col-xs-12">{{=updateobjectform.custom.label.name}}</div>
+          <div class="col-sm-8 col-xs-12 help-block">{{=updateobjectform.custom.widget.name}}</div>
+          <div class="col-sm-4 col-xs-12 form-helper">{{=updateobjectform.custom.comment.name}}</div>
         </div>
-        <div class="form-group {{if form.errors['collection']:}}has-error{{pass}}">
-          <div class="col-xs-12">{{=form.custom.label.collection}}</div>
-          <div class="col-sm-8 col-xs-12 help-block">{{=form.custom.widget.collection}}</div>
-          <div class="col-sm-4 col-xs-12 form-helper">{{=form.custom.comment.collection}}</div>
+        <div class="form-group {{if updateobjectform.errors['collection']:}}has-error{{pass}}">
+          <div class="col-xs-12">{{=updateobjectform.custom.label.collection}}</div>
+          <div class="col-sm-8 col-xs-12 help-block">{{=updateobjectform.custom.widget.collection}}</div>
+          <div class="col-sm-4 col-xs-12 form-helper">{{=updateobjectform.custom.comment.collection}}</div>
         </div>
-        <div class = "form-group {{if form.errors['description']:}}has-error{{pass}}">
-          <div class = "col-xs-12">{{=form.custom.label.description}}</div>
-          <div class = "col-sm-8 col-xs-12 help-block">{{=form.custom.widget.description}}</div>
-          <div class = "col-sm-4 col-xs-12 form-helper">{{=form.custom.comment.description}}</div>
+        <div class = "form-group {{if updateobjectform.errors['description']:}}has-error{{pass}}">
+          <div class = "col-xs-12">{{=updateobjectform.custom.label.description}}</div>
+          <div class = "col-sm-8 col-xs-12 help-block">{{=updateobjectform.custom.widget.description}}</div>
+          <div class = "col-sm-4 col-xs-12 form-helper">{{=updateobjectform.custom.comment.description}}</div>
         </div>
         <h2>Details</h2>
-        <div class="form-group {{if form.errors['price']:}}has-error{{pass}}">
-          <div class="col-xs-12">{{=form.custom.label.price}}</div>
-          <div class="col-sm-8 col-xs-12 help-block">{{=form.custom.widget.price}}</div>
-          <div class="col-sm-4 col-xs-12 form-helper">{{=form.custom.comment.price}}</div>
+        <div class="form-group {{if updateobjectform.errors['price']:}}has-error{{pass}}">
+          <div class="col-xs-12">{{=updateobjectform.custom.label.price}}</div>
+          <div class="col-sm-8 col-xs-12 help-block">{{=updateobjectform.custom.widget.price}}</div>
+          <div class="col-sm-4 col-xs-12 form-helper">{{=updateobjectform.custom.comment.price}}</div>
         </div>
-        <div class = "form-group {{if form.errors['category']:}}has-error{{pass}}">
-          <div class = "col-xs-12">{{=form.custom.label.category}}</div>
-          <div class = "col-sm-8 col-xs-12 help-block">{{=form.custom.widget.category}}</div>
-          <div class = "col-sm-4 col-xs-12 form-helper">{{=form.custom.comment.category}}</div>
+        <div class = "form-group {{if updateobjectform.errors['category']:}}has-error{{pass}}">
+          <div class = "col-xs-12">{{=updateobjectform.custom.label.category}}</div>
+          <div class = "col-sm-8 col-xs-12 help-block">{{=updateobjectform.custom.widget.category}}</div>
+          <div class = "col-sm-4 col-xs-12 form-helper">{{=updateobjectform.custom.comment.category}}</div>
         </div>
-        <div class = "form-group {{if form.errors['image']:}}has-error{{pass}}">
-          <div class = "col-xs-12">{{=form.custom.label.image}}</div>
-          <div class = "col-sm-8 col-xs-12 help-block">{{=form.custom.widget.image}}</div>
-          <div class = "col-sm-4 col-xs-12 form-helper">{{=form.custom.comment.image}}</div>
+        <div class = "form-group {{if updateobjectform.errors['image']:}}has-error{{pass}}">
+          <div class = "col-xs-12">{{=updateobjectform.custom.label.image}}</div>
+          <div class = "col-sm-8 col-xs-12 help-block">{{=updateobjectform.custom.widget.image}}</div>
+          <div class = "col-sm-4 col-xs-12 form-helper">{{=updateobjectform.custom.comment.image}}</div>
           <div class = "col-xs-12"><img hidden="hidden" id="object_image_preview" src=""/></div>
         </div>
         <h2>Quantities</h2>
         <div class="alert">You can specify quantities of the object. </div>
-        <div class = "form-group {{if form.errors['quantity']:}}has-error{{pass}}">
-          <div class = "col-xs-12">{{=form.custom.label.quantity}}</div>
-          <div class = "col-sm-8 col-xs-12 help-block">{{=form.custom.widget.quantity}}</div>
-          <div class = "col-sm-4 col-xs-12 form-helper">{{=form.custom.comment.quantity}}</div>
+        <div class = "form-group {{if updateobjectform.errors['quantity']:}}has-error{{pass}}">
+          <div class = "col-xs-12">{{=updateobjectform.custom.label.quantity}}</div>
+          <div class = "col-sm-8 col-xs-12 help-block">{{=updateobjectform.custom.widget.quantity}}</div>
+          <div class = "col-sm-4 col-xs-12 form-helper">{{=updateobjectform.custom.comment.quantity}}</div>
         </div>
-        <div class = "form-group {{if form.errors['tradable_quantity']:}}has-error{{pass}}">
-          <div class = "col-xs-12">{{=form.custom.label.tradable_quantity}}</div>
-          <div class = "col-sm-8 col-xs-12 help-block">{{=form.custom.widget.tradable_quantity}}</div>
-          <div class = "col-sm-4 col-xs-12 form-helper">{{=form.custom.comment.tradable_quantity}}</div>
+        <div class = "form-group {{if updateobjectform.errors['tradable_quantity']:}}has-error{{pass}}">
+          <div class = "col-xs-12">{{=updateobjectform.custom.label.tradable_quantity}}</div>
+          <div class = "col-sm-8 col-xs-12 help-block">{{=updateobjectform.custom.widget.tradable_quantity}}</div>
+          <div class = "col-sm-4 col-xs-12 form-helper">{{=updateobjectform.custom.comment.tradable_quantity}}</div>
         </div>
-        <div class = "form-group {{if form.errors['wanted_quantity']:}}has-error{{pass}}">
-          <div class = "col-xs-12">{{=form.custom.label.wanted_quantity}}</div>
-          <div class = "col-sm-8 col-xs-12 help-block">{{=form.custom.widget.wanted_quantity}}</div>
-          <div class = "col-sm-4 col-xs-12 form-helper">{{=form.custom.comment.wanted_quantity}}</div>
+        <div class = "form-group {{if updateobjectform.errors['wanted_quantity']:}}has-error{{pass}}">
+          <div class = "col-xs-12">{{=updateobjectform.custom.label.wanted_quantity}}</div>
+          <div class = "col-sm-8 col-xs-12 help-block">{{=updateobjectform.custom.widget.wanted_quantity}}</div>
+          <div class = "col-sm-4 col-xs-12 form-helper">{{=updateobjectform.custom.comment.wanted_quantity}}</div>
         </div>
         <div class = "form_field">
-          <div class = "col-xs-12 col-sm-8">{{=form.custom.submit}}</div>
+          <div class = "col-xs-12 col-sm-8">{{=updateobjectform.custom.submit}}</div>
         </div>
         <div class="clearfix"></div>
-
-        {{=form.custom.end}}
+        {{=updateobjectform.custom.end}}
       </div>
     </div>
   </div>
