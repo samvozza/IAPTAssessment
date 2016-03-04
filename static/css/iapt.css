@@ -223,6 +223,39 @@ input.invalidinput:focus {
 	text-align: center;
 }
 
+/*-----------------------------------------   Object/view.html  -----------------------------------------------*/
+
+.obj_img{
+	margin: 1.5em 0 1.5em 0;
+}
+
+.obj_view_all{
+	border: .1em solid #ccc;
+	margin: 1.5em 0 1.5em 0;
+}
+
+.obj_name{
+	margin: .5em 0 .5em .8em;
+}
+
+.obj_setting{
+	margin-top: 1.2em;
+}
+
+.obj_view_top{
+	border-bottom: .1em solid #ccc;
+}
+
+.obj_view_detail ul{
+	margin: 0 0 2em 0;
+}
+
+.obj_view_detail li{
+	display: block;
+	margin: 1em 2em 0 0;
+}
+
+
 
 /*------------------------------------------   Trade Editing   -------------------------------------------*/
 
