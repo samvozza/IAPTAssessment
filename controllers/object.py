@@ -25,8 +25,11 @@ def update():
 
 @auth.requires_login()
 def create():
-	response.collection = db(db.collection.id == request.vars['collection']).select().first()
 	response.owner = db(db.auth_user.id == auth.user_id).select().first()
+	if request.vars.collection:
+		response.collection = db(db.collection.id == request.vars['collection']).select().first()
+	else:
+		response.collection = db((db.collection.name == 'Default') & (db.collection.owner == auth.user.id)).select().first()
 
 	form = SQLFORM(db.object, fields = ['name', 'collection', 'price', 'category', 'quantity', 'tradable_quantity', 'wanted_quantity','description', 'image'], submit_button='Create')
 	form.vars.owner = auth.user_id
