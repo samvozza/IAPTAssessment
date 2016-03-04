@@ -58,6 +58,10 @@ def view():
 	response.result = db(db.object.id == request.args[0]).select().first()
 	response.collection = db(db.collection.id == response.result.collection).select().first()
 	response.owner = db(db.auth_user.id == response.collection.owner).select().first()
+	
+	category_id = db(db.object.id == request.args[0])._select(db.object.category)
+	sel_category = db(db.category.id.belongs(category_id)).select()
+	response.category = sel_category[0].name
 
 	name = 'Your' if response.owner.id == auth.user.id else response.owner.username + '\'s'
 	add_breadcrumb(name + ' Collections', URL('collection', 'user', args=[response.owner.id]))
