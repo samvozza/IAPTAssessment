@@ -29,17 +29,17 @@
     <div class="col-xs-12 col-sm-4" style="min-height: 135px;">
       <div class="panel panel-default">
         <div class="panel-heading">
-          Recieved<a href="#" id="active-help" data-toggle="tooltip" class="pull-right" title="Deals you can respond to."><span aria-label="Get help here" class="glyphicon glyphicon-question-sign"></span></a>
+          Received<a href="#" id="received-help" data-toggle="tooltip" class="pull-right" title="Deals you can respond to."><span aria-label="Get help here" class="glyphicon glyphicon-question-sign"></span></a>
         </div>
         <div class="list-group trade-list-group">
-          {{if len(response.active) > 0:}}
-            {{for i in response.active:}}
+          {{if len(response.received) > 0:}}
+            {{for i in response.received:}}
             <a href="{{=URL('trade', 'view', args=[i.id])}}" class="list-group-item">
               {{=i.title}}
             </a>
             {{pass}}
           {{else:}}
-          <div class="alert alert-info">No recieved trades.</div>
+          <div class="alert alert-info">No received trades.</div>
           {{pass}}
         </div>
       </div>

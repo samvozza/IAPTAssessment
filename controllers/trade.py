@@ -5,13 +5,23 @@
 
 @auth.requires_login()
 def index():
+    #Prepare: my unsent trade proposals
     response.prepare = db((db.trade.sender == auth.user_id) & (db.trade.status == STATUS_PREPARE)).select()
+    #Sent: proposals I am involved in that were most recently edited by me
     response.sent = db(((db.trade.sender == auth.user_id) & (db.trade.status == STATUS_OFFERED))
                        | ((db.trade.receiver == auth.user_id) & (db.trade.status == STATUS_ACTIVE))).select()
-    response.active = db((db.trade.receiver == auth.user_id) & (db.trade.status == STATUS_OFFERED)).select()
-    response.accepted = db((db.trade.sender == auth.user_id) & (db.trade.status == STATUS_ACCEPTED)).select()
-    response.rejected = db((db.trade.sender == auth.user_id) & (db.trade.status == STATUS_REJECTED)).select()
-    response.cancelled = db((db.trade.sender == auth.user_id) & (db.trade.status == STATUS_CANCELLED)).select()
+    #Received: proposals I am involved in that were most recently edited by the other user
+    response.received = db(((db.trade.sender == auth.user_id) & (db.trade.status == STATUS_ACTIVE))
+                           | ((db.trade.receiver == auth.user_id) & (db.trade.status == STATUS_OFFERED))).select()
+    #Accepted: proposals I am involved in that are now accepted
+    response.accepted = db(((db.trade.sender == auth.user_id) | (db.trade.receiver == auth.user_id))
+                           & (db.trade.status == STATUS_ACCEPTED)).select()
+    #Rejected: proposals I am involved in that are now rejected
+    response.rejected = db(((db.trade.sender == auth.user_id) | (db.trade.receiver == auth.user_id))
+                           & (db.trade.status == STATUS_REJECTED)).select()
+    #Cancelled: proposals I am involved in that are now cancelled
+    response.cancelled = db(((db.trade.sender == auth.user_id) | (db.trade.receiver == auth.user_id))
+                            & (db.trade.status == STATUS_CANCELLED)).select()
 
     add_breadcrumb('My Trades')
     return dict()
