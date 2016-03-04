@@ -30,7 +30,6 @@ def add_breadcrumb(text, link=None):
 
 def last_breadcrumb_text():
     start_breadcrumbs()
-    print response.breadcrumbs[-1].text()
     return response.breadcrumbs[-1].text()
 
 
