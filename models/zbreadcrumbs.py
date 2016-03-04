@@ -30,6 +30,7 @@ def add_breadcrumb(text, link=None):
 
 def last_breadcrumb_text():
     start_breadcrumbs()
+    print response.breadcrumbs[-1].text()
     return response.breadcrumbs[-1].text()
 
 
@@ -42,3 +43,17 @@ def make_breadcrumbs():
     
     breadcrumbs.append(response.breadcrumbs[-1].make_link(True))
     return breadcrumbs
+
+
+def page_title():
+    # Prefer response.title, as long as it isn't set to its default
+    if response.title and response.title != '' and response.title == request.application:
+        return response.title
+
+    # Next preference is the last breadcrumb's text
+    breadcrumb_text = last_breadcrumb_text()
+    if breadcrumb_text and breadcrumb_text != '':
+        return breadcrumb_text
+
+    # Otherwise use the application name
+    return request.application
