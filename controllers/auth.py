@@ -75,7 +75,7 @@ def register():
         if authenticate(registration_form.vars.username, registration_form.vars.password):
             session.flash = (T('Hi ' + registration_form.vars.username + '! '
                                + 'Welcome to CollectShare.'), 'success')
-            redirect(URL('collection', 'my'))
+            redirect_to_next(URL('collection', 'my'))
     elif registration_form.errors:
         if registration_form.errors.password_confirm:
             registration_form.errors.password = ' '
@@ -252,6 +252,7 @@ def FIELD_WITH_DESC(name, field, description):
                      _class='form-field-description'),
                    _class='col-sm-6 col-md-6 col-lg-6'),
                _class='form-group row')
+
 
 class IS_STRING_OR(object):
     def __init__(self, other, comparison_string=""):
