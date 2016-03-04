@@ -7,6 +7,7 @@ def update():
 	updateobjectform = SQLFORM(db.object, record, fields = ['name', 'collection', 'price', 'category', 'quantity', 'tradable_quantity', 'wanted_quantity','description', 'image'], submit_button = 'Update')
 	owner = db(db.auth_user.id == record.owner).select().first()
 	current_collection = db(db.collection.id == record.collection).select().first()
+	updateobjectform.vars.collection = current_collection.id
 
 	if updateobjectform.process(onvalidation = checking_quantity).accepted:
 		response.flash = "Your object is updated."
