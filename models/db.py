@@ -174,6 +174,8 @@ STATUS_CANCELLED = 5
 #+message
 #+time_created timestamp of Trade creation
 #+time_modified timestamp of when proposal was last modified
+#+finalised_sender whether the Sender has finalised the trade
+#+finalised_receiver whether the Receiver has finalised the trade
 db.define_table('trade',
         Field('sender', db.auth_user, default=auth.user_id,
               notnull=True, ondelete="CASCADE"),
@@ -189,6 +191,10 @@ db.define_table('trade',
               notnull=True, writable=False),
         Field('time_modified', type='datetime', default=datetime.now, update=datetime.now,
               notnull=True, writable=False),
+        Field('finalised_sender', type='boolean', default=False,
+              notnull=True),
+        Field('finalised_receiver', type='boolean', default=False,
+              notnull=True)
 )
 
 #Trade_contains_Object table
@@ -201,5 +207,5 @@ db.define_table('trade_contains_object',
         Field('object', db.object, required=True,
               notnull=False, ondelete="SET NULL"),
         Field('quantity', type="integer", required=True,
-              notnull=False),
+              notnull=False)
 )
