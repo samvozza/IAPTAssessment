@@ -36,10 +36,11 @@ def view():
     response.sender_items = [item for item in trade_items if item.owner == response.sender.id]
     response.receiver_items = [item for item in trade_items if item.owner == response.receiver.id]
     is_sender = response.sender.username == auth.user.username
-    trading_with = STRONG(response.receiver.username if is_sender else response.sender.username)
 
+    trading_with = response.receiver.username if is_sender else response.sender.username
     add_breadcrumb('My Trades', URL('trade', 'index'))
-    add_breadcrumb(DIV('with user ', trading_with))
+    add_breadcrumb(DIV('with user ', STRONG(trading_with)))
+    response.title = response.trade.title
     return dict()
 
 
