@@ -4,7 +4,7 @@
   <div class="row">
     <div class="col-xs-12">
       <div class="pull-right">
-        <a href="{{=URL('trade', 'new')}}" class="btn btn-success">New Trade Deal</a>
+        <a href="{{=URL('trade', 'new')}}" class="btn btn-success">New Trade Proposal</a>
       </div>
     </div>
   </div>
@@ -12,7 +12,7 @@
     <div class="col-xs-12 col-sm-4" style="min-height: 135px;">
       <div class="panel panel-default">
         <div class="panel-heading">
-          In Preparation <a href="#" id="prep-help" data-toggle="tooltip" class="pull-right" title="Only you can see and edit these."><span aria-label="Get help here" class="glyphicon glyphicon-question-sign"></span></a></div>
+          In Preparation <a href="#" id="prep-help" data-toggle="tooltip" class="pull-right" title="Only you can see and edit these trade proposals. They have not yet been sent."><span aria-label="Get help here" class="glyphicon glyphicon-question-sign"></span></a></div>
         <div class="list-group trade-list-group">
           {{if len(response.prepare) > 0:}}
             {{for i in response.prepare:}}
@@ -21,7 +21,7 @@
               </a>
             {{pass}}
           {{else:}}
-          <div class="alert alert-info">No trades in preparation.</div>
+          <div class="alert alert-info">No trade proposals in preparation.</div>
           {{pass}}
         </div>
       </div>
@@ -29,7 +29,7 @@
     <div class="col-xs-12 col-sm-4" style="min-height: 135px;">
       <div class="panel panel-default">
         <div class="panel-heading">
-          Received<a href="#" id="received-help" data-toggle="tooltip" class="pull-right" title="Deals you can respond to."><span aria-label="Get help here" class="glyphicon glyphicon-question-sign"></span></a>
+          Received<a href="#" id="received-help" data-toggle="tooltip" class="pull-right" title="Trade proposals you can respond to."><span aria-label="Get help here" class="glyphicon glyphicon-question-sign"></span></a>
         </div>
         <div class="list-group trade-list-group">
           {{if len(response.received) > 0:}}
@@ -39,7 +39,7 @@
             </a>
             {{pass}}
           {{else:}}
-          <div class="alert alert-info">No received trades.</div>
+          <div class="alert alert-info">No received trade proposals.</div>
           {{pass}}
         </div>
       </div>
@@ -47,7 +47,7 @@
     <div class="col-xs-12 col-sm-4" style="min-height: 135px;">
       <div class="panel panel-default">
         <div class="panel-heading">
-          Offered<a href="#" id="offered-help" data-toggle="tooltip" class="pull-right" title="Deals you offered to other users. You cannot edit them but they can be cancelled."><span aria-label="Get help here" class="glyphicon glyphicon-question-sign"></span></a>
+          Offered<a href="#" id="offered-help" data-toggle="tooltip" class="pull-right" title="Trade proposals you offered to other users. You cannot edit them, but they can be cancelled."><span aria-label="Get help here" class="glyphicon glyphicon-question-sign"></span></a>
         </div>
         <div class="list-group trade-list-group">
           {{if len(response.sent) > 0:}}
@@ -57,7 +57,7 @@
             </a>
             {{pass}}
           {{else:}}
-            <div class="alert alert-info">No sent trades.</div>
+            <div class="alert alert-info">No offered trade proposals.</div>
           {{pass}}
         </div>
       </div>
@@ -94,7 +94,7 @@
             </a>
             {{pass}}
           {{else:}}
-            <div class="alert alert-info">No sent trades.</div>
+            <div class="alert alert-info">No rejected trades.</div>
           {{pass}}
         </div>
       </div>
@@ -112,7 +112,7 @@
             </a>
             {{pass}}
           {{else:}}
-            <div class="alert alert-info">No sent trades.</div>
+            <div class="alert alert-info">No cancelled trades.</div>
           {{pass}}
         </div>
       </div>
