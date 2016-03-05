@@ -175,7 +175,7 @@ input.invalidinput:focus {
 	margin-top: 2em;
 	margin-bottom: 1em;
 }
-/*------------------------------------  css for object/create.html   --------------------------------------*/
+/*------------------------------------  Object/create.html   ------------------------------------------*/
 .form_field_top{
 	margin-top:10px;
 	
@@ -213,6 +213,11 @@ input.invalidinput:focus {
 	margin-left: 18em;;
 }
 
+.cancel_button a{
+	text-decoration: none;
+	color: white;
+}
+
 
 .trade_status {
 	border: .1em solid #ccc;
@@ -222,6 +227,7 @@ input.invalidinput:focus {
 .table_title {
 	text-align: center;
 }
+
 
 /*-----------------------------------------   Object/view.html  -----------------------------------------------*/
 
