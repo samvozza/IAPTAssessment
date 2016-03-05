@@ -22,7 +22,8 @@ def update():
 	add_breadcrumb(name + ' Collections', URL('collection', 'user', args=[owner.id]))
 	add_breadcrumb(current_collection.name, URL('collection', 'view', args=[current_collection.id]))
 	add_breadcrumb('Edit Item')
-	return dict(updateobjectform = updateobjectform)
+	add_breadcrumb(record.name)
+	return dict(updateobjectform = updateobjectform, record = record)
 
 @auth.requires_login()
 def create():
@@ -61,7 +62,7 @@ def canceladd():
 	else:
 		response.collection = db((db.collection.name == 'Default') & (db.collection.owner == auth.user.id)).select().first()
 		
-	form = FORM(DIV(P('Are you sure you want to cancel adding a new object in collection: ' + collection.name + ' ?')),
+	form = FORM(DIV(P('Are you sure you want to cancel adding a new item in collection: ' + collection.name + ' ?')),
 	            LABEL(),
                 DIV(DIV(INPUT(_type='button', _value='No', _onclick='window.location=\'%s\';;return false' %
                 URL('create'), _class='btn btn-primary pull-left'),
@@ -104,7 +105,8 @@ def canceledit():
 	name = 'Your' if response.owner.id == auth.user.id else response.owner.username + '\'s'
 	add_breadcrumb(name + ' Collections', URL('collection', 'user', args=[response.owner.id]))
 	add_breadcrumb(response.collection.name, URL('collection', 'view', args=[response.collection]))
-	add_breadcrumb('Add Item')
+	add_breadcrumb(record.name)
+	add_breadcrumb('Edit ' + record.name)
 	add_breadcrumb('Cancel')
 	return dict(form = form)
 
