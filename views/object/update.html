@@ -61,7 +61,8 @@
           <div class = "col-sm-4 col-xs-12 form-helper">{{=updateobjectform.custom.comment.wanted_quantity}}</div>
         </div>
         <div class = "form_field">
-          <div class = "col-xs-12 col-sm-8">{{=updateobjectform.custom.submit}}</div>
+          <div class = "col-md-offset-5 col-xs-12 col-sm-2">{{=updateobjectform.custom.submit}}</div>
+          <button type = "button" class = "btn btn-danger cancel_button"><a href="{{=URL('object', 'canceledit', args =[record.id])}}">Cancel</a></button>
         </div>
         <div class="clearfix"></div>
         {{=updateobjectform.custom.end}}
