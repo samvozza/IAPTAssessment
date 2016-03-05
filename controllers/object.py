@@ -79,6 +79,34 @@ def canceladd():
 	add_breadcrumb('Add Item')
 	add_breadcrumb('Cancel')
 	return dict(form = form)
+	
+def canceledit():
+	response.owner = db(db.auth_user.id == auth.user_id).select().first()
+	record = db(db.object.id == request.args[0]).select().first()	
+	collection = db(db.collection.id == record.collection).select().first()
+	if request.vars.collection:
+		response.collection = db(db.collection.id == request.vars['collection']).select().first()
+	else:
+		response.collection = db((db.collection.name == 'Default') & (db.collection.owner == auth.user.id)).select().first()
+		
+	form = FORM(DIV(P('Are you sure you want to cancel editing ' + record.name + ' ?')),
+	            LABEL(),
+                DIV(DIV(INPUT(_type='button', _value='No', _onclick='window.location=\'%s\';;return false' %
+                URL('update', args =[record.id]), _class='btn btn-primary pull-left'),
+                                _class='col-sm-0 col-md-0 col-lg-0')),
+                DIV(DIV(INPUT(_type='submit', _value='Yes', _class='btn btn-danger pull-left'),
+                            _class='col-sm-1 col-md-1 col-lg-1')),
+               )
+	if form.accepts(request,session):
+            response.flash = 'Going back to item: ' + record.name + ' .'
+            redirect(URL('object', 'view', args=[record.id]))
+			
+	name = 'Your' if response.owner.id == auth.user.id else response.owner.username + '\'s'
+	add_breadcrumb(name + ' Collections', URL('collection', 'user', args=[response.owner.id]))
+	add_breadcrumb(response.collection.name, URL('collection', 'view', args=[response.collection]))
+	add_breadcrumb('Add Item')
+	add_breadcrumb('Cancel')
+	return dict(form = form)
 
 def view():
 	response.result = db(db.object.id == request.args[0]).select().first()
