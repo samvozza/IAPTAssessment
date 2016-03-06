@@ -260,6 +260,10 @@ input.invalidinput:focus {
 	margin: 1em 2em 0 0;
 }
 
+.back_button {
+	float: right;
+}
+
 .back_button a{
 	text-decoration: none;
 	color: white;
