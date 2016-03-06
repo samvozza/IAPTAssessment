@@ -228,13 +228,6 @@ input.invalidinput:focus {
 	text-align: center;
 }
 
-/*-----------------------------------------   Object/update.html  ----------------------------------------------*/
-.back_button a{
-	text-decoration: none;
-	color: white;
-}
-
-
 /*-----------------------------------------   Object/view.html  -----------------------------------------------*/
 
 .obj_img{
@@ -267,7 +260,10 @@ input.invalidinput:focus {
 	margin: 1em 2em 0 0;
 }
 
-
+.back_button a{
+	text-decoration: none;
+	color: white;
+}
 
 /*------------------------------------------   Trade Editing   -------------------------------------------*/
 
