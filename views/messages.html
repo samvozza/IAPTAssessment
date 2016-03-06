@@ -4,6 +4,8 @@
 <div class="alert alert-success">You've succesfully created a new collection</div>
 {{elif request.vars.message == 'object_created':}}
 <div class="alert alert-success">You've added the collectable successfully.</div>
+{{elif request.vars.message == 'object_updated':}}
+<div class="alert alert-success">You've updated collectable successfully.</div>
 {{elif request.vars.message == 'new_collection':}}
 <div class="alert alert-success">
   You have successfully created a new collection.
