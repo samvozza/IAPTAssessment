@@ -228,6 +228,12 @@ input.invalidinput:focus {
 	text-align: center;
 }
 
+/*-----------------------------------------   Object/update.html  ----------------------------------------------*/
+.back_button a{
+	text-decoration: none;
+	color: white;
+}
+
 
 /*-----------------------------------------   Object/view.html  -----------------------------------------------*/
 
