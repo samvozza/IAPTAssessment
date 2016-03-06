@@ -10,7 +10,7 @@ def update():
 	updateobjectform.vars.collection = current_collection.id
 
 	if updateobjectform.process(onvalidation = checking_quantity).accepted:
-		response.flash = "Your object is updated."
+		redirect(URL('object', 'view', args=[updateobjectform.vars.id], vars=dict(message='object_updated')))
 
 	elif updateobjectform.errors:
 		response.flash = "One or more errors in your form field. Please see below for more information."
