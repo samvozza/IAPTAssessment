@@ -36,6 +36,7 @@ def create():
 	form = SQLFORM(db.object, fields = ['name', 'collection', 'price', 'category', 'quantity', 'tradable_quantity', 'wanted_quantity','description', 'image'], submit_button='Create')
 	form.vars.owner = auth.user_id
 	form.vars.collection = response.collection.id
+	form.custom.begin = XML('<form  action="' + URL() + '" enctype="multipart/form-data" method="post">')
 	if form.process(onvalidation = checking_quantity).accepted:
 		redirect(URL('object', 'view', args=[form.vars.id], vars=dict(message='object_created')))
 	elif form.errors:
