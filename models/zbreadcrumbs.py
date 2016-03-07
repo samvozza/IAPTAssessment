@@ -46,8 +46,6 @@ def make_breadcrumbs():
 
 def page_title():
     # Prefer response.title, as long as it isn't set to its default
-    print response.title
-    print request.application
     if response.title and response.title != '' and response.title != request.application.replace('_',' ').title():
         return response.title
 
