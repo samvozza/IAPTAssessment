@@ -23,10 +23,12 @@ def search():
     response.min = request.vars.min if request.vars.min else ''
     response.max = request.vars.max if request.vars.max else ''
     response.u = request.vars.u if request.vars.u else ''
+    response.c = request.vars.c if request.vars.c else ''
 
     response.users = db().select(db.auth_user.ALL, orderby=db.auth_user.username)
+    response.categories = db().select(db.category.ALL, orderby=db.category.id)
     response.results = []
-    if response.q == '' and response.min == '' and response.max == '' and response.u == '':
+    if response.q == '' and response.min == '' and response.max == '' and response.u == '' and response.c == '':
         response.r = None
     else:
         query = ((db.object.collection == db.collection.id)  & (db.collection.public == 'T'))
@@ -37,9 +39,11 @@ def search():
             query &= db.object.price <= response.max
         if response.u != '':
             userx = db(db.auth_user.username == response.u).select().first()
-            #response.results =  db(((db.object.price >= response.min) | ).select()
-
-        response.results = db(query).select()
+            query &= db.object.owner == userx.id
+        if response.c != '':
+            category = db(db.category.id == response.c).select().first()
+            query &= db.object.category == category.id
+        response.results = db(query).select(join=db.auth_user.on(db.object.owner == db.auth_user.id))
         response.r = ''
 
     if response.r == None or response.r == '':
