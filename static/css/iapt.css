@@ -15,6 +15,10 @@
   font-size: 12px;
 }
 
+h2.error-header {
+	font-size: 50px;
+	text-align: center;text-shadow: 0 4px 0 #dcdcdc;
+}
 
 /*---------------------------------------------   Navbar   -----------------------------------------------*/
 
@@ -178,7 +182,7 @@ input.invalidinput:focus {
 /*------------------------------------  Object/create.html   ------------------------------------------*/
 .form_field_top{
 	margin-top:10px;
-	
+
 }
 
 .form_field{
@@ -188,7 +192,7 @@ input.invalidinput:focus {
 .obj_label{
     	margin-right: -20px;
     	margin-left: -20px;
-	
+
     	display: inline-block;
     	max-width: 100%;
     	margin-bottom: 5px;
@@ -206,7 +210,7 @@ input.invalidinput:focus {
 	margin: 0 0 10px;
 	box-sizing: border-box;
 	display: block;
-	margin:0 0 0 1.5em;	
+	margin:0 0 0 1.5em;
 }
 
 .obj_submit{
