@@ -312,9 +312,10 @@ def add_item_to_proposal(proposal, item, quantity=1):
                       + 'quantity of this item.')
 
     if trade_item_link:
+        print "HERE1"
         trade_item_link_query.update(quantity=new_quantity)
     else:
-        db.trade_contains_object.insert(trade=proposal.id, object=item.id, quantity=quantity)
+        db.trade_contains_object.insert(trade=proposal.id, object=item.id, quantity=new_quantity)
 
 
 def remove_item_from_proposal(proposal, item, quantity=1, remove_entirely=False):

@@ -44,7 +44,7 @@ def create():
 
 	name = 'Your' if response.owner.id == auth.user.id else response.owner.username + '\'s'
 	add_breadcrumb(name + ' Collections', URL('collection', 'user', args=[response.owner.id]))
-	add_breadcrumb(response.collection.name, URL('collection', 'view', args=[response.collection]))
+	add_breadcrumb(response.collection.name, URL('collection', 'view', args=[response.collection.id]))
 	add_breadcrumb('Add Item')
 	return dict(form = form)
 
@@ -72,8 +72,8 @@ def canceladd():
                             _class='col-sm-1 col-md-1 col-lg-1')),
                )
 	if form.accepts(request,session):
-            response.flash = 'Going back to the collection: ' + collection.name + ' .'
-            redirect(URL('collection', 'view', args=[collection.id]))
+		response.flash = 'Going back to the collection: ' + collection.name + ' .'
+		redirect(URL('collection', 'view', args=[collection.id]))
 			
 	name = 'Your' if response.owner.id == auth.user.id else response.owner.username + '\'s'
 	add_breadcrumb(name + ' Collections', URL('collection', 'user', args=[response.owner.id]))
@@ -100,12 +100,12 @@ def canceledit():
                             _class='col-sm-1 col-md-1 col-lg-1')),
                )
 	if form.accepts(request,session):
-            response.flash = 'Going back to item: ' + record.name + ' .'
-            redirect(URL('object', 'view', args=[record.id]))
+		response.flash = 'Going back to item: ' + record.name + ' .'
+		redirect(URL('object', 'view', args=[record.id]))
 			
 	name = 'Your' if response.owner.id == auth.user.id else response.owner.username + '\'s'
 	add_breadcrumb(name + ' Collections', URL('collection', 'user', args=[response.owner.id]))
-	add_breadcrumb(response.collection.name, URL('collection', 'view', args=[response.collection]))
+	add_breadcrumb(response.collection.name, URL('collection', 'view', args=[response.collection.id]))
 	add_breadcrumb(record.name)
 	add_breadcrumb('Edit ' + record.name)
 	add_breadcrumb('Cancel')
@@ -122,6 +122,6 @@ def view():
 
 	name = 'Your' if response.owner.id == auth.user.id else response.owner.username + '\'s'
 	add_breadcrumb(name + ' Collections', URL('collection', 'user', args=[response.owner.id]))
-	add_breadcrumb(response.collection.name, URL('collection', 'view', args=[response.collection]))
+	add_breadcrumb(response.collection.name, URL('collection', 'view', args=[response.collection.id]))
 	add_breadcrumb(response.result.name)
 	return dict()

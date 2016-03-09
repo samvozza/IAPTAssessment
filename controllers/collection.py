@@ -1,7 +1,7 @@
 def view():
     response.collection = db(db.collection.id == request.args[0]).select().first()
     response.q = request.vars.q if request.vars.q != None else ''
-    if response.collection.owner == auth.user.id:
+    if auth.user and response.collection.owner == auth.user.id:
         response.collections = db(db.collection.owner == response.collection.owner).select(orderby=db.collection.name)
     else:
         response.collections = db((db.collection.owner == response.collection.owner) & (db.collection.public == 'T')).select(orderby=db.collection.name)
@@ -12,7 +12,7 @@ def view():
     response.owner = db(db.auth_user.id == response.collection.owner).select().first()
     response.datalist = db(db.object.collection == response.collection.id).select(db.object.name,distinct=True)
 
-    name = 'Your' if response.owner.id == auth.user.id else response.owner.username + '\'s'
+    name = 'Your' if auth.user and response.owner.id == auth.user.id else response.owner.username + '\'s'
     add_breadcrumb(name + ' Collections', URL('collection', 'user', args=[response.owner.id]))
     add_breadcrumb(response.collection.name)
     return dict()
