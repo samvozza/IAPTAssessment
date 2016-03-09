@@ -5,6 +5,7 @@
 {{block page_js}}
 <script>
 var current_proposal_id = {{=current_proposal.id}};
+var current_proposal_url = '{{=URL(vars={'proposal': current_proposal.id, 'user': selected_user.id, 'collection': selected_collection.id})}}';
 </script>
 <script src="{{=URL('static', 'js/trades.js')}}"></script>
 {{end page_js}}

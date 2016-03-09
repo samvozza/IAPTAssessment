@@ -1,19 +1,15 @@
 <div class="container">
-  <div class="row">
-    <div class="col-md-2">
-      <h3>Collections</h3>
-      <div class="list-group">
-        {{for collection in selected_users_collections:}}
-        {{active_collection = collection.id == selected_collection.id}}
-        <a href="{{=URL(vars={'proposal': current_proposal.id, 'user': selected_collection.owner, 'collection': collection.id})}}" class="list-group-item {{if active_collection:}}active{{pass}} proposal-button">
-          {{=collection.name}}
-        </a>
-        {{pass}}
-      </div>
-      <hr/>
+  {{include 'messages.html'}}
+  <div class="row" style="margin-bottom: 20px;">
+    <div class="col-md-6">
+      <label>Name this proposal:</label>
+      <input type="text" id="title" name="title" class="form-control" {{='placeholder' if current_proposal.title == DEFAULT_TRADE_TITLE else 'value'}}="{{=current_proposal.title}}" style="min-width: 100%; max-width: 100%;"></input>
     </div>
-
-    <div class="col-md-5">
+    <div class="col-md-6"></div>
+  </div>
+  
+  <div class="row">
+    <div class="col-md-8">
       <div class="tabs">
         <ul class="nav nav-tabs" role="tablist">
           <li role="presentation" {{if selected_user.id != auth.user.id:}}class="active"{{pass}}>
@@ -24,7 +20,7 @@
           </li>
 
           <li class="collection-search">
-            <form role="search" method="get" class="search-form">
+            <form role="search" method="get" action="{{=URL(vars={'proposal': current_proposal.id, 'user': selected_user.id, 'collection': selected_collection.id})}}" class="search-form">
               <div class="input-group input-group-sm">
                 <input type="hidden" value="{{=receiver.id}}" name="with">
                 <input type="hidden" value="{{=selected_collection.id}}" name="collection">
@@ -49,28 +45,47 @@
           {{else:}}
         	<div role="tabpanel" class="tab-pane active" id="their-items">
           {{pass}}
-            {{if len(selected_items) > 0:}}
-            {{for item in selected_items:}}
-            {{item_selected = len([i for i in all_proposal_items if i.id == item.id]) > 0}}
-            {{if item_selected:}}
-            <a href="{{=URL(vars={'proposal': current_proposal.id, 'user': selected_user.id, 'remove': item.id, 'collection': selected_collection.id})}}" class="proposal-button">
-            {{else:}}
-            <a href="{{=URL(vars={'proposal': current_proposal.id, 'user': selected_user.id, 'add': item.id, 'collection': selected_collection.id})}}" class="proposal-button">
-            {{pass}}
-              <div class="col-md-4 {{if item_selected:}}selected-panel{{pass}}">
-                <div class="thumbnail thumbnail-small">
-                  <img src="{{=URL('default', 'download', args=[item.image])}}" class=""/>
-                  <div class="panel-body">
-                    <h4>{{=item.name}}</h4>
-                    <hr/>
-                  </div>
-                </div>
+            <div class="col-md-4">
+              <h3>Collections</h3>
+              <div class="list-group">
+                {{for collection in selected_users_collections:}}
+                {{active_collection = collection.id == selected_collection.id}}
+                <a href="{{=URL(vars={'proposal': current_proposal.id, 'user': selected_collection.owner, 'collection': collection.id})}}" class="list-group-item {{if active_collection:}}active{{pass}} proposal-button">
+                  {{=collection.name}}
+                </a>
+                {{pass}}
               </div>
-            </a>
-            {{pass}}
-            {{else:}}
-            <div class="alert alert-info">There are no objects in this collection.</div>
-            {{pass}}
+              <hr/>
+            </div>
+            <div class="col-md-8">
+              {{if len(selected_items) > 0:}}
+              {{for item in selected_items:}}
+              {{item_selected = len([i for i in all_proposal_items if i.id == item.id]) > 0}}
+                <div class="col-md-4 {{if item_selected:}}selected-panel{{pass}}">
+                  <div class="thumbnail thumbnail-small">
+                    {{if item_selected:}}
+                    {{item_action = URL(vars={'proposal': current_proposal.id, 'user': selected_user.id, 'remove': item.id, 'collection': selected_collection.id})}}
+                    {{else:}}
+                    {{item_action = URL(vars={'proposal': current_proposal.id, 'user': selected_user.id, 'add': item.id, 'collection': selected_collection.id})}}
+                    {{pass}}
+                    <a href="{{=item_action}}" class="proposal-button">
+                      <img src="{{=URL('default', 'download', args=[item.image])}}" class=""/>
+                    </a>
+                    <a href="{{=URL('object', 'view', args=[item.id])}}" target="_blank" class="proposal-button">
+                      <div class="panel-body">
+                        <h4>{{=item.name}}</h4>
+                      </div>
+                    </a>
+                   <a href="{{=item_action}}" class="proposal-button">
+                     <div class="panel-footer"></div>
+                   </a>
+                 </div>
+               </div>
+             {{pass}}
+               {{else:}}
+               <div class="alert alert-info">There are no objects in this collection.</div>
+               {{pass}}
+            </div>
           </div>
 
           {{if selected_user.id == auth.user.id:}}
@@ -81,32 +96,27 @@
         </div>
       </div>
     </div>
-    <div class="col-md-5">
-    	<div class="row">
-        <div class="col-md-12" style="margin-top: 20px; padding: 0;">
-          <label>Name this proposal:</label>
-          <input type="text" id="title" name="title" class="form-control" {{='placeholder' if current_proposal.title == DEFAULT_TRADE_TITLE else 'value'}}="{{=current_proposal.title}}" style="min-width: 100%; max-width: 100%;"></input>
-        </div>
-      </div>
-      
-      {{proposal_items = proposal_items_from_receiver}}
+    <div class="col-md-4">
+    	{{proposal_items = proposal_items_from_receiver}}
+      {{proposal_items_label = 'Their items:'}}
       {{include 'trade/proposal_items.html'}}
 
       {{proposal_items = proposal_items_from_sender}}
+      {{proposal_items_label = 'Your items:'}}
       {{include 'trade/proposal_items.html'}}
 
       <div class="row">
-        <div class="col-md-12" style="margin-top: 20px; padding: 0;">
+        <div class="col-md-12" style="margin-bottom: 20px; padding: 0;">
           <label>Message:</label>
           <textarea id="message" name="message" class="form-control" rows="3" style="min-width: 100%; max-width: 100%;">{{=current_proposal.message}}</textarea>
         </div>
       </div>
 
       <div class="row">
-        <div class="col-md-12" style="margin-top: 20px;">
+        <div class="col-md-12">
           <div class="btn-toolbar pull-right">
             <a href="{{=URL('trade', 'cancel_proposal', args=[current_proposal.id])}}" class="btn btn-default proposal-button">Cancel</a>
-            <a href="{{=URL('trade', 'send_proposal', args=[current_proposal.id])}}" class="btn btn-success proposal-button">Send Trade Proposal</a>
+            <a href="{{=URL('trade', 'send_proposal', args=[current_proposal.id])}}" class="btn btn-success proposal-button send-proposal">Send Trade Proposal</a>
           </div>
         </div>
       </div>

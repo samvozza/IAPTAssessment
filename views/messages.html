@@ -20,4 +20,6 @@
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
+{{elif request.vars.message == 'invalid_quantity':}}
+<div class="alert alert-danger">Please check the selected item quantities</div>
 {{pass}}

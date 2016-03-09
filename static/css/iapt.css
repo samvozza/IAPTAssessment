@@ -275,6 +275,17 @@ input.invalidinput:focus {
 
 /*------------------------------------------   Trade Editing   -------------------------------------------*/
 
+.panel-footer {
+	background: inherit;
+}
+
+.quantity-input {
+	width: 30px;
+	padding: 0 5px;
+	margin-right: 5px;
+	display: inline;
+}
+
 .selected-panel {
   background-color: #E6E6E6;
 }
@@ -294,6 +305,7 @@ input.invalidinput:focus {
 .thumbnail-small h4 {
 	font-size: 0.8em;
 	margin: 0px;
+	height: 25px
 }
 
 

@@ -1,23 +1,29 @@
 <div class="row">
-  <div class="panel panel-default col-md-12" style="min-height: 250px;">
-    <div class="panel-body">
+  <label>{{=proposal_items_label}}</label>
+  <div class="panel panel-default col-md-12" style="min-height: 250px; padding: 0; margin: 0 0 20px 0;">
+    <div class="panel-body" style="padding: 15px 0;">
       {{for item in proposal_items:}}
-      <div class="col-md-4">
-        <a href="{{=URL(vars={'proposal': current_proposal.id, 'user': selected_user.id, 'remove': item.id, 'collection': selected_collection.id})}}" aria-label="Remove the object">
-        <div class="thumbnail thumbnail-small">
-          <img src="{{=URL('default', 'download', args=[item.image])}}"/>
-          <div class="caption">
-            <h4>{{=item.name}}</h4>
-            <hr/>
-            <a href="{{=URL(vars={'proposal': current_proposal.id, 'user': selected_user.id, 'remove': item.id, 'collection': selected_collection.id, 'quantity': '1'})}}" class="proposal-button">&lt;</a>
+      <div class="col-md-6">
+        <div class="thumbnail thumbnail-small" style="margin: 0;">
+          <a href="{{=URL(vars={'proposal': current_proposal.id, 'user': selected_user.id, 'remove': item.id, 'collection': selected_collection.id})}}" class="proposal-button">
+            <img src="{{=URL('default', 'download', args=[item.image])}}" class=""/>
+          </a>
+          <a href="{{=URL('object', 'view', args=[item.id])}}" target="_blank" class="proposal-button">
+            <div class="panel-body">
+              <h4>{{=item.name}}</h4>
+            </div>
+          </a>
+          <div class="panel-footer">
             {{item_quantity = proposal_items[item]}}
-            {{=item_quantity[0]}}/{{=item_quantity[1]}}
-            {{if item_quantity[0] < item_quantity[1]:}}
-            <a href="{{=URL(vars={'proposal': current_proposal.id, 'user': selected_user.id, 'add': item.id, 'collection': selected_collection.id, 'quantity': '1'})}}" class="proposal-button">&gt;</a>
-            {{pass}}
+            {{invalid_quantity = item_quantity[0] > item_quantity[1] or item_quantity[0] < 0}}
+            <input type="text" value="{{=item_quantity[0]}}" class="form-control quantity-input {{if invalid_quantity:}}invalidinput{{pass}}"></input>/{{=item_quantity[1]}}
+            <input type="hidden" name="item_id" value="{{=item.id}}"></input>
+            <input type="hidden" name="item_limit" value="{{=item_quantity[1]}}"></input>
+            {{if item_quantity[0] > item_quantity[1]:}}<h4 style="color: red;">Please choose a lower quantity</h4>{{pass}}
+            {{if item_quantity[0] < 0:}}<h4 style="color: red;">Please choose a higher quantity</h4>{{pass}}
           </div>
         </div>
-       </div>
+      </div>
       {{pass}}
     </div>
   </div>

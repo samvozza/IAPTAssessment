@@ -222,9 +222,44 @@ def set_proposal_message():
     db(db.trade.id == request.vars['proposal']).update(message=request.vars['message'])
 
 
+def set_proposal_item_quantity():
+    if request.vars['proposal'] == None:
+        raise EX(500, 'No proposal has been specified (use the \'proposal\' parameter).')
+    elif request.vars['item'] == None:
+        raise EX(500, 'No item has been specified (use the \'item\' parameter).')
+    elif request.vars['quantity'] == None:
+        raise EX(500, 'No quantity has been specified (use the \'quantity\' parameter).')
+
+    trade_item_link_query = db((db.trade_contains_object.trade == request.vars['proposal'])
+                               & (db.trade_contains_object.object == request.vars['item']))
+    trade_item_link = trade_item_link_query.select().first()
+
+    if trade_item_link:
+        trade_item_link_query.update(quantity=request.vars['quantity'])
+    else:
+        db.trade_contains_object.insert(trade=request.vars['proposal'],
+                                        object=request.vars['item'],
+                                        quantity=request.vars['quantity'])
+
+
 def send_proposal():
     proposal_query = db(db.trade.id == request.args(0))
     proposal = proposal_query.select().first()
+
+    # Check that the item quantities are valid
+    trade_item_links = db(db.trade_contains_object.trade == request.args(0)).select()
+    for trade_item_link in trade_item_links:
+        item = db(db.object.id == trade_item_link.object).select().first()
+        available_quantity = get_available_quantity(item)
+        
+        if trade_item_link.quantity > available_quantity:
+            raise EX(500, 'You are trying to trade more of this item than is '
+                     + 'available.')
+        if trade_item_link.quantity < 0:
+            raise EX(500, 'You are trying to trade a negative amount of an item.')
+        elif trade_item_link.quantity == 0:
+            db((db.trade_contains_object.trade == request.args(0))
+               & (db.trade_contains_object.object == item.id)).delete()
 
     if proposal.status == STATUS_OFFERED:
         new_status = STATUS_ACTIVE
@@ -312,7 +347,6 @@ def add_item_to_proposal(proposal, item, quantity=1):
                       + 'quantity of this item.')
 
     if trade_item_link:
-        print "HERE1"
         trade_item_link_query.update(quantity=new_quantity)
     else:
         db.trade_contains_object.insert(trade=proposal.id, object=item.id, quantity=new_quantity)
