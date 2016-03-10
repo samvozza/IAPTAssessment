@@ -98,14 +98,11 @@ def edit():
                                                                               auth.user.username))]),
                                      'Your new username.'),
                      FIELD_WITH_DESC('Trade Any Item',
-                                     DIV(P('This setting controls whether other users are able to request items '
-                                           + 'which you have not specified that you are happy to receive offers for.',
-                                           _class='form-field-description'),
-                                         SELECT(OPTION('Yes', _value='Yes'), OPTION('No', _value='No'),
-                                                _id='trade-any-item-select', _class='form-control',
-                                                _name='trade_any_item', value=('Yes' if trade_non_tradable_items else 'No'),
-                                                requires=[IS_IN_SET(['Yes', 'No'],
-                                                                    error_message='Please select either \'Yes\' or \'No\'')])),
+                                     SELECT(OPTION('Yes', _value='Yes'), OPTION('No', _value='No'),
+                                            _id='trade-any-item-select', _class='form-control',
+                                            _name='trade_any_item', value=('Yes' if trade_non_tradable_items else 'No'),
+                                            requires=[IS_IN_SET(['Yes', 'No'],
+                                                                error_message='Please select either \'Yes\' or \'No\'')]),
                                      [('Select \'Yes\' if you are happy to receive requests to trade any item '
                                        + 'in any of your collections.'), BR(),
                                       ('Select \'No\' if you only wish to be contacted about items which you '
