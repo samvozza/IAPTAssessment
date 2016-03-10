@@ -8,114 +8,48 @@
       </div>
     </div>
   </div>
+  
   <div class="row">
-    <div class="col-xs-12 col-sm-4" style="min-height: 135px;">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          In Preparation <a href="#" id="prep-help" data-toggle="tooltip" class="pull-right" title="Only you can see and edit these trade proposals. They have not yet been sent."><span aria-label="Get help here" class="glyphicon glyphicon-question-sign"></span></a></div>
-        <div class="list-group trade-list-group">
-          {{if len(response.prepare) > 0:}}
-            {{for i in response.prepare:}}
-              <a href="{{=URL('trade', 'view', args=[i.id])}}" class="list-group-item">
-                {{=i.title}}
-              </a>
-            {{pass}}
-          {{else:}}
-          <div class="alert alert-info">No trade proposals in preparation.</div>
-          {{pass}}
-        </div>
-      </div>
-    </div>
-    <div class="col-xs-12 col-sm-4" style="min-height: 135px;">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          Received<a href="#" id="received-help" data-toggle="tooltip" class="pull-right" title="Trade proposals you can respond to."><span aria-label="Get help here" class="glyphicon glyphicon-question-sign"></span></a>
-        </div>
-        <div class="list-group trade-list-group">
-          {{if len(response.received) > 0:}}
-            {{for i in response.received:}}
-            <a href="{{=URL('trade', 'view', args=[i.id])}}" class="list-group-item">
-              {{=i.title}}
-            </a>
-            {{pass}}
-          {{else:}}
-          <div class="alert alert-info">No received trade proposals.</div>
-          {{pass}}
-        </div>
-      </div>
-    </div>
-    <div class="col-xs-12 col-sm-4" style="min-height: 135px;">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          Offered<a href="#" id="offered-help" data-toggle="tooltip" class="pull-right" title="Trade proposals you offered to other users. You cannot edit them, but they can be cancelled."><span aria-label="Get help here" class="glyphicon glyphicon-question-sign"></span></a>
-        </div>
-        <div class="list-group trade-list-group">
-          {{if len(response.sent) > 0:}}
-            {{for i in response.sent:}}
-            <a href="{{=URL('trade', 'view', args=[i.id])}}" class="list-group-item">
-              {{=i.title}}
-            </a>
-            {{pass}}
-          {{else:}}
-            <div class="alert alert-info">No offered trade proposals.</div>
-          {{pass}}
-        </div>
-      </div>
-    </div>
-
-    <div class="col-xs-12 col-sm-4" style="min-height: 135px;">
-      <div class="panel panel-success">
-        <div class="panel-heading">
-          Accepted
-        </div>
-        <div class="list-group trade-list-group">
-          {{if len(response.accepted) > 0:}}
-            {{for i in response.accepted:}}
-            <a href="{{=URL('trade', 'view', args=[i.id])}}" class="list-group-item">
-              {{=i.title}}
-            </a>
-            {{pass}}
-          {{else:}}
-            <div class="alert alert-info">No accepted trades.</div>
-          {{pass}}
-        </div>
-      </div>
-    </div>
-    <div class="col-xs-12 col-sm-4" style="min-height: 135px;">
-      <div class="panel panel-danger">
-        <div class="panel-heading">
-          Rejected
-        </div>
-        <div class="list-group trade-list-group">
-          {{if len(response.rejected) > 0:}}
-            {{for i in response.rejected:}}
-            <a href="{{=URL('trade', 'view', args=[i.id])}}" class="list-group-item">
-              {{=i.title}}
-            </a>
-            {{pass}}
-          {{else:}}
-            <div class="alert alert-info">No rejected trades.</div>
-          {{pass}}
-        </div>
-      </div>
-    </div>
-    <div class="col-xs-12 col-sm-4" style="min-height: 135px;">
-      <div class="panel panel-warning">
-        <div class="panel-heading">
-          Cancelled
-        </div>
-        <div class="list-group trade-list-group">
-          {{if len(response.cancelled) > 0:}}
-            {{for i in response.cancelled:}}
-            <a href="{{=URL('trade', 'view', args=[i.id])}}" class="list-group-item">
-              {{=i.title}}
-            </a>
-            {{pass}}
-          {{else:}}
-            <div class="alert alert-info">No cancelled trades.</div>
-          {{pass}}
-        </div>
-      </div>
-    </div>
+    {{panel_type = 'panel-default'}}
+    {{panel_heading = 'In Preparation'}}
+    {{help_text = 'Only you can see and edit these trade proposals. They have not been sent yet.'}}
+    {{proposals = response.prepare}}
+    {{text_if_empty = 'No trade proposals in preparation.'}}
+    {{include 'trade/proposal_state.html'}}
+    
+    {{panel_type = 'panel-default'}}
+    {{panel_heading = 'Received'}}
+    {{help_text = 'Trade proposals you can respond to.'}}
+    {{proposals = response.received}}
+    {{text_if_empty = 'No received trade proposals.'}}
+    {{include 'trade/proposal_state.html'}}
+    
+    {{panel_type = 'panel-default'}}
+    {{panel_heading = 'Offered'}}
+    {{help_text = 'Trade proposals you have offered to other users. You can cancel them, but they may not be edited.'}}
+    {{proposals = response.sent}}
+    {{text_if_empty = 'No offered trade proposals.'}}
+    {{include 'trade/proposal_state.html'}}
+    
+    {{panel_type = 'panel-success'}}
+    {{panel_heading = 'Accepted'}}
+    {{help_text = 'Trade proposals which you have accepted.'}}
+    {{proposals = response.accepted}}
+    {{text_if_empty = 'No accepted trades.'}}
+    {{include 'trade/proposal_state.html'}}
+    
+    {{panel_type = 'panel-danger'}}
+    {{panel_heading = 'Rejected'}}
+    {{help_text = 'Trade proposals which have been rejected.'}}
+    {{proposals = response.rejected}}
+    {{text_if_empty = 'No rejected trades.'}}
+    {{include 'trade/proposal_state.html'}}
+    
+    {{panel_type = 'panel-warning'}}
+    {{panel_heading = 'Cancelled'}}
+    {{help_text = 'Trade proposals which have been cancelled.'}}
+    {{proposals = response.cancelled}}
+    {{text_if_empty = 'No cancelled trades.'}}
+    {{include 'trade/proposal_state.html'}}
   </div>
 </div>
