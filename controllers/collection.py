@@ -12,7 +12,7 @@ def view():
     response.owner = db(db.auth_user.id == response.collection.owner).select().first()
     response.datalist = db(db.object.collection == response.collection.id).select(db.object.name,distinct=True)
 
-    name = 'Your' if auth.user and response.owner.id == auth.user.id else response.owner.username + '\'s'
+    name = 'My' if auth.user and response.owner.id == auth.user.id else response.owner.username + '\'s'
     add_breadcrumb(name + ' Collections', URL('collection', 'user', args=[response.owner.id]))
     add_breadcrumb(response.collection.name)
     return dict()
@@ -25,7 +25,7 @@ def create():
     if form.process(keepvalues=True).accepted:
         redirect(URL('collection', 'view', args=[form.vars.id], vars=dict(message='new_collection')))
 
-    add_breadcrumb('Your Collections', URL('collection', 'my'))
+    add_breadcrumb('My Collections', URL('collection', 'my'))
     add_breadcrumb('New Collection')
     return dict(form=form)
 
@@ -45,7 +45,7 @@ def edit():
     if form.process(keepvalues=True).accepted:
         redirect(URL('collection', 'view', args=[form.vars.id], vars=dict(message='edit_collection')))
 
-    add_breadcrumb('Your Collections', URL('collection', 'my'))
+    add_breadcrumb('My Collections', URL('collection', 'my'))
     add_breadcrumb('Edit Collection')
     return dict(form=form)
 
@@ -79,7 +79,7 @@ def delete():
             db(db.collection.id == collection.id).delete()
             redirect(URL('my'))
 
-    add_breadcrumb('Your Collections', URL('collection', 'my'))
+    add_breadcrumb('My Collections', URL('collection', 'my'))
     add_breadcrumb('Delete Collection')
     return dict(form=form)
 

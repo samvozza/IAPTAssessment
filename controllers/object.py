@@ -18,7 +18,7 @@ def update():
 	else:
 		response.flash = "Please complete the form to update your object."
 
-	name = 'Your' if owner.id == auth.user.id else owner.username + '\'s'
+	name = 'My' if owner.id == auth.user.id else owner.username + '\'s'
 	add_breadcrumb(name + ' Collections', URL('collection', 'user', args=[owner.id]))
 	add_breadcrumb(current_collection.name, URL('collection', 'view', args=[current_collection.id]))
 	add_breadcrumb('Edit Item')
@@ -42,7 +42,7 @@ def create():
 	elif form.errors:
 		response.flash = "One or more errors in your form field. Please see below for more information."
 
-	name = 'Your' if response.owner.id == auth.user.id else response.owner.username + '\'s'
+	name = 'My' if response.owner.id == auth.user.id else response.owner.username + '\'s'
 	add_breadcrumb(name + ' Collections', URL('collection', 'user', args=[response.owner.id]))
 	add_breadcrumb(response.collection.name, URL('collection', 'view', args=[response.collection.id]))
 	add_breadcrumb('Add Item')
@@ -75,7 +75,7 @@ def canceladd():
 		response.flash = 'Going back to the collection: ' + collection.name + ' .'
 		redirect(URL('collection', 'view', args=[collection.id]))
 			
-	name = 'Your' if response.owner.id == auth.user.id else response.owner.username + '\'s'
+	name = 'My' if response.owner.id == auth.user.id else response.owner.username + '\'s'
 	add_breadcrumb(name + ' Collections', URL('collection', 'user', args=[response.owner.id]))
 	add_breadcrumb(response.collection.name, URL('collection', 'view', args=[response.collection]))
 	add_breadcrumb('Add Item')
@@ -103,7 +103,7 @@ def canceledit():
 		response.flash = 'Going back to item: ' + record.name + ' .'
 		redirect(URL('object', 'view', args=[record.id]))
 			
-	name = 'Your' if response.owner.id == auth.user.id else response.owner.username + '\'s'
+	name = 'My' if response.owner.id == auth.user.id else response.owner.username + '\'s'
 	add_breadcrumb(name + ' Collections', URL('collection', 'user', args=[response.owner.id]))
 	add_breadcrumb(response.collection.name, URL('collection', 'view', args=[response.collection.id]))
 	add_breadcrumb(record.name)
@@ -120,7 +120,7 @@ def view():
 	sel_category = db(db.category.id.belongs(category_id)).select()
 	response.category = sel_category[0].name
 
-	name = 'Your' if response.owner.id == auth.user.id else response.owner.username + '\'s'
+	name = 'My' if response.owner.id == auth.user.id else response.owner.username + '\'s'
 	add_breadcrumb(name + ' Collections', URL('collection', 'user', args=[response.owner.id]))
 	add_breadcrumb(response.collection.name, URL('collection', 'view', args=[response.collection.id]))
 	add_breadcrumb(response.result.name)
