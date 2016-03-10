@@ -126,7 +126,7 @@ def error_handler():
                      + 'you can use the link below to get back to safety.')
     recovery_link = URL('default', 'index')
 
-    code = request.vars.code
+    code = request.vars.code or 500
     if code == '403':
         error_title = 'You Don\'t Have Permission'
         error_details = ('Uh oh - you shouldn\'t have ended up here. '
@@ -142,7 +142,7 @@ def error_handler():
     if session.error_message:
         error_details = error_details + ' See the message below for more details.'
 
-    error_title = code + ' - ' + error_title
+    error_title = str(code) + ' - ' + error_title
 
     add_breadcrumb(error_title)
     return dict(error_title=error_title,
