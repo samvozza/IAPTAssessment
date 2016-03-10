@@ -29,7 +29,12 @@
         <h2>Details</h2>
         <div class="form-group {{if updateobjectform.errors['price']:}}has-error{{pass}}">
           <div class="col-xs-12">{{=updateobjectform.custom.label.price}}</div>
-          <div class="col-sm-8 col-xs-12 help-block">{{=updateobjectform.custom.widget.price}}</div>
+          <div class="col-sm-8 col-xs-12 help-block">
+            <div class="input-group">
+              <span class="input-group-addon">&pound;</span>
+              {{=form.custom.widget.price}}
+            </div>
+          </div>
           <div class="col-sm-4 col-xs-12 form-helper">{{=updateobjectform.custom.comment.price}}</div>
         </div>
         <div class = "form-group {{if updateobjectform.errors['category']:}}has-error{{pass}}">
