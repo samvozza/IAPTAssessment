@@ -37,11 +37,25 @@ def view():
     response.receiver_items = [item for item in trade_items if item.owner == response.receiver.id]
     is_sender = response.sender.username == auth.user.username
 
+    # Get all the items in the current proposal
+    all_proposal_items = get_items_in_proposal(response.trade)
+
+    # Split the full dict of items into the sender's and receiver's items
+    proposal_items_from_sender = {}
+    proposal_items_from_receiver = {}
+    for item in all_proposal_items:
+        quantity = all_proposal_items[item]
+        if item.owner == auth.user.id:
+            proposal_items_from_sender[item] = quantity
+        else:
+            proposal_items_from_receiver[item] = quantity
+
     trading_with = response.receiver.username if is_sender else response.sender.username
     add_breadcrumb('My Trades', URL('trade', 'index'))
     add_breadcrumb(DIV('with user ', STRONG(trading_with)))
     response.title = response.trade.title
-    return dict()
+    return dict(proposal_items_from_sender=proposal_items_from_sender,
+                proposal_items_from_receiver=proposal_items_from_receiver)
 
 
 @auth.requires_login()

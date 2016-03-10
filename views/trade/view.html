@@ -73,29 +73,23 @@
     <hr/>
   </div>
   <div class="row">
-    <div class="col-xs-12 col-sm-6">
-      <div class="user_name">
-        <h4>{{=response.sender.username}}'s items</h4>
-      </div>
-
-      <div class = "user_items">
-        {{for result in response.sender_items:}}
-        <div class = "item_image col-md-4">
-          {{=TAG.img(_width=60, _height = 80, _src=URL(r=request, c='default', f='download', args=[result.image]))}}
+    <div class="col-xs-12 col-sm-12">
+      {{current_proposal = response.trade}}
+      <div class="col-xs-12 col-sm-6 col-md-6">
+        <div class="col-sm-12 col-md-12">
+          {{proposal_items = proposal_items_from_sender}}
+          {{name = 'Your' if response.sender.id == auth.user.id else response.sender.username + 's'}}
+          {{proposal_items_label = name + ' items:'}}
+          {{include 'trade/view_proposal_items.html'}}
         </div>
-        {{pass}}
       </div>
-    </div>
-    <div class="col-xs-12 col-sm-6">
-      <div class = "user_name">
-        <h4>{{=response.receiver.username}}'s items</h4>
-      </div>
-      <div class = "user_items">
-        {{for result in response.receiver_items:}}
-        <div class = "item_image col-md-4">
-          {{=TAG.img(_width=60, _height = 80, _src=URL(r=request, c='default', f='download', args=[result.image]))}}
+      <div class="col-xs-12 col-sm-6 col-md-6">
+        <div class="col-sm-12 col-md-12">
+          {{proposal_items = proposal_items_from_receiver}}
+          {{name = 'Your' if response.receiver.id == auth.user.id else response.receiver.username + 's'}}
+          {{proposal_items_label = name + ' items:'}}
+          {{include 'trade/view_proposal_items.html'}}
         </div>
-        {{pass}}
       </div>
     </div>
   </div>
@@ -103,7 +97,7 @@
     <div class="col-xs-12">
       <div class="message_box">
         <h4 class="message_title">Messages:</h4>
-        <div class="trade_message">
+        <div class="trade_message" style="min-height: 150px;">
           {{=response.trade.message}}
         </div>
       </div>

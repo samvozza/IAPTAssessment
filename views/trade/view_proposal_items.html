@@ -1,0 +1,25 @@
+<div class="row">
+  <label>{{=proposal_items_label}}</label>
+  <div class="panel panel-default col-md-12" style="min-height: 250px; padding: 0; margin: 0;">
+    <div class="panel-body" style="padding: 15px 0;">
+      {{for item in proposal_items:}}
+      <div class="col-md-4">
+        <div class="thumbnail thumbnail-small" style="margin: 0;">
+          <a href="{{=URL('object', 'view', args=[item.id])}}" target="_blank">
+            <img src="{{=URL('default', 'download', args=[item.image])}}" class=""/>
+          </a>
+          <a href="{{=URL('object', 'view', args=[item.id])}}" target="_blank">
+            <div class="panel-body">
+              <h4>{{=item.name}}</h4>
+            </div>
+          </a>
+          <div class="panel-footer">
+            {{item_quantity = proposal_items[item]}}
+            Quantity: {{=item_quantity[0]}}
+          </div>
+        </div>
+      </div>
+      {{pass}}
+    </div>
+  </div>
+</div>
