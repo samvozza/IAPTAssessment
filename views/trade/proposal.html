@@ -115,8 +115,9 @@
       <div class="row">
         <div class="col-md-12">
           <div class="btn-toolbar pull-right">
+            {{send_text = 'Send Trade Proposal' if current_proposal.status == STATUS_PREPARE else 'Send Counter Proposal'}}
             <a href="{{=URL('trade', 'cancel_proposal', args=[current_proposal.id])}}" class="btn btn-default proposal-button">Cancel</a>
-            <a href="{{=URL('trade', 'send_proposal', args=[current_proposal.id])}}" class="btn btn-success proposal-button send-proposal">Send Trade Proposal</a>
+            <a href="{{=URL('trade', 'send_proposal', args=[current_proposal.id])}}" class="btn btn-success proposal-button send-proposal">{{=send_text}}</a>
           </div>
         </div>
       </div>
