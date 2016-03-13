@@ -380,3 +380,11 @@ nav ul li.active * {
   font-size: 8pt;
 	text-align: justify;
 }
+.hidden {
+  display: none;
+  visibility: hidden;
+}
+
+.hide {
+  display: none;
+}
