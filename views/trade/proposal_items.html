@@ -15,9 +15,9 @@
             <label for="quantity-item-{{=item.id}}" class="pull-left control-label">Quantity</label>
             <div class="pull-right">
               <input type="text" value="{{=item_quantity[0]}}" id="quantity-item-{{=item.id}}" class="form-control input-sm quantity-input "/>/{{=item_quantity[1]}}
+              <input type="hidden" name="item_id" value="{{=item.id}}"/>
+              <input type="hidden" name="item_limit" value="{{=item_quantity[1]}}"/>
             </div>
-            <input type="hidden" name="item_id" value="{{=item.id}}"></input>
-            <input type="hidden" name="item_limit" value="{{=item_quantity[1]}}"></input>
             {{if item_quantity[0] > item_quantity[1]:}}<span class="help-block form-helper">Please choose a lower quantity</span>{{pass}}
             {{if item_quantity[0] < 0:}}<span class="help-block form-helper">Please choose a higher quantity</span>{{pass}}
           </div>
