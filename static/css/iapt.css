@@ -309,6 +309,13 @@ border-color: #d6e9c6;
 	height: 25px
 }
 
+.object-name {
+	font-size: 0.8em;
+	margin: 0px;
+	height: 32px;
+	overflow-y: hidden;
+}
+
 
 /*----------------------------------------------   Footer   ----------------------------------------------*/
 

@@ -1226,8 +1226,6 @@ h2,
 .h2,
 h3,
 .h3 {
-  margin-top: 20px;
-  margin-bottom: 10px;
 }
 h1 small,
 .h1 small,
@@ -1242,6 +1240,8 @@ h2 .small,
 h3 .small,
 .h3 .small {
   font-size: 65%;
+  margin:0px !important;
+  padding:0px !important;
 }
 h4,
 .h4,

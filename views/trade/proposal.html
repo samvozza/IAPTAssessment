@@ -62,7 +62,7 @@
                 <img src="{{=URL('default', 'download', args=[item.image])}}" alt="{{=item.name}}" class=""/>
                 <div class="panel-body">
                   <span class="label label-info pull-right"> &pound;{{=item.price}}</span>
-                  <h4>{{=item.name}}</h4>
+                  <div class="object-name">{{=item.name}}</div>
                   <hr/>
                   {{if item_selected:}}
                   <a href="{{=item_action}}" class="btn btn-xs btn-danger">
