@@ -4207,6 +4207,9 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
     border-bottom-color: #fff;
   }
 }
+.tab-content {
+  margin-top:20px;
+}
 .tab-content > .tab-pane {
   display: none;
 }

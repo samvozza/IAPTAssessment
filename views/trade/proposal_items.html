@@ -1,30 +1,36 @@
 <div class="col-md-6 col-sm-12" >
   <div class="panel panel-default">
-    <div class="panel-body">
-      {{for item in proposal_items:}}
-      <div class="col-md-4">
-        <div class="thumbnail thumbnail-small">
-          <a href="{{=URL(vars={'proposal': current_proposal.id, 'user': selected_user.id, 'remove': item.id, 'collection': selected_collection.id})}}" class="proposal-button">
-            <img src="{{=URL('default', 'download', args=[item.image])}}" alt="{{=item.name}}" class=""/>
-          </a>
-          <a href="{{=URL('object', 'view', args=[item.id])}}" target="_blank" class="proposal-button">
-            <div class="panel-body">
-              <h4>{{=item.name}}</h4>
+    <div class="panel-heading">
+      {{=proposal_items_label}}
+    </div>
+    {{for item in proposal_items:}}
+    <div class="col-md-4">
+      <div class="thumbnail thumbnail-small">
+        <img src="{{=URL('default', 'download', args=[item.image])}}" alt="{{=item.name}}" class=""/>
+        <div class="panel-body">
+          <h4>{{=item.name}}</h4>
+          {{item_quantity = proposal_items[item]}}
+          {{invalid_quantity = item_quantity[0] > item_quantity[1] or item_quantity[0] < 0}}
+          <div class="panel-footer form-group form-group-sm {{if invalid_quantity:}}has-error{{pass}}">
+            <label for="quantity" class="pull-left control-label">Quantity</label>
+            <div class="pull-right">
+              <input type="text" value="{{=item_quantity[0]}}" id="quantity" class="form-control input-sm quantity-input "/>/{{=item_quantity[1]}}
             </div>
-          </a>
-          <div class="panel-footer">
-            {{item_quantity = proposal_items[item]}}
-            {{invalid_quantity = item_quantity[0] > item_quantity[1] or item_quantity[0] < 0}}
-            <label for="quantity" class="hidden">Quantity</label>
-            <input type="text" value="{{=item_quantity[0]}}" id="quantity" class="form-control quantity-input {{if invalid_quantity:}}invalidinput{{pass}}"/>/{{=item_quantity[1]}}
             <input type="hidden" name="item_id" value="{{=item.id}}"></input>
             <input type="hidden" name="item_limit" value="{{=item_quantity[1]}}"></input>
-            {{if item_quantity[0] > item_quantity[1]:}}<h4 style="color: red;">Please choose a lower quantity</h4>{{pass}}
-            {{if item_quantity[0] < 0:}}<h4 style="color: red;">Please choose a higher quantity</h4>{{pass}}
+            {{if item_quantity[0] > item_quantity[1]:}}<span class="help-block form-helper">Please choose a lower quantity</span>{{pass}}
+            {{if item_quantity[0] < 0:}}<span class="help-block form-helper">Please choose a higher quantity</span>{{pass}}
+          </div>
+          <div class="form-group text-center">
+            <a href="{{=URL(vars={'proposal': current_proposal.id, 'user': selected_user.id, 'remove': item.id, 'collection': selected_collection.id})}}" class="btn btn-danger btn-xs">
+              <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+              Remove
+            </a>
           </div>
         </div>
       </div>
-      {{pass}}
     </div>
+    {{pass}}
+    <div class="clearfix"></div>
   </div>
 </div>
