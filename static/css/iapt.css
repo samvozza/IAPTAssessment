@@ -287,7 +287,8 @@ input.invalidinput:focus {
 }
 
 .selected-panel {
-  background-color: #E6E6E6;
+background-color: #dff0d8;
+border-color: #d6e9c6;
 }
 
 .trade-list-group {
@@ -387,4 +388,9 @@ nav ul li.active * {
 
 .hide {
   display: none;
+}
+
+.trading-window {
+	height: 500px;
+	overflow-y: scroll;
 }
