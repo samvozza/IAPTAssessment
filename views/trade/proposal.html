@@ -7,12 +7,12 @@
       <input type="text" id="title" name="title" class="form-control" {{='placeholder' if current_proposal.title == DEFAULT_TRADE_TITLE else 'value'}}="{{=current_proposal.title}}"/>
     </div>
     <div class="col-md-4 form-helper">
-      Specify the name of your trade. The name will help you identify this trade later. You can use dates or name of particular object.
+      Name this trade. You can use this to help you identify this trade later. As examples, you could use the current date or the name of an item in the trade.
     </div>
   </div>
   <hr/>
   <h2>Select Items</h2>
-  <p class="form-helper">Use the tabs to swich between yours and thiers items. You can only view the tradable items. </p>
+  <p class="form-helper">Use the tabs to swich between viewing your items and thier items. Only items which are availableto be traded are shown.</p>
   <div class="form-group">
     <div class="col-md-12">
       <div class="tabs">
@@ -80,38 +80,37 @@
             {{else:}}
             <div class="alert alert-info">There are no objects in this collection.</div>
             {{pass}}
-          </div>
 
-          {{if selected_user.id == auth.user.id:}}
-          <div role="tabpanel" class="tab-pane" id="their-items"></div>
-          {{else:}}
-          <div role="tabpanel" class="tab-pane" id="your-items"></div>
-          {{pass}}
+            {{if selected_user.id == auth.user.id:}}
+            <div role="tabpanel" class="tab-pane" id="their-items"></div>
+            {{else:}}
+            <div role="tabpanel" class="tab-pane" id="your-items"></div>
+            {{pass}}
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <hr/>
-  <h2>Summary</h2>
-  <p class="form-helper">Below you can view the summary of your trading proposal. You can specify quantities here.</p>
-  <div class="form-group">
-    {{proposal_items = proposal_items_from_receiver}}
-    {{proposal_items_label = 'Their items:'}}
-    {{include 'trade/proposal_items.html'}}
+    <hr/>
+    <h2>Summary</h2>
+    <p class="form-helper">Below you can view the summary of your trading proposal. You can set quantities here.</p>
+    <div class="form-group">
+      {{proposal_items = proposal_items_from_receiver}}
+      {{proposal_items_label = 'Their items:'}}
+      {{include 'trade/proposal_items.html'}}
 
-    {{proposal_items = proposal_items_from_sender}}
-    {{proposal_items_label = 'Your items:'}}
-    {{include 'trade/proposal_items.html'}}
-  </div>
-  <h2>Message</h2>
-  <p class="form-helper">You can append a message to the person to clarify or ask something.</p>
-  <div class="form-group">
-    <div class="col-md-12">
-      <label for="message">Message:</label>
-      <textarea id="message" name="message" class="form-control" rows="3" style="min-width: 100%; max-width: 100%;">{{=current_proposal.message}}</textarea>
+      {{proposal_items = proposal_items_from_sender}}
+      {{proposal_items_label = 'Your items:'}}
+      {{include 'trade/proposal_items.html'}}
     </div>
-  </div>
+    <h2>Message</h2>
+    <p class="form-helper">You can add a message here to send to the recipient.</p>
+    <div class="form-group">
+      <div class="col-md-12">
+        <label for="message">Message:</label>
+        <textarea id="message" name="message" class="form-control" rows="3" style="min-width: 100%; max-width: 100%;">{{=current_proposal.message}}</textarea>
+      </div>
+    </div>
 
     <div class="form-group">
       <div class="col-md-12">
