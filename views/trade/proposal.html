@@ -2,12 +2,12 @@
   {{include 'messages.html'}}
   <div class="row" style="margin-bottom: 20px;">
     <div class="col-md-6">
-      <label>Name this proposal:</label>
+      <label for="title">Name this proposal:</label>
       <input type="text" id="title" name="title" class="form-control" {{='placeholder' if current_proposal.title == DEFAULT_TRADE_TITLE else 'value'}}="{{=current_proposal.title}}" style="min-width: 100%; max-width: 100%;"></input>
     </div>
     <div class="col-md-6"></div>
   </div>
-  
+
   <div class="row">
     <div class="col-md-8">
       <div class="tabs">
@@ -24,9 +24,10 @@
               <div class="input-group input-group-sm">
                 <input type="hidden" value="{{=receiver.id}}" name="with">
                 <input type="hidden" value="{{=selected_collection.id}}" name="collection">
-                <input type="text" autocomplete="off"  value="{{=search}}" name="search" class="form-control input-sm" placeholder="Search this collection" list="objectsearch">
+                <label for="search-collection" class="hidden">Search Collection</label>
+                <input type="text" autocomplete="off"  value="{{=search}}" name="search" id="search-collection" class="form-control input-sm" placeholder="Search this collection" list="objectsearch">
                 <span class="input-group-btn">
-                  <button type="submit" class="btn btn-default btn-sm search-button" title="Search"><i class="glyphicon glyphicon-search"></i></button>
+                  <button type="submit" class="btn btn-default btn-sm search-button" title="Search"><span class="glyphicon glyphicon-search"></span></button>
                 </span>
               </div>
             </form>
@@ -69,7 +70,7 @@
                     {{item_action = URL(vars={'proposal': current_proposal.id, 'user': selected_user.id, 'add': item.id, 'collection': selected_collection.id})}}
                     {{pass}}
                     <a href="{{=item_action}}" class="proposal-button">
-                      <img src="{{=URL('default', 'download', args=[item.image])}}" class=""/>
+                      <img src="{{=URL('default', 'download', args=[item.image])}}" alt="{{=item.name}}" class=""/>
                     </a>
                     <a href="{{=URL('object', 'view', args=[item.id])}}" target="_blank" class="proposal-button">
                       <div class="panel-body">
@@ -107,7 +108,7 @@
 
       <div class="row">
         <div class="col-md-12" style="margin-bottom: 20px; padding: 0;">
-          <label>Message:</label>
+          <label for="message">Message:</label>
           <textarea id="message" name="message" class="form-control" rows="3" style="min-width: 100%; max-width: 100%;">{{=current_proposal.message}}</textarea>
         </div>
       </div>

@@ -204,7 +204,7 @@ def edit_proposal():
 
     add_breadcrumb('My Trades', URL('trade', 'index'))
     add_breadcrumb('Edit Trade Proposal', None)
-    response.title = 'Editing Trade Proposal \'' + current_proposal.title + '\''
+    response.title = '' + current_proposal.title + ' - Edit'
     return dict(search=search,
                 receiver=receiver,
                 selected_user=selected_user,
@@ -265,7 +265,7 @@ def send_proposal():
     for trade_item_link in trade_item_links:
         item = db(db.object.id == trade_item_link.object).select().first()
         available_quantity = get_available_quantity(item)
-        
+
         if trade_item_link.quantity > available_quantity:
             raise EX(500, 'You are trying to trade more of this item than is '
                      + 'available.')
