@@ -74,7 +74,7 @@ h2.error-header {
   line-height: 54px;
   list-style: none;
   font-size: 11px;
-  color: #c4c4c4;
+  color: gray;
   margin-right: 10px;
   float: left;
 }
@@ -92,7 +92,7 @@ h2.error-header {
 
 .page-title .breadcrums li a {
 	line-height: 54px;
-	color: #c4c4c4;
+	color: gray;
 }
 
 
@@ -287,7 +287,8 @@ input.invalidinput:focus {
 }
 
 .selected-panel {
-  background-color: #E6E6E6;
+background-color: #dff0d8;
+border-color: #d6e9c6;
 }
 
 .trade-list-group {
@@ -306,6 +307,13 @@ input.invalidinput:focus {
 	font-size: 0.8em;
 	margin: 0px;
 	height: 25px
+}
+
+.object-name {
+	font-size: 0.8em;
+	margin: 0px;
+	height: 32px;
+	overflow-y: hidden;
 }
 
 
@@ -379,4 +387,17 @@ nav ul li.active * {
 .form-helper {
   font-size: 8pt;
 	text-align: justify;
+}
+.hidden {
+  display: none;
+  visibility: hidden;
+}
+
+.hide {
+  display: none;
+}
+
+.trading-window {
+	height: 500px;
+	overflow-y: scroll;
 }
