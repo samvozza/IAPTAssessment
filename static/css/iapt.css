@@ -74,7 +74,7 @@ h2.error-header {
   line-height: 54px;
   list-style: none;
   font-size: 11px;
-  color: #c4c4c4;
+  color: gray;
   margin-right: 10px;
   float: left;
 }
@@ -92,7 +92,7 @@ h2.error-header {
 
 .page-title .breadcrums li a {
 	line-height: 54px;
-	color: #c4c4c4;
+	color: gray;
 }
 
 

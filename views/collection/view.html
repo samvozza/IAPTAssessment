@@ -3,7 +3,7 @@
 <div class="container">
   <div class="row">
     <div class="col-md-3">
-      <h3>Collections</h3>
+      <h2>Collections</h2>
       <div class="list-group">
         {{for collection in response.collections:}}
         <a href="{{=URL('collection', 'view', args=[collection.id])}}" class="list-group-item {{if collection.id == response.collection.id:}}active{{pass}}">
@@ -30,13 +30,13 @@
               <div class="btn-group btn-group-sm" role="group">
                 {{if response.collection.name != 'Default': }}
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <span class="glyphicon glyphicon-cog"></span> Settings
+                  <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Settings
                   <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a href="{{=URL('collection', 'edit', args=[response.collection.id])}}">Edit</a></li>
-                    <li role="seperator" class="divider"></li>
-                    <li><a href="{{=URL('collection','delete', args=[response.collection.id])}}">Delete</a></li>
+                  <li><a href="{{=URL('collection', 'edit', args=[response.collection.id])}}">Edit</a></li>
+                  <li role="seperator" class="divider"></li>
+                  <li><a href="{{=URL('collection','delete', args=[response.collection.id])}}">Delete</a></li>
                 </ul>
                 {{pass}}
               </div>
@@ -47,9 +47,10 @@
           <li class="collection-search">
             <form role="search" method="get">
               <div class="input-group input-group-sm">
-                <input type="text" autocomplete="off"  value="{{=response.q}}" name="q" class="form-control input-sm" placeholder="Search this collection" list="objectsearch">
+                <label for="collection-search" class="hidden">Search this collection</label>
+                <input type="text" autocomplete="off"  value="{{=response.q}}" name="q" id="collection-search" class="form-control input-sm" placeholder="Search this collection" list="objectsearch">
                 <span class="input-group-btn">
-                  <button type="submit" class="btn btn-default btn-sm" title="Search"><i class="glyphicon glyphicon-search"></i></button>
+                  <button type="submit" class="btn btn-default btn-sm" title="Search"><span class="glyphicon glyphicon-search" aria-hidden="true"></span><span class="hidden">Search</span></button>
                 </span>
               </div>
             </form>
@@ -86,17 +87,17 @@
           <div role="tabpanel" class="tab-pane padding-top-20" id="owned">
             {{if len(response.owned)> 0:}}
             {{for o in response.owned:}}
-              <div class="col-sm-6 col-md-4">
-                <div class="thumbnail">
-                  <img src="{{=URL('default', 'download', args=[o.image])}}"/>
-                  <div class="caption">
-                    <h3><a href="{{=URL('object', 'view', args=[o.id])}}">{{=o.name}}</a></h3>
-                    <hr/>
-                    <a href="{{=URL('collection', 'wantit', args=[o.id])}}" class="btn btn-primary btn-sm">Want It</a>
-                    <a href="{{=URL('collection', 'getit', args=[o.id])}}" class="btn btn-warning btn-sm pull-right">Get It</a>
-                  </div>
+            <div class="col-sm-6 col-md-4">
+              <div class="thumbnail">
+                <img src="{{=URL('default', 'download', args=[o.image])}}"/>
+                <div class="caption">
+                  <h3><a href="{{=URL('object', 'view', args=[o.id])}}">{{=o.name}}</a></h3>
+                  <hr/>
+                  <a href="{{=URL('collection', 'wantit', args=[o.id])}}" class="btn btn-primary btn-sm">Want It</a>
+                  <a href="{{=URL('collection', 'getit', args=[o.id])}}" class="btn btn-warning btn-sm pull-right">Get It</a>
                 </div>
               </div>
+            </div>
             {{pass}}
             {{else:}}
             <div class="alert alert-info">There are no 'owned' objects in this collection.</div>
