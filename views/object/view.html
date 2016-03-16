@@ -30,7 +30,14 @@
           <div class="clearfix"></div>
           {{else:}}
           <div class="btn-group pull-right" role="group" aria-label="Options">
-            <a href="{{=URL('collection', 'wantit', args=[response.result.id], vars=dict(url=URL('default', 'search',vars=dict(q=response.q,min=response.min,max=response.max,u=response.u))))}}" class="btn btn-primary btn-sm">Want It</a>
+            {{search_vars = dict()}}
+            {{if response.q: search_vars[q] = response.q}}
+            {{if response.min: search_vars[min] = response.min}}
+            {{if response.max: search_vars[max] = response.max}}
+            {{if response.u: search_vars[u] = response.u}}
+            {{response_vars = dict()}}
+            {{if len(search_vars) > 0: response_vars[url] = URL('default', 'search', vars=search_vars)}}
+            <a href="{{=URL('collection', 'wantit', args=[response.result.id], vars=response_vars)}}" class="btn btn-primary btn-sm">Want It</a>
             <a href="{{=URL('collection', 'getit', args=[response.result.id])}}" class="btn btn-warning btn-sm">Get It</a>
           </div>
           {{pass}}
