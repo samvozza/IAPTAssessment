@@ -51,7 +51,7 @@
             <h3><a href="{{=URL('object', 'view', args=[result.object.id])}}">{{=result.object.name}}</a></h3>
             <hr/><span class="glyphicon glyphicon-user"></span>
             <a href="{{=URL('collection', 'user', args=[result.object.owner])}}">{{=result.object.owner.username}}</a>
-            <a href="{{=URL('collection', 'view', args=[result.object.id])}}" class="btn btn-warning btn-sm pull-right">Details</a>
+            <a href="{{=URL('object', 'view', args=[result.object.id])}}" class="btn btn-warning btn-sm pull-right">Details</a>
           </div>
         </div>
       </div>
