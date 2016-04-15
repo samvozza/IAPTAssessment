@@ -2,7 +2,11 @@ def view():
     response.collection = db(db.collection.id == request.args[0]).select().first()
     response.q = request.vars.q if request.vars.q != None else ''
     if auth.user and response.collection.owner == auth.user.id:
-        response.collections = db(db.collection.owner == response.collection.owner).select(orderby=db.collection.name)
+        collections = db(db.collection.owner == response.collection.owner).select(orderby=db.collection.name)
+        default_collection = db((db.collection.name == 'Default') & (db.collection.owner == auth.user)).select().first()
+        other_collections = [collection for collection in collections if collection.id != default_collection.id]
+        response.collections = [default_collection]
+        response.collections.extend(other_collections)
     else:
         response.collections = db((db.collection.owner == response.collection.owner) & (db.collection.public == 'T')).select(orderby=db.collection.name)
     response.objects = db((db.object.collection == response.collection.id) & (db.object.name.like('%' +response.q+'%'))).select(orderby=db.object.name)
