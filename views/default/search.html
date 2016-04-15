@@ -20,9 +20,15 @@
         <div class="form-group">
           <label for="min">Value</label>
           <div class="form-inline">
-            <input type="text" class="form-control" id="min" name="min" placeholder="min" value="{{=response.min}}"/>
+            <div class="col-md-12 input-group">
+              <span class="input-group-addon">&pound;</span>
+              <input type="text" class="form-control" id="min" name="min" placeholder="min" value="{{=response.min}}"/>
+            </div>
             <label for="max">to</label>
-            <input type="text" class="form-control" id="max" name="max" placeholder="max" value="{{=response.max}}"/>
+            <div class="col-md-12 input-group">
+              <span class="input-group-addon">&pound;</span>
+              <input type="text" class="form-control" id="max" name="max" placeholder="max" value="{{=response.max}}"/>
+            </div>
           </div>
         </div>
         <div class="form-group">
