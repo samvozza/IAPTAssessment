@@ -1,16 +1,33 @@
 {{extend 'layout.html'}}
 
 <div class="container">
-  <div class="col-md-offset-3 col-md-6 col-xs-12 col-sm-2 col-sm-8">
-    <div class="panel panel-default">
+  <div class="col-sm-12 col-md-6 new-trade-search-option">
+    <div class="panel panel-default new-trade-search-panel">
       <div class="panel-heading">
-        Start a new trade
+        Search for an item
       </div>
       <div class="panel-body">
-        <p>Trading allows you to exchange objects with users of the system. Start typing the username of the user you would like to trade with and click "Continue".</p>
+        <p>Enter a search term for the item you are looking for and then click 'Search'.</p>
+        <form action="{{=URL('default', 'search')}}" method="get" class="form-inline">
+          <div class="form-group">
+            <label for="search_term" style="margin-right: 10px;">Search:</label>
+            <input type="search" class="form-control" name="q" id="search_term" value="{{if request.vars.q:}}{{=request.vars.q}}{{pass}}"/>
+          </div>
+          <button type="submit" class="btn btn-success">Search</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-12 col-md-6 new-trade-search-option">
+    <div class="panel panel-default new-trade-search-panel">
+      <div class="panel-heading">
+        Trade with a user
+      </div>
+      <div class="panel-body">
+        <p>Start typing the username of the user you would like to trade with and then click 'Continue'.</p>
         <form action="{{=URL('trade', 'new_proposal')}}" method="get" class="form-inline">
           <div class="form-group">
-            <label for="receiver">User</label>
+            <label for="receiver" style="margin-right: 10px;">User:</label>
             <input type="text" name="receiver" id="receiver" list="users" class="form-control"/>
           </div>
           <button type="submit" class="btn btn-success"/>Continue</button>

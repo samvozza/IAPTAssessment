@@ -317,6 +317,42 @@ border-color: #d6e9c6;
 }
 
 
+/*-----------------------------------------   New Trade Page   -------------------------------------------*/
+
+.new-trade-search-option {
+	margin-top: 20px;
+}
+
+.new-trade-search-option + .new-trade-search-option {
+	border-left: 1px solid lightgray;
+}
+
+.new-trade-search-panel {
+	margin-top: 0;
+	min-height: 170px;
+}
+
+.new-trade-search-panel form {
+	position: absolute;
+	bottom: 15px;
+}
+
+@media (max-width: 992px) {
+	.new-trade-search-panel {
+	  min-height: inherit;
+  }
+
+	.new-trade-search-panel form {
+	  position: inherit;
+	  bottom: auto;
+	}
+	
+	.new-trade-search-option + .new-trade-search-option {
+	  border-left: 0;
+  }
+}
+
+
 /*----------------------------------------------   Footer   ----------------------------------------------*/
 
 html {
