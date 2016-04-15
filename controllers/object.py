@@ -125,3 +125,21 @@ def view():
 	add_breadcrumb(response.collection.name, URL('collection', 'view', args=[response.collection.id]))
 	add_breadcrumb(response.result.name)
 	return dict()
+
+@auth.requires_login()
+def delete():
+	response.object = db(db.object.id == request.args[0]).select().first()
+	response.owner = db(db.auth_user.id == response.object.owner).select().first()
+	
+	form = FORM(DIV(P('Are you sure you want to delete ' + response.object.name + ' ?')),
+                DIV(DIV(INPUT(_type='button', _value='No', _onclick='window.location=\'%s\';;return false' %
+                URL('object', 'view', args =[response.object.id]), _class='btn btn-primary pull-left'),
+                                _class='col-sm-0 col-md-0 col-lg-0')),
+                DIV(DIV(INPUT(_type='submit', _value='Yes', _class='btn btn-danger pull-left'),
+                            _class='col-sm-1 col-md-1 col-lg-1')))
+	
+	if form.accepts(request,session):
+		db(db.object.id == request.args[0]).delete()
+		redirect(URL('collection', 'view', args=[response.object.collection], vars=dict(message='item_deleted')))
+	
+	return dict(form=form)
