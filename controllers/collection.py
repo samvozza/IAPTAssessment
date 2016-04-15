@@ -100,17 +100,25 @@ def getit():
     item = db(db.object.id == request.args(0)).select().first()
     redirect(URL('trade', 'new_proposal', vars={'with': item.owner, 'collection': item.collection, 'add': item.id}));
 
+@auth.requires_login()
 def wantit():
     o = db(db.object.id == request.args[0]).select().first()
-    new_item = db.object.insert(**db.object._filter_fields(o))
-    db(db.object.id == new_item).update(owner = auth.user_id)
-    default = db((db.collection.owner == auth.user_id)
-                 & (db.collection.name=='Default')).select().first()
-    db(db.object.id == new_item).update(collection = default.id,
-                                        quantity = 0,
-                                        tradable_quantity = 0,
-                                        wanted_quantity = 1)
-    if request.vars.url:
-        redirect(request.vars.url + ('?' if '?' not in request.vars.url else '&') + 'message=wantit')
+    force = request.vars['force'] == 'true'
+    items_with_same_name = db((db.object.owner == auth.user.id)
+                              & (db.object.wanted_quantity > 0)
+                              & (db.object.name == o.name)).select()
+    default = db((db.collection.owner == auth.user.id) & (db.collection.name=='Default')).select().first()
+    
+    if len(items_with_same_name) == 0 or force:
+        new_item = db.object.insert(**db.object._filter_fields(o))
+        db(db.object.id == new_item).update(owner = auth.user.id)
+        db(db.object.id == new_item).update(collection = default.id,
+                                            quantity = 0,
+                                            tradable_quantity = 0,
+                                            wanted_quantity = 1)
+        if request.vars.url:
+            redirect(request.vars.url + ('?' if '?' not in request.vars.url else '&') + 'message=wantit')
+        else:
+            redirect(URL('collection', 'view', args=[default.id]))
     else:
-        redirect(URL('collection', 'view', args=[default.id]))
+        redirect(URL('object', 'view', args=[o.id], vars=dict(message='item_already_wanted')))
