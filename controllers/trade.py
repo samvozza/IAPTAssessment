@@ -124,57 +124,31 @@ def edit_proposal():
         and not (current_proposal.status == STATUS_OFFERED and auth.user.id == current_proposal.receiver)):
         raise EX(403, 'You are not able to edit this proposal at present.')
 
-    # If the proposal's status id 'OFFERED' then this is a counter-proposal
-    # So switch the meaning of the 'receiver' of the proposal
-    if current_proposal.status == STATUS_OFFERED:
-        receiver = db(db.auth_user.id == current_proposal.sender).select().first()
+    # Get the other user's details
+    if auth.user.id == current_proposal.sender:
+        other_user = db(db.auth_user.id == current_proposal.receiver).select().first()
     else:
-        receiver = db(db.auth_user.id == current_proposal.receiver).select().first()
+        other_user = db(db.auth_user.id == current_proposal.sender).select().first()
 
-    # If the 'user' parameter isn't specified, default to the receiver
-    if request.vars['user']:
-        selected_user = db(db.auth_user.id == request.vars['user']).select().first()
-    else:
-        selected_user = receiver
+    users_collections = db((db.collection.owner == auth.user.id)
+                           & (db.collection.public == True)).select()
+    
+    other_users_collections = db((db.collection.owner == other_user.id)
+                                 & (db.collection.public == True)).select()
 
-    selected_users_collections = db((db.collection.owner == selected_user.id)
-                                    & (db.collection.public == True)).select()
-
-    # Check that the selected user has at least one collection
-    if selected_users_collections.first() == None:
-        raise EX(500, 'The selected user doesn\'t have any public collections.')
+    # Check that the users both have at least one collection
+    if users_collections.first() == None or other_users_collections.first() == None:
+        raise EX(500, 'One of the participants doesn\'t have any public collections.')
 
     # Get the currently displayed collection
-    # This defaults to the selected user's first collection
+    # This defaults to the user's first collection
     if request.vars['collection']:
-        selected_collection = db(db.collection.id == request.vars['collection']).select().first()
+        initial_collection = db(db.collection.id == request.vars['collection']).select().first()
     else:
-        selected_collection = selected_users_collections.first()
-
-    # Check that a collection has been selected
-    if selected_collection == None:
-        raise EX(500, 'The selected collection cannot be found, or does not exist.')
-
-    selected_users_settings = db(db.user_settings.user == selected_user.id).select().first()
+        initial_collection = users_collections.first()
 
     # Get the current search term, if there is one
     search = request.vars['search'] or ''
-
-    # If the selected user is the current user, or if the selected user allows
-    # trading non-tradable items, then get any items that the user has
-    # Otherwise, only get items marked as tradable
-    if selected_user.id == auth.user.id or selected_users_settings.trade_non_tradable_items:
-        all_collection_items = db((db.object.collection == selected_collection.id)
-                                  & (db.object.quantity > 0)).select()
-        selected_items = db((db.object.collection == selected_collection.id)
-                            & (db.object.quantity > 0)
-                            & (db.object.name.like('%' + search + '%'))).select()
-    else:
-        all_collection_items = db((db.object.collection == selected_collection.id)
-                                  & (db.object.tradable_quantity > 0)).select()
-        selected_items = db((db.object.collection == selected_collection.id)
-                            & (db.object.tradable_quantity > 0)
-                            & (db.object.name.like('%' + search + '%'))).select()
 
     # Handle adding an item to the trade
     if request.vars['add']:
@@ -206,16 +180,87 @@ def edit_proposal():
     add_breadcrumb('Edit Trade Proposal', None)
     response.title = '' + current_proposal.title + ' - Edit'
     return dict(search=search,
-                receiver=receiver,
-                selected_user=selected_user,
-                selected_users_collections=selected_users_collections,
-                selected_collection=selected_collection,
-                all_collection_items=all_collection_items,
-                selected_items=selected_items,
+                users_collections=users_collections,
+                other_users_collections=other_users_collections,
+                initial_collection=initial_collection,
                 current_proposal=current_proposal,
                 all_proposal_items=all_proposal_items,
                 proposal_items_from_sender=proposal_items_from_sender,
                 proposal_items_from_receiver=proposal_items_from_receiver)
+
+
+def get_proposal_items():
+    if request.vars['proposal'] == None:
+        raise EX(500, 'No proposal has been specified (use the \'proposal\' parameter).')
+    current_proposal = db(db.trade.id == request.vars['proposal']).select().first()
+    
+    # Get the other user's details
+    if auth.user.id == current_proposal.sender:
+        other_user_id = current_proposal.receiver
+    else:
+        other_user_id = current_proposal.sender
+    
+    users_items = []
+    other_users_items = []
+    
+    trade_item_links = db(db.trade_contains_object.trade == current_proposal.id).select()
+    for trade_item_link in trade_item_links:
+        item = db(db.object.id == trade_item_link.object).select().first()
+        item_json = {}
+        item_json['id'] = item.id
+        item_json['name'] = item.name
+        item_json['value'] = item.price
+        item_json['image'] = item.image
+        item_json['quantity'] = trade_item_link.quantity
+        item_json['available_quantity'] = get_available_quantity(item)
+        
+        if item.owner == auth.user.id:
+            users_items.append(item_json)
+        elif item.owner == other_user_id:
+            other_users_items.append(item_json)
+    
+    return dict(users_items=users_items, other_users_items=other_users_items)
+
+
+def get_collection_items():
+    if request.vars['proposal'] == None:
+        raise EX(500, 'No proposal has been specified (use the \'proposal\' parameter).')
+    if request.vars['collection'] == None:
+        raise EX(500, 'No collection has been specified (use the \'collection\' parameter).')
+    current_proposal = db(db.trade.id == request.vars['proposal']).select().first()
+    collection = db(db.collection.id == request.vars['collection']).select().first()
+    
+    collection_owners_settings = db(db.user_settings.user == collection.owner).select().first()
+    
+    # If the selected user is the current user, or if the selected user allows
+    # trading non-tradable items, then get any items that the user has
+    # Otherwise, only get items marked as tradable
+    if collection.owner == auth.user.id or collection_owners_settings.trade_non_tradable_items:
+        selected_items = db((db.object.collection == collection.id)
+                            & (db.object.quantity > 0)).select()
+    else:
+        selected_items = db((db.object.collection == collection.id)
+                            & (db.object.tradable_quantity > 0)).select()
+    
+    trade_item_links = db(db.trade_contains_object.trade == current_proposal.id).select()
+    
+    collection_items = []
+    for item in selected_items:
+        item_json = {}
+        item_json['id'] = item.id
+        item_json['name'] = item.name
+        item_json['value'] = item.price
+        item_json['image'] = item.image
+        
+        is_in_trade = False
+        for trade_item_link in trade_item_links:
+            if trade_item_link.object == item.id:
+                is_in_trade = True
+        
+        item_json['in_trade'] = is_in_trade
+        collection_items.append(item_json)
+    
+    return dict(collection_items=collection_items)
 
 
 def set_proposal_title():
@@ -247,13 +292,17 @@ def set_proposal_item_quantity():
     trade_item_link_query = db((db.trade_contains_object.trade == request.vars['proposal'])
                                & (db.trade_contains_object.object == request.vars['item']))
     trade_item_link = trade_item_link_query.select().first()
-
+    
     if trade_item_link:
-        trade_item_link_query.update(quantity=request.vars['quantity'])
+        if int(request.vars['quantity']) > 0:
+            trade_item_link_query.update(quantity=request.vars['quantity'])
+        else:
+            trade_item_link_query.delete()
     else:
-        db.trade_contains_object.insert(trade=request.vars['proposal'],
-                                        object=request.vars['item'],
-                                        quantity=request.vars['quantity'])
+        if request.vars['quantity'] > 0:
+            db.trade_contains_object.insert(trade=request.vars['proposal'],
+                                            object=request.vars['item'],
+                                            quantity=request.vars['quantity'])
 
 
 def send_proposal():
@@ -363,7 +412,9 @@ def add_item_to_proposal(proposal, item, quantity=1):
     if trade_item_link:
         trade_item_link_query.update(quantity=new_quantity)
     else:
-        db.trade_contains_object.insert(trade=proposal.id, object=item.id, quantity=new_quantity)
+        val = db.trade_contains_object.insert(trade=proposal.id, object=item.id, quantity=new_quantity)
+        i = db(db.trade_contains_object.id == val).select().first()
+        print i.object
 
 
 def remove_item_from_proposal(proposal, item, quantity=1, remove_entirely=False):
