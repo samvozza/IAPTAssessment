@@ -16,7 +16,7 @@ def update():
 		response.flash = "One or more errors in your form field. Please see below for more information."
 
 	else:
-		response.flash = "Please complete the form to update your object."
+		response.flash = "Please complete the form to update this item."
 
 	name = 'My' if owner.id == auth.user.id else owner.username + '\'s'
 	add_breadcrumb(name + ' Collections', URL('collection', 'user', args=[owner.id]))

@@ -1,11 +1,11 @@
 {{if request.vars.message == 'wantit':}}
-<div class="alert alert-info">We added this collectible to your <strong>Default</strong> collection.</div>
+<div class="alert alert-info">The item has been added to your <strong>Default</strong> collection.</div>
 {{elif request.vars.message == 'newcollection':}}
 <div class="alert alert-success">You've succesfully created a new collection</div>
 {{elif request.vars.message == 'object_created':}}
-<div class="alert alert-success">You've added the collectible successfully.</div>
+<div class="alert alert-success">You've added the item successfully.</div>
 {{elif request.vars.message == 'object_updated':}}
-<div class="alert alert-success">You've updated collectible successfully.</div>
+<div class="alert alert-success">You've updated item successfully.</div>
 {{elif request.vars.message == 'new_collection':}}
 <div class="alert alert-success">
   You have successfully created a new collection.
