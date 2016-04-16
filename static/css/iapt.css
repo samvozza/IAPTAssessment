@@ -314,12 +314,7 @@ border-color: #d6e9c6;
 }
 
 .trading-window {
-	height: 520px;
-	overflow-y: auto;
-}
-
-.proposal-items-panel {
-	height: 350px;
+	height: 530px;
 	overflow-y: auto;
 }
 

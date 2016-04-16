@@ -1,68 +1,89 @@
 <div class="col-md-6 col-sm-12">
-  <div id="{{=section_id}}" class="panel panel-default proposal-items-panel">
+  <div id="{{=section_id}}" class="panel panel-default">
     <div class="panel-heading">{{=proposal_items_label}}</div>
-    <div id="summary-item-template" class="col-md-4" style="display: none;">
-      <div class="thumbnail thumbnail-small">
-        <img src="data:"/>
-        <div class="panel-body">
-          <div class="object-name"></div>
-          <div class="form-group form-group-sm quantity-form">
-            <label for="quantity-item-template" class="pull-left control-label">Quantity</label>
-            <div class="pull-right">
-              <input type="text" value="1" id="quantity-item-template" class="form-control input-sm quantity-input"/>
-              <span>/</span>
-              <span class="quantity-limit">1</span>
-              <input type="hidden" name="item_id" value=""/>
-              <input type="hidden" name="item_limit" value=""/>
-            </div>
-            <div class="clearfix"></div>
-          </div>
-          <div class="form-group text-center" style="margin-bottom: 0;">
-            <a href="#" class="btn btn-danger btn-xs remove-item proposal-button">
-              <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>Remove
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-    {{for item in proposal_items:}}
-    {{quantities = proposal_items[item]}}
-    <div class="col-md-4 item-preview">
-      <div class="thumbnail thumbnail-small">
-        <img src="{{=URL('default', 'download', args=[item.image])}}" alt="{{=item.name}}"/>
-        <div class="panel-body">
-          <div class="object-name">{{=item.name}}</div>
-          <div class="form-group form-group-sm quantity-form">
-            {{if quantities[0] < quantities[1]:}}
-            <div class="pull-right">
-              <a href="{{=URL(vars=dict(proposal=current_proposal.id, collection=initial_collection.id, add=item['id']))}}"><span class="glyphicon glyphicon-plus"></span></a>
-            </div>
-            <div class="clearfix"></div>
-            {{pass}}
-            <div>
-              <label for="quantity-item-template" class="pull-left control-label">Quantity</label>
-              <div class="pull-right">
-                <span class="quantity-limit">{{=quantities[0]}}</span>
-                <span>/</span>
-                <span class="quantity-limit">{{=quantities[1]}}</span>
-                <input type="hidden" name="item_id" value="{{=item.id}}"/>
-                <input type="hidden" name="item_limit" value="{{=quantities[1]}}"/>
+    <div id="{{=section_id}}-panel" class="panel-body" style="height: 330px; overflow-y: auto;">
+      <div id="summary-item-template" class="col-sm-4 col-md-4" style="display: none;">
+        <div class="thumbnail thumbnail-small">
+          <img src="data:"/>
+          <div class="panel panel-default" style="margin-top: 5px;">
+            <div class="panel-body">
+              <div class="object-name text-center"></div>
+              <div class="form-group form-group-sm" style="padding: 5px 10px; margin-bottom: 0;">
+                <label class="pull-left control-label" style="padding: 0;">Value:</label>
+                <div class="pull-right item-value"></div>
+                <div class="clearfix"></div>
+              </div>
+              <div class="form-group form-group-sm quantity-form" style="padding: 5px 10px; margin-bottom: 0;">
+                <label for="quantity-item-template" class="pull-left control-label">Quantity:</label>
+                <div class="pull-right">
+                  <input type="text" value="1" id="quantity-item-template" class="form-control input-sm quantity-input" style="padding: 5px 5px; margin: 0;"/>
+                  <span>/</span>
+                  <span class="quantity-limit">1</span>
+                  <input type="hidden" name="item_id" value=""/>
+                  <input type="hidden" name="item_limit" value=""/>
+                </div>
+                <div class="clearfix"></div>
+              </div>
+              <div class="form-group text-center" style="margin-bottom: 0;">
+                <a href="#" class="btn btn-danger btn-xs remove-item proposal-button">
+                  <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>Remove
+                </a>
               </div>
             </div>
-            <div class="clearfix"></div>
-            <div class="pull-right">
-              <a href="{{=URL(vars=dict(proposal=current_proposal.id, collection=initial_collection.id, remove=item['id'], quantity=1))}}"><span class="glyphicon glyphicon-minus"></span></a>
-            </div>
-            <div class="clearfix"></div>
-          </div>
-          <div class="form-group text-center" style="margin-bottom: 0;">
-            <a href="{{=URL(vars=dict(proposal=current_proposal.id, collection=initial_collection.id, remove=item.id))}}" class="btn btn-danger btn-xs remove-item proposal-button">
-              <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>Remove
-            </a>
           </div>
         </div>
       </div>
+      {{for item in proposal_items:}}
+      {{quantities = proposal_items[item]}}
+      <div class="col-sm-4 col-md-4 item-preview">
+        <div class="thumbnail thumbnail-small">
+          <img src="{{=URL('default', 'download', args=[item.image])}}" alt="{{=item.name}}"/>
+          <div class="panel panel-default" style="margin-top: 5px;">
+            <div class="panel-body">
+              <div class="object-name text-center">{{=item.name}}</div>
+              <div class="form-group form-group-sm" style="padding: 5px 10px; margin-bottom: 0;">
+                <label class="pull-left control-label" style="padding: 0;">Value:</label>
+                <div class="pull-right item-value">&pound;{{="%.2f" % item.price}}</div>
+                <div class="clearfix"></div>
+              </div>
+              <div class="form-group form-group-sm quantity-form" style="padding: 5px 10px; margin-bottom: 0;">
+                {{if quantities[0] < quantities[1]:}}
+                <div class="pull-right">
+                  <a href="{{=URL(vars=dict(proposal=current_proposal.id, collection=initial_collection.id, add=item['id']))}}"><span class="glyphicon glyphicon-plus"></span></a>
+                </div>
+                <div class="clearfix"></div>
+                {{pass}}
+                <div>
+                  <label class="pull-left control-label" style="padding: 0;">Quantity:</label>
+                  <div class="pull-right">
+                    <span class="quantity-limit">{{=quantities[0]}}</span>
+                    <span>/</span>
+                    <span class="quantity-limit">{{=quantities[1]}}</span>
+                    <input type="hidden" name="item_id" value="{{=item.id}}"/>
+                    <input type="hidden" name="item_limit" value="{{=quantities[1]}}"/>
+                  </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="pull-right">
+                  <a href="{{=URL(vars=dict(proposal=current_proposal.id, collection=initial_collection.id, remove=item['id'], quantity=1))}}"><span class="glyphicon glyphicon-minus"></span></a>
+                </div>
+                <div class="clearfix"></div>
+              </div>
+              <div class="form-group text-center" style="margin-bottom: 0;">
+                <a href="{{=URL(vars=dict(proposal=current_proposal.id, collection=initial_collection.id, remove=item.id))}}" class="btn btn-danger btn-xs remove-item proposal-button">
+                  <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>Remove
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {{pass}}
     </div>
-    {{pass}}
+    <div class="panel-footer">
+      {{item_values = [item.price * proposal_items[item][0] for item in proposal_items]}}
+      <div class="pull-right"><strong><span>Total Value: &pound;</span><span class="total-value">{{="%.2f" % sum(item_values)}}</span></strong></div>
+      <div class="clearfix"></div>
+    </div>
   </div>
 </div>

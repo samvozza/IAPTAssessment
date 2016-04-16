@@ -12,14 +12,14 @@
   </div>
   <hr/>
   <h2>Select Items</h2>
-  <div class="form-helper" style="margin-bottom: 15px;">
+  <div class="form-helper" style="margin-bottom: 25px;">
     Select items to add to the trade by clicking the 'Trade' button on items you wish to add.
   </div>
   <div class="form-group">
     <div class="col-md-12">
       <div class="col-md-3">
         {{for person in [('Your', users_collections), ('Their', other_users_collections)]:}}
-        <h3>{{=person[0]}} Collections</h3>
+        <h3 style="margin-top: 0;">{{=person[0]}} Collections</h3>
         <div class="collections-list">
           <div class="list-group">
             {{for collection in person[1]:}}
@@ -41,9 +41,13 @@
           <div class="thumbnail thumbnail-small">
             <img src="data:"/>
             <div class="panel-body">
-              <span class="label label-info pull-right item-value"></span>
-              <div class="object-name"></div>
-              <hr/>
+              <div class="object-name text-center"></div>
+              <div class="form-group form-group-sm pull-right" style="padding: 5px 10px; margin-bottom: 0;">
+                <label class="pull-left control-label" style="padding-top: 2px; margin-right: 5px;">Value:</label>
+                <span class="item-value"></span>
+              </div>
+              <div class="clearfix"></div>
+              <hr style="margin: 10px 0"/>
               <a href="#" class="btn btn-xs btn-success add-item proposal-button" style="display: none;">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Trade
               </a>
@@ -61,9 +65,13 @@
           <div class="thumbnail thumbnail-small">
             <img src="{{=URL('default', 'download', args=[item['image']])}}" alt="{{=item['name']}}"/>
             <div class="panel-body">
-              <span class="label label-info pull-right item-value">&pound;{{=item['value']}}</span>
-              <div class="object-name">{{=item['name']}}</div>
-              <hr/>
+              <div class="object-name text-center">{{=item['name']}}</div>
+              <div class="form-group form-group-sm pull-right" style="padding: 5px 10px; margin-bottom: 0;">
+                <label class="pull-left control-label" style="padding-top: 2px; margin-right: 5px;">Value:</label>
+                <span class="item-value">&pound;{{="%.2f" % item['value']}}</span>
+              </div>
+              <div class="clearfix"></div>
+              <hr style="margin: 10px 0"/>
               {{if not in_proposal:}}
               <a href="{{=URL(vars=dict(proposal=current_proposal.id, collection=initial_collection.id, add=item['id']))}}" class="btn btn-xs btn-success add-item proposal-button">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Trade
@@ -87,12 +95,12 @@
     <p class="form-helper">Below you can view the summary of your trading proposal. You can set quantities here.</p>
     <div id="summary-section" class="form-group">
       {{section_id = 'your-items'}}
-      {{proposal_items_label = 'Your items:'}}
+      {{proposal_items_label = 'Your items'}}
       {{proposal_items = users_proposal_items}}
       {{include 'trade/proposal_items.html'}}
 
       {{section_id = 'their-items'}}
-      {{proposal_items_label = 'Their items:'}}
+      {{proposal_items_label = 'Their items'}}
       {{proposal_items = other_users_proposal_items}}
       {{include 'trade/proposal_items.html'}}
     </div>
@@ -103,7 +111,7 @@
     <div class="form-group">
       <div class="col-md-12">
         <label for="message">Message:</label>
-        <textarea id="message" name="message" class="form-control" rows="3" style="min-width: 100%; max-width: 100%;">{{=current_proposal.message}}</textarea>
+        <textarea id="message" name="message" class="form-control" rows="3" style="height: 140px; min-width: 100%; max-width: 100%;">{{=current_proposal.message}}</textarea>
       </div>
     </div>
 

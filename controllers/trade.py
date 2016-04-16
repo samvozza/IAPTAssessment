@@ -76,8 +76,8 @@ def new():
 @auth.requires_login()
 def new_proposal():
     # Short-circuit if a proposal has been specified
-    #if request.vars['proposal'] != None:
-    #    redirect(URL('trade', 'edit_proposal', args=request.args, vars=request.vars))
+    if request.vars['proposal'] != None:
+        redirect(URL('trade', 'edit_proposal', args=request.args, vars=request.vars))
 
     if request.vars['with'] == None and request.vars['receiver'] == None:
         raise EX(500, 'No user has been specified to trade with '
@@ -100,15 +100,10 @@ def new_proposal():
 
     # Set the 'trade' parameter switch to the edit_proposal controller
     request.vars['proposal'] = proposal_id
-    #redirect(URL('trade', 'edit_proposal', args=request.args, vars=request.vars))
+    redirect(URL('trade', 'edit_proposal', args=request.args, vars=request.vars))
 
 @auth.requires_login()
 def edit_proposal():
-    session.count = session.count + 1
-    if session.count >= 2:
-        print "HERE"
-        #raise Exception('HERE')
-    
     if request.vars['proposal'] == None:
         raise EX(500, 'No proposal has been specified to edit '
                       + '(use the \'proposal\' parameter).')

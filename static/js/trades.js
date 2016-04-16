@@ -58,6 +58,14 @@ function getItemData() {
   return [users_items, other_users_items];
 }
 
+function calculateValue(items) {
+	var total = 0;
+	$.each(items, function(index, item) {
+		total += item.value * item.quantity;
+	});
+	return total;
+}
+
 function loadItems() {
 	item_data = getItemData();
 	users_items = item_data[0];
@@ -77,17 +85,19 @@ function loadItems() {
   	$('<div class="alert alert-info no-items">There are no objects in this collection.</div>').appendTo(collection_section);
   }
 
-  your_items_section = $('#your-items');
+  your_items_section = $('#your-items-panel');
   $.each(users_items, function(index, element) {
   	item_preview = makeSummaryItemPreview(element);
 	  item_preview.appendTo(your_items_section);
   });
+	$('#your-items').find('.total-value').html(calculateValue(users_items).toFixed(2));
   
-  their_items_section = $('#their-items');
+  their_items_section = $('#their-items-panel');
   $.each(other_users_items, function(index, element) {
   	item_preview = makeSummaryItemPreview(element);
 	  item_preview.appendTo(their_items_section);
   });
+	$('#their-items').find('.total-value').html(calculateValue(other_users_items).toFixed(2));
 }
 
 function makeCollectionItemPreview(item) {
@@ -97,8 +107,8 @@ function makeCollectionItemPreview(item) {
 	item_image = item_preview.find('img');
 	item_image.attr('src', downloads_url + "/" + item.image);
 	item_image.attr('alt', item.name);
-	item_preview.find('.item-value').html('&pound;' + item.value);
 	item_preview.find('.object-name').html(item.name);
+	item_preview.find('.item-value').html('&pound;' + item.value.toFixed(2));
 	item_details_button = item_preview.find('.item-details');
 
   if (item.in_trade) {
@@ -148,6 +158,7 @@ function makeSummaryItemPreview(item) {
 	item_image.attr('src', downloads_url + "/" + item.image);
 	item_image.attr('alt', item.name);
 	item_preview.find('.object-name').html(item.name);
+	item_preview.find('.item-value').html('&pound;' + item.value.toFixed(2));
 	item_quantity_input = item_preview.find('.quantity-input');
 	item_quantity_input.attr('id', 'quantity-input-' + item.id);
 	item_quantity_input.attr('value', item.quantity);
@@ -285,5 +296,10 @@ $(function() {
 	  	scrollTop: $("#summary").offset().top
     }, 500);
     return false;
+  });
+  
+  $('.quantity-input').change(function() {
+    setProposalDetails();
+	  loadItems();
   });
 });
