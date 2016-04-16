@@ -162,6 +162,11 @@ function makeSummaryItemPreview(item) {
 	item_quantity_input = item_preview.find('.quantity-input');
 	item_quantity_input.attr('id', 'quantity-input-' + item.id);
 	item_quantity_input.attr('value', item.quantity);
+	item_quantity_input.change(function() {
+    setProposalDetails();
+	  loadItems();
+  });
+	
 	item_preview.find('.quantity-limit').html(item.available_quantity);
 	item_preview.find('[name=item_id]').attr('value', item.id);
 	item_preview.find('[name=item_limit]').attr('value', item.available_quantity);
@@ -296,10 +301,5 @@ $(function() {
 	  	scrollTop: $("#summary").offset().top
     }, 500);
     return false;
-  });
-  
-  $('.quantity-input').change(function() {
-    setProposalDetails();
-	  loadItems();
   });
 });
