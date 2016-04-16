@@ -54,7 +54,7 @@
             <img src="{{=URL('default', 'download', args=[result.object.image])}}"/>
           </a>
           <div class="caption">
-            <h3><a href="{{=URL('object', 'view', args=[result.object.id])}}">{{=result.object.name}}</a></h3>
+            <h3  class="wrap"><a href="{{=URL('object', 'view', args=[result.object.id])}}">{{=result.object.name}}</a></h3>
             <hr/><span class="glyphicon glyphicon-user"></span>
             <a href="{{=URL('collection', 'user', args=[result.object.owner])}}">{{=result.object.owner.username}}</a>
             <a href="{{=URL('object', 'view', args=[result.object.id])}}" class="btn btn-warning btn-sm pull-right">Details</a>
