@@ -3,7 +3,8 @@
 <div class="container">
   <div class="row">
     <div class="col-md-3">
-      <h2>Collections</h2>
+      {{name = 'My' if auth.user and auth.user.id == response.owner.id else ("%s's" % response.owner.username)}}
+      <h2>{{=name}} Collections</h2>
       <div class="list-group">
         {{for collection in response.collections:}}
         <a href="{{=URL('collection', 'view', args=[collection.id])}}" class="list-group-item {{if collection.id == response.collection.id:}}active{{pass}}">
@@ -12,7 +13,7 @@
         {{pass}}
       </div>
       <hr/>
-      {{if auth.user_id == response.collection.owner:}}
+      {{if auth.user and auth.user.id == response.owner.id:}}
       <a href="{{=URL('collection', 'create', args=[response.collection.id])}}" class="btn btn-small btn-success pull-right btn-sm"><span class="glyphicon glyphicon-plus"></span> New Collection</a>
       {{pass}}
     </div>
