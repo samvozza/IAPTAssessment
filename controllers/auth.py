@@ -24,7 +24,7 @@ def register():
     to decorate functions that need access control
     """
 
-    registration_form = FORM(FIELD_WITH_DESC('Username',
+    registration_form = FORM(FIELD_WITH_DESC(LABEL('Username', _for='username-field'),
                                              INPUT(_id='username-field', _class='form-control', _name='username',
                                                    requires=[IS_NOT_EMPTY(error_message='Please pick a username'),
                                                              IS_NOT_IN_DB(db, 'auth_user.username',
@@ -32,7 +32,7 @@ def register():
                                                                                          + 'Please try a different username.'))]),
                                              ('This is the name which other users will use to identify your collections, '
                                               + 'and will be used to identify you in trades.')),
-                             FIELD_WITH_DESC('Email Address',
+                             FIELD_WITH_DESC(LABEL('Email Address', _for='email-field'),
                                              INPUT(_id='email-field', _class='form-control', _name='email',
                                                    requires=[IS_NOT_EMPTY(error_message='Please enter your email address'),
                                                              IS_EMAIL(error_message=('This does not appear to be a valid email address. '
@@ -42,7 +42,7 @@ def register():
                                                                           error_message=('An account with this email address already '
                                                                                          + 'exists.'))]),
                                              'Your email address. We will use this if we need to contact you.'),
-                             FIELD_WITH_DESC('Password',
+                             FIELD_WITH_DESC(LABEL('Password', _for='password-field'),
                                              INPUT(_id='password-field', _class='form-control', _name='password',
                                                    _type='password',
                                                    requires=[IS_NOT_EMPTY(error_message='Please pick a password'),
@@ -51,7 +51,7 @@ def register():
                                              ('This is the password you will use to access the site. '
                                               + 'Passwords must contain at least 8 characters, and should have a mix of lower-case '
                                               + 'and upper-case letters, numbers and symbols.')),
-                             FIELD_WITH_DESC('Confirm Password',
+                             FIELD_WITH_DESC(LABEL('Confirm Password', _for='password-confirm-field'),
                                              INPUT(_id='password-confirm-field', _class='form-control', _name='password_confirm',
                                                    _type='password',
                                                    requires=[IS_NOT_EMPTY(error_message='Please confirm your password'),
@@ -90,14 +90,14 @@ def register():
 def edit():
     trade_non_tradable_items = db(db.user_settings.user == auth.user.id).select().first().trade_non_tradable_items
 
-    edit_form = FORM(FIELD_WITH_DESC('Username',
+    edit_form = FORM(FIELD_WITH_DESC(LABEL('Username', _for='username-field'),
                                      INPUT(_id='username-field', _class='form-control', _name='username', _value=auth.user.username,
                                            requires=[IS_EMPTY_OR(IS_STRING_OR(IS_NOT_IN_DB(db, 'auth_user.username',
                                                                                            error_message=('This username has already been taken. '
                                                                                                           + 'Please try a different username.')),
                                                                               auth.user.username))]),
                                      'Your new username.'),
-                     FIELD_WITH_DESC('Trade Any Item',
+                     FIELD_WITH_DESC(LABEL('Trade Any Item', _for='trade-any-item-select'),
                                      SELECT(OPTION('Yes', _value='Yes'), OPTION('No', _value='No'),
                                             _id='trade-any-item-select', _class='form-control',
                                             _name='trade_any_item', value=('Yes' if trade_non_tradable_items else 'No'),
@@ -107,17 +107,17 @@ def edit():
                                        + 'in any of your collections.'), BR(),
                                       ('Select \'No\' if you only wish to be contacted about items which you '
                                        + 'have selected to trade.')]),
-                     FIELD_WITH_DESC('Old Password',
+                     FIELD_WITH_DESC(LABEL('Old Password', _for='old-password-field'),
                                      INPUT(_id='old-password-field', _class='form-control', _name='old_password',
                                            _type='password'),
                                      'Your current password.'),
-                     FIELD_WITH_DESC('New Password',
+                     FIELD_WITH_DESC(LABEL('New Password', _for='password-field'),
                                      INPUT(_id='password-field', _class='form-control', _name='password',
                                            _type='password',
                                            requires=[IS_EMPTY_OR(CRYPT(min_length=8,
                                                                        error_message='Please enter a stronger password.'))]),
                                      'Your new password.'),
-                     FIELD_WITH_DESC('Confirm Password',
+                     FIELD_WITH_DESC(LABEL('Confirm Password', _for='password-confirm-field'),
                                      INPUT(_id='password-confirm-field', _class='form-control', _name='password_confirm',
                                            _type='password',
                                            requires=[IS_EQUAL_TO(request.vars.password,
@@ -179,12 +179,12 @@ def sign_in():
     to decorate functions that need access control
     """
 
-    sign_in_form = FORM(DIV(LABEL('Username or Email Address'),
+    sign_in_form = FORM(DIV(LABEL('Username or Email Address', _for='username-email-field'),
                             INPUT(_id='username-email-field', _class='form-control', _name='username_email',
                                   requires=[IS_NOT_EMPTY(error_message=('Please enter your username or '
                                                                              + 'email address'))]),
                             _class='form-group'),
-                        DIV(LABEL('Password'),
+                        DIV(LABEL('Password', _for='password-field'),
                             INPUT(_id='password-field', _class='form-control', _name='password',
                                   _type='password',
                                   requires=[IS_NOT_EMPTY(error_message='Please enter your password')]),
@@ -215,6 +215,7 @@ def sign_out():
 
 
 
+
 # Helper functions
 
 def authenticate(username_or_email, password):
@@ -241,7 +242,7 @@ def redirect_to_next(default=URL('default', 'index')):
 
 
 def FIELD_WITH_DESC(name, field, description):
-    return DIV(DIV(LABEL(name),
+    return DIV(DIV(name,
                    _class='col-sm-12 col-md-12 col-lg-12'),
                DIV(field,
                    _class='col-sm-6 col-md-6 col-lg-6'),
