@@ -47,7 +47,6 @@
                 <span class="item-value"></span>
               </div>
               <div class="clearfix"></div>
-              <hr style="margin: 10px 0"/>
               <a href="#" class="btn btn-xs btn-success add-item proposal-button" style="display: none;">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Trade
               </a>
@@ -71,7 +70,6 @@
                 <span class="item-value">&pound;{{="%.2f" % item['value']}}</span>
               </div>
               <div class="clearfix"></div>
-              <hr style="margin: 10px 0"/>
               {{if not in_proposal:}}
               <a href="{{=URL(vars=dict(proposal=current_proposal.id, collection=initial_collection.id, add=item['id']))}}" class="btn btn-xs btn-success add-item proposal-button">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Trade

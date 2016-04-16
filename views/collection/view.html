@@ -6,12 +6,11 @@
       <h2>Collections</h2>
       <div class="list-group">
         {{for collection in response.collections:}}
-        <a href="{{=URL('collection', 'view', args=[collection.id])}}" class="list-group-item {{if collection.id == response.collection.id:}}active{{pass}}">
+        <a href="{{=URL('collection', 'view', args=[collection.id])}}" class="list-group-item {{if collection.id == response.collection.id:}}active{{pass}}" aria-label="{{if collection.id == response.collection.id:}}Currently Selected{{pass}}">
           {{=collection.name}} {{if collection.public:}}<span class="badge" aria-label="Public Collection"><span class="glyphicon glyphicon-eye-open"></span></span>{{pass}}
         </a>
         {{pass}}
       </div>
-      <hr/>
       {{if auth.user_id == response.collection.owner:}}
       <a href="{{=URL('collection', 'create', args=[response.collection.id])}}" class="btn btn-small btn-success pull-right btn-sm"><span class="glyphicon glyphicon-plus"></span> New Collection</a>
       {{pass}}
@@ -44,99 +43,105 @@
           </li>
           {{pass}}
 
-          <li class="collection-search">
-            <form role="search" method="get">
+          <li class="collection-search" >
+            <div role="search">
+            <form method="get">
               <div class="input-group input-group-sm">
                 <label for="collection-search" class="hidden">Search this collection</label>
-                <input type="text" autocomplete="off"  value="{{=response.q}}" name="q" id="collection-search" class="form-control input-sm" placeholder="Search this collection" list="objectsearch">
+                <input type="text" autocomplete="off"  value="{{=response.q}}" name="q" id="collection-search" class="form-control input-sm" placeholder="Search this collection" list="objectsearch"/>
                 <span class="input-group-btn">
                   <button type="submit" class="btn btn-default btn-sm" title="Search"><span class="glyphicon glyphicon-search" aria-hidden="true"></span><span class="hidden">Search</span></button>
                 </span>
               </div>
             </form>
+          </div>
           </li>
         </ul>
         <datalist id="objectsearch">
           {{for o in response.datalist:}}
-          <option value="{{=o.name}}"></option>
+          <option>{{=o.name}}</option>
           {{pass}}
         </datalist>
         <!-- Tab panes -->{{include 'messages.html'}}
         <div class="tab-content">
           <div role="tabpanel" class="tab-pane active padding-top-20" id="all">
             {{if len(response.objects)> 0:}}
+            <ul class="collection-list">
             {{for o in response.objects:}}
-            <div class="col-sm-6 col-md-4">
+            <li class="col-sm-6 col-md-4">
               <div class="thumbnail">
                 <a href="{{=URL('object', 'view', args=[o.id])}}">
-                  <img src="{{=URL('default', 'download', args=[o.image])}}"/>
+                  <img src="{{=URL('default', 'download', args=[o.image])}}" alt="{{=o.name}}"/>
                 </a>
                 <div class="caption">
                   <h3><a href="{{=URL('object', 'view', args=[o.id])}}">{{=o.name}}</a></h3>
-                  <hr/>
                   <a href="{{=URL('collection', 'wantit', args=[o.id], vars=dict(url=URL('collection', 'view', args=[request.args[0]])))}}" class="btn btn-primary btn-sm">Want It</a>
                   <a href="{{=URL('collection', 'getit', args=[o.id])}}" class="btn btn-warning btn-sm pull-right">Get It</a>
                 </div>
               </div>
-            </div>
+            </li>
             {{pass}}
+          </ul>
             {{else:}}
             <div class="alert alert-info">There are no objects in this collection.</div>
             {{pass}}
           </div>
           <div role="tabpanel" class="tab-pane padding-top-20" id="owned">
             {{if len(response.owned)> 0:}}
+            <ul class="collection-list">
             {{for o in response.owned:}}
-            <div class="col-sm-6 col-md-4">
+            <li class="col-sm-6 col-md-4">
               <div class="thumbnail">
-                <img src="{{=URL('default', 'download', args=[o.image])}}"/>
+                <img src="{{=URL('default', 'download', args=[o.image])}}" alt="{{=o.name}}"/>
                 <div class="caption">
                   <h3><a href="{{=URL('object', 'view', args=[o.id])}}">{{=o.name}}</a></h3>
-                  <hr/>
                   <a href="{{=URL('collection', 'wantit', args=[o.id])}}" class="btn btn-primary btn-sm">Want It</a>
                   <a href="{{=URL('collection', 'getit', args=[o.id])}}" class="btn btn-warning btn-sm pull-right">Get It</a>
                 </div>
               </div>
-            </div>
+            </li>
             {{pass}}
+          </ul>
             {{else:}}
             <div class="alert alert-info">There are no 'owned' objects in this collection.</div>
             {{pass}}
           </div>
           <div role="tabpanel" class="tab-pane padding-top-20" id="wanted">
             {{if len(response.wanted)> 0:}}
+            <ul class="collection-list">
             {{for o in response.wanted:}}
-            <div class="col-sm-6 col-md-4">
+            <li class="col-sm-6 col-md-4">
               <div class="thumbnail">
-                <img src="{{=URL('default', 'download', args=[o.image])}}"/>
+                <img src="{{=URL('default', 'download', args=[o.image])}}" alt="{{=o.name}}"/>
                 <div class="caption">
                   <h3><a href="{{=URL('object', 'view', args=[o.id])}}">{{=o.name}}</a></h3>
-                  <hr/>
                   <a href="{{=URL('collection', 'wantit', args=[o.id])}}" class="btn btn-primary btn-sm">Want It</a>
                   <a href="{{=URL('collection', 'getit', args=[o.id])}}" class="btn btn-warning btn-sm pull-right">Get It</a>
                 </div>
               </div>
-            </div>
+            </li>
             {{pass}}
+          </ul>
             {{else:}}
             <div class="alert alert-info">There are no 'wanted' objects in this collection.</div>
             {{pass}}
           </div>
           <div role="tabpanel" class="tab-pane padding-top-20" id="tradable">
             {{if len(response.tradable) > 0:}}
+            <ul class="collection-list">
             {{for o in response.tradable:}}
-            <div class="col-sm-6 col-md-4">
+            <li class="col-sm-6 col-md-4">
               <div class="thumbnail">
-                <img src="{{=URL('default', 'download', args=[o.image])}}"/>
+                <img src="{{=URL('default', 'download', args=[o.image])}}" alt="{{=o.name}}"/>
                 <div class="caption">
                   <h3><a href="{{=URL('object', 'view', args=[o.id])}}">{{=o.name}}</a></h3>
-                  <hr/>
                   <a href="{{=URL('collection', 'wantit', args=[o.id])}}" class="btn btn-primary btn-sm">Want It</a>
                   <a href="{{=URL('collection', 'getit', args=[o.id])}}" class="btn btn-warning btn-sm pull-right">Get It</a>
                 </div>
               </div>
-            </div>
+            </li>
             {{pass}}
+          </ul>
             {{else:}}
             <div class="alert alert-info">There are no 'tradable' objects in this collection.</div>
             {{pass}}

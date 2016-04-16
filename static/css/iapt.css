@@ -74,7 +74,7 @@ h2.error-header {
   line-height: 54px;
   list-style: none;
   font-size: 11px;
-  color: gray;
+  color: #313538;
   margin-right: 10px;
   float: left;
 }
@@ -92,7 +92,7 @@ h2.error-header {
 
 .page-title .breadcrums li a {
 	line-height: 54px;
-	color: gray;
+	color: #313538;
 }
 
 
@@ -134,6 +134,20 @@ input.invalidinput:focus {
 	max-width: 200px !important;
 }
 
+.collection-list {
+	list-style: none;
+		padding: 0!important;
+		margin: 0!important;
+}
+
+.collection-list li {
+	margin: 0!important;
+}
+
+.caption h3 {
+	min-height: 40px;
+	border-bottom: 1px solid lightgray;
+}
 
 /*-----------------------------------------   Trade Summaries   ------------------------------------------*/
 
@@ -282,6 +296,13 @@ input.invalidinput:focus {
 
 .panel-footer {
 	background: inherit;
+
+}
+.panel-body {
+	font-size: 0.95em;
+}
+.panel-footer div {
+	font-size:0.8em;
 }
 
 .quantity-input {
@@ -374,7 +395,7 @@ border-color: #d6e9c6;
 	  position: inherit;
 	  bottom: auto;
 	}
-	
+
 	.new-trade-search-option + .new-trade-search-option {
 	  border-left: 0;
   }
@@ -401,7 +422,7 @@ body {
   width: 100%;
   padding-top: 20px;
 	height: 60px;
-	color: #65686D;
+	color: white;
 	background: #2F3338;
 }
 

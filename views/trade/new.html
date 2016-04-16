@@ -30,11 +30,11 @@
             <label for="receiver" style="margin-right: 10px;">User:</label>
             <input type="text" name="receiver" id="receiver" list="users" class="form-control"/>
           </div>
-          <button type="submit" class="btn btn-success"/>Continue</button>
+          <button type="submit" class="btn btn-success">Continue</button>
         </form>
         <datalist id="users">
           {{for user in response.users:}}
-          <option value="{{=user.username}}"/>
+          <option>{{=user.username}}</option>
           {{pass}}
         </datalist>
       </div>

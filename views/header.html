@@ -43,21 +43,23 @@
   <div class="row">
     <nav class="navbar ">
       <ul class="nav navbar-nav navbar-left">
-        <li><div class="brand"><a href="{{=URL('default', 'index')}}">CollectShare</a></div></li>
+        <li><div class="brand"><a href="{{=URL('default', 'index')}}" title="Go to home page.">CollectShare</a></div></li>
         <li class="{{if URL('default', 'index') == URL():}}active{{pass}}"><a href="{{=URL('default', 'index')}}"><span class="glyphicon glyphicon-home"></span> Home</a></li>
         <li class="{{if request.controller == 'collection' or request.controller == 'object':}}active{{pass}}"><a href="{{=URL('collection', 'my')}}"><span class="glyphicon glyphicon-folder-open"></span> Collections</a></li>
         <li class="{{if request.controller == 'trade':}}active{{pass}}"><a href="{{=URL('trade', 'index')}}"><span class="glyphicon glyphicon-transfer"></span> Trades</a></li>
       </ul>
-      <form class="main-search-form pull-right" method="get" action="{{=URL('default', 'search')}}" role="search">
+      <div class="main-search-form pull-right" role="search">
+      <form method="get" action="{{=URL('default', 'search')}}">
         <div class="input-group">
           <label for="main-search" class=" hidden">Search for item name</label>
           <input type="search" class="form-control" name="q" id="main-search" placeholder="Search for item name..." value="{{if request.vars.q:}}{{=request.vars.q}}{{pass}}">
           <span class="input-group-btn">
-            <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search" aria-label="Search"></span></button>
+            <button class="btn btn-default" type="submit" aria-label="Search"><span class="glyphicon glyphicon-search" ></span></button>
           </span>
         </div>
         <small><a href="{{=URL('default', 'search')}}" class="pull-right">Advanced Search</a></small>
       </form>
+    </div>
     </nav>
   </div>
 </div>

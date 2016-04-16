@@ -3192,7 +3192,7 @@ fieldset[disabled] .btn-primary.active {
 }
 .btn-success {
   color: #fff;
-  background-color: #5cb85c;
+  background-color: #388038;
   border-color: #4cae4c;
 }
 .btn-success:focus,
@@ -3324,7 +3324,7 @@ fieldset[disabled] .btn-info.active {
 }
 .btn-warning {
   color: #fff;
-  background-color: #f0ad4e;
+  background-color: #ce8013;
   border-color: #eea236;
 }
 .btn-warning:focus,

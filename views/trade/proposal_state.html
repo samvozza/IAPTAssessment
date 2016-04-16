@@ -2,9 +2,9 @@
   <div class="panel {{=panel_type}}">
     <div class="panel-heading">
       {{=panel_heading}}
-      <a href="#" data-toggle="tooltip" class="pull-right" title="{{=help_text}}">
+      <div data-toggle="tooltip" class="pull-right btn-link" title="{{=help_text}}">
         <span aria-label="Get help here" class="glyphicon glyphicon-info-sign"></span>
-      </a>
+      </div>
     </div>
     <div class="list-group trade-list-group">
       {{if len(proposals) > 0:}}

@@ -3,6 +3,7 @@
 <div class="container">
   <div class="row">
     <div class="{{if response.r != None:}}col-md-3{{else:}}col-md-10 col-md-offset-1{{pass}}">
+      <h2>Search</h2>
       <form action="{{=URL('default', 'search')}}" method="get">
         <div class="form-group">
           <label for="name">Item's Name</label>
@@ -11,7 +12,7 @@
         <div class="form-group">
           <label for="category">Category</label>
           <select name="c" id="category" class="form-control">
-            <option></option>
+            <option value="">(not selected)</option>
             {{for c in response.categories:}}
             <option value="{{=c.id}}" {{if response.c == str(c.id):}}selected="selected"{{pass}}>{{=c.name}}</option>
             {{pass}}
@@ -46,22 +47,25 @@
       </form>
     </div>
     <div class="{{if response.r != None:}}col-md-9{{else:}}hidden{{pass}}">
+      <h2>Search Result</h2>
       {{if len(response.results) > 0:}}
-      {{for result in response.results:}}
-      <div class="col-sm-6 col-md-4">
-        <div class="thumbnail">
-          <a href="{{=URL('object', 'view', args=[result.object.id])}}">
-            <img src="{{=URL('default', 'download', args=[result.object.image])}}"/>
-          </a>
-          <div class="caption">
-            <h3><a href="{{=URL('object', 'view', args=[result.object.id])}}">{{=result.object.name}}</a></h3>
-            <hr/><span class="glyphicon glyphicon-user"></span>
-            <a href="{{=URL('collection', 'user', args=[result.object.owner])}}">{{=result.object.owner.username}}</a>
-            <a href="{{=URL('object', 'view', args=[result.object.id])}}" class="btn btn-warning btn-sm pull-right">Details</a>
+      <ul class="collection-list">
+        {{for result in response.results:}}
+        <li class="col-sm-6 col-md-4">
+          <div class="thumbnail">
+            <a href="{{=URL('object', 'view', args=[result.object.id])}}">
+              <img src="{{=URL('default', 'download', args=[result.object.image])}}" alt="{{=result.object.name}}"/>
+            </a>
+            <div class="caption">
+              <h3><a href="{{=URL('object', 'view', args=[result.object.id])}}">{{=result.object.name}}</a></h3>
+              <span class="glyphicon glyphicon-user"></span>
+              <a href="{{=URL('collection', 'user', args=[result.object.owner])}}" title="View profile of {{=result.object.name}}">{{=result.object.owner.username}}</a>
+              <a href="{{=URL('object', 'view', args=[result.object.id])}}" class="btn btn-default btn-sm pull-right" title="View the detials for {{=result.object.name}}">Details</a>
+            </div>
           </div>
-        </div>
-      </div>
-      {{pass}}
+        </li>
+        {{pass}}
+      </ul>
       {{else:}}
       <div class="alert alert-info">No results matching those criteria.</div>
       {{pass}}

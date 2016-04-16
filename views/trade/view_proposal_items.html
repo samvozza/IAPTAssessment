@@ -1,26 +1,24 @@
 <div class="row">
-  <label>{{=proposal_items_label}}</label>
+  <h2>{{=proposal_items_label}}</h2>
   <div class="panel panel-default col-md-12" style="min-height: 250px; padding: 0; margin: 0;">
     <div class="panel-body" style="padding: 15px 0;">
+      <ul>
       {{for item in proposal_items:}}
-      <div class="col-md-4">
-        <div class="thumbnail thumbnail-small" style="margin: 0;">
-          <a href="{{=URL('object', 'view', args=[item.id])}}" target="_blank">
-            <img src="{{=URL('default', 'download', args=[item.image])}}" class=""/>
-          </a>
-          <a href="{{=URL('object', 'view', args=[item.id])}}" target="_blank">
-            <div class="panel-body">
-              <h4>{{=item.name}}</h4>
+        <li class="col-md-4" style="margin: 0;">
+          <div class="thumbnail thumbnail-small" style="margin: 0;">
+            <a href="{{=URL('object', 'view', args=[item.id])}}" target="_blank">
+              <img src="{{=URL('default', 'download', args=[item.image])}}" alt="{{=item.name}}" class=""/>
+              <div class="panel-body">{{=item.name}}</div>
+            </a>
+            <div class="panel-footer">
+              {{item_quantity = proposal_items[item]}}
+              <div>Value: &pound;{{=item.price}}</div>
+              <div>Quantity: {{=item_quantity[0]}}</div>
             </div>
-          </a>
-          <div class="panel-footer">
-            {{item_quantity = proposal_items[item]}}
-            <h4>Value: &pound;{{=item.price}}</h4>
-            <h4>Quantity: {{=item_quantity[0]}}</h4>
           </div>
-        </div>
-      </div>
+        </li>
       {{pass}}
+    </ul>
     </div>
   </div>
 </div>
