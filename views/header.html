@@ -1,3 +1,4 @@
+<div role="banner">
 <div class="header">
   <div class="top-bar">
     <div class="container">
@@ -5,7 +6,7 @@
         {{if auth.user:}}
         <div class="dropdown pull-right">
           <a href="#" class="dropdown-toggle nounderline" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-            <span class="glyphicon glyphicon-user"></span> {{=auth.user.username}} <span class="caret"></span>
+            <span class="glyphicon glyphicon-user" aria-invalid="true"></span> {{=auth.user.username}} <span class="caret"></span>
           </a>
           <ul class="dropdown-menu">
             <li><a href="{{=URL('auth', 'edit')}}" title="Edit My Details">Settings</a></li>
@@ -14,7 +15,7 @@
         </div>
         <div class="dropdown pull-right">
           <a href="#" class="dropdown-toggle nounderline" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-            <span class="glyphicon glyphicon-plus"></span> New <span class="caret"></span>
+            <span class="glyphicon glyphicon-plus" aria-invalid="true"></span> New <span class="caret"></span>
           </a>
           <ul class="dropdown-menu">
             <li><a href="{{=URL('trade', 'new')}}">Trade</a></li>
@@ -59,4 +60,5 @@
       </form>
     </nav>
   </div>
+</div>
 </div>

@@ -5,7 +5,7 @@
     <div class="{{if response.r != None:}}col-md-3{{else:}}col-md-10 col-md-offset-1{{pass}}">
       <form action="{{=URL('default', 'search')}}" method="get">
         <div class="form-group">
-          <label for="name">Object's Name</label>
+          <label for="name">Item's Name</label>
           <input type="text" class="form-control" id="name" name="q" value="{{=response.q}}"/>
         </div>
         <div class="form-group">

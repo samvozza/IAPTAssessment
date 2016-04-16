@@ -108,7 +108,7 @@ def wantit():
                               & (db.object.wanted_quantity > 0)
                               & (db.object.name == o.name)).select()
     default = db((db.collection.owner == auth.user.id) & (db.collection.name=='Default')).select().first()
-    
+
     if len(items_with_same_name) == 0 or force:
         new_item = db.object.insert(**db.object._filter_fields(o))
         db(db.object.id == new_item).update(owner = auth.user.id)
