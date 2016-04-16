@@ -26,6 +26,8 @@ def create():
     form = SQLFORM(db.collection, fields=['name'])
     form.vars.owner = auth.user_id
     form.vars.public = True if request.vars.public == 'Yes' else False
+    form.custom.widget.name['requires'] = IS_UNIQUE_PER_USER(form.vars.owner,
+                                                             error_message="You already have a collection with this name.")
     if form.process(keepvalues=True).accepted:
         redirect(URL('collection', 'view', args=[form.vars.id], vars=dict(message='new_collection')))
 
@@ -122,3 +124,20 @@ def wantit():
             redirect(URL('collection', 'view', args=[default.id]))
     else:
         redirect(URL('object', 'view', args=[o.id], vars=dict(message='item_already_wanted')))
+
+
+
+
+class IS_UNIQUE_PER_USER(object):
+    def __init__(self, user, error_message="error"):
+        self.user = user
+        self.error_message = error_message
+
+    def __call__(self, value):
+        users_collections = db(db.collection.owner == self.user).select()
+
+        for collection in users_collections:
+            if collection.name == value:
+                return (value, self.error_message)
+
+        return (value, None)
