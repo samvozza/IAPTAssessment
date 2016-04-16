@@ -32,7 +32,10 @@ def search():
         response.r = None
     else:
         query = ((db.object.collection == db.collection.id)  & (db.collection.public == 'T'))
-        query &= db.object.name.like('%' + response.q + '%')
+        if response.q.endswith('s'):
+            query &= db.object.name.like('%' + response.q[:-1] + '%')
+        else:
+            query &= db.object.name.like('%' + response.q + '%')
         if response.min != '':
             query &= db.object.price >= response.min
         if response.max != '':
