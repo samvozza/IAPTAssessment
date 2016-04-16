@@ -3,7 +3,6 @@
 function loadCollections() {
 	$('.collection-link').each(function() {
 		id = $(this).siblings('form').find('[name=collection_id]').val();
-		$(this).attr('href', current_proposal_url.replace(/&amp;/g, '&') + '&collection=' + id);
 	  
 	  if (id == current_collection_id) {
 	  	$(this).addClass('active');
@@ -101,7 +100,6 @@ function makeCollectionItemPreview(item) {
 	item_preview.find('.item-value').html('&pound;' + item.value);
 	item_preview.find('.object-name').html(item.name);
 	item_details_button = item_preview.find('.item-details');
-	item_details_button.attr('href', item_details_button.attr('href').replace(/&amp;/g, '&') + '/' + item.id);
 
   if (item.in_trade) {
 	  item_preview.addClass('selected-panel');
@@ -157,7 +155,6 @@ function makeSummaryItemPreview(item) {
 	item_preview.find('[name=item_id]').attr('value', item.id);
 	item_preview.find('[name=item_limit]').attr('value', item.available_quantity);
 	item_remove_button = item_preview.find('.remove-item');
-	item_remove_button.attr('href', current_proposal_url.replace(/&amp;/g, '&') + '&remove=' + item.id);
 	item_remove_button.click(function() {
     setProposalDetails();
 		$.ajax({
@@ -223,8 +220,6 @@ function setProposalDetails() {
       });
     }
   });
-
-	return true;
 }
 
 function setSummaryBar() {
@@ -284,4 +279,11 @@ $(function() {
       return false;
     });
 	});
+	
+	$('.summary-link').click(function() {
+	  $('html, body').animate({
+	  	scrollTop: $("#summary").offset().top
+    }, 500);
+    return false;
+  });
 });

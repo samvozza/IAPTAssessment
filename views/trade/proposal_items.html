@@ -1,11 +1,9 @@
 <div class="col-md-6 col-sm-12">
   <div id="{{=section_id}}" class="panel panel-default proposal-items-panel">
-    <div class="panel-heading">
-      {{=proposal_items_label}}
-    </div>
+    <div class="panel-heading">{{=proposal_items_label}}</div>
     <div id="summary-item-template" class="col-md-4" style="display: none;">
       <div class="thumbnail thumbnail-small">
-        <img src="#"/>
+        <img src="data:"/>
         <div class="panel-body">
           <div class="object-name"></div>
           <div class="form-group form-group-sm quantity-form">
@@ -27,5 +25,44 @@
         </div>
       </div>
     </div>
+    {{for item in proposal_items:}}
+    {{quantities = proposal_items[item]}}
+    <div class="col-md-4 item-preview">
+      <div class="thumbnail thumbnail-small">
+        <img src="{{=URL('default', 'download', args=[item.image])}}" alt="{{=item.name}}"/>
+        <div class="panel-body">
+          <div class="object-name">{{=item.name}}</div>
+          <div class="form-group form-group-sm quantity-form">
+            {{if quantities[0] < quantities[1]:}}
+            <div class="pull-right">
+              <a href="{{=URL(vars=dict(proposal=current_proposal.id, collection=initial_collection.id, add=item['id']))}}"><span class="glyphicon glyphicon-plus"></span></a>
+            </div>
+            <div class="clearfix"></div>
+            {{pass}}
+            <div>
+              <label for="quantity-item-template" class="pull-left control-label">Quantity</label>
+              <div class="pull-right">
+                <span class="quantity-limit">{{=quantities[0]}}</span>
+                <span>/</span>
+                <span class="quantity-limit">{{=quantities[1]}}</span>
+                <input type="hidden" name="item_id" value="{{=item.id}}"/>
+                <input type="hidden" name="item_limit" value="{{=quantities[1]}}"/>
+              </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="pull-right">
+              <a href="{{=URL(vars=dict(proposal=current_proposal.id, collection=initial_collection.id, remove=item['id'], quantity=1))}}"><span class="glyphicon glyphicon-minus"></span></a>
+            </div>
+            <div class="clearfix"></div>
+          </div>
+          <div class="form-group text-center" style="margin-bottom: 0;">
+            <a href="{{=URL(vars=dict(proposal=current_proposal.id, collection=initial_collection.id, remove=item.id))}}" class="btn btn-danger btn-xs remove-item proposal-button">
+              <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>Remove
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    {{pass}}
   </div>
 </div>

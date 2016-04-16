@@ -2,7 +2,6 @@
 
 # Trade routes
 
-
 @auth.requires_login()
 def index():
     #Prepare: my unsent trade proposals
@@ -77,8 +76,8 @@ def new():
 @auth.requires_login()
 def new_proposal():
     # Short-circuit if a proposal has been specified
-    if request.vars['proposal'] != None:
-        redirect(URL('trade', 'edit_proposal', args=request.args, vars=request.vars))
+    #if request.vars['proposal'] != None:
+    #    redirect(URL('trade', 'edit_proposal', args=request.args, vars=request.vars))
 
     if request.vars['with'] == None and request.vars['receiver'] == None:
         raise EX(500, 'No user has been specified to trade with '
@@ -101,11 +100,15 @@ def new_proposal():
 
     # Set the 'trade' parameter switch to the edit_proposal controller
     request.vars['proposal'] = proposal_id
-    redirect(URL('trade', 'edit_proposal', args=request.args, vars=request.vars))
-
+    #redirect(URL('trade', 'edit_proposal', args=request.args, vars=request.vars))
 
 @auth.requires_login()
 def edit_proposal():
+    session.count = session.count + 1
+    if session.count >= 2:
+        print "HERE"
+        #raise Exception('HERE')
+    
     if request.vars['proposal'] == None:
         raise EX(500, 'No proposal has been specified to edit '
                       + '(use the \'proposal\' parameter).')
@@ -146,9 +149,8 @@ def edit_proposal():
         initial_collection = db(db.collection.id == request.vars['collection']).select().first()
     else:
         initial_collection = users_collections.first()
-
-    # Get the current search term, if there is one
-    search = request.vars['search'] or ''
+    
+    initial_collection_items = get_collection_items_helper(initial_collection, current_proposal)
 
     # Handle adding an item to the trade
     if request.vars['add']:
@@ -164,29 +166,29 @@ def edit_proposal():
 
     # Get all the items in the current proposal
     all_proposal_items = get_items_in_proposal(current_proposal)
-
+    
     # Split the full dict of items into the sender's and receiver's items
-    proposal_items_from_sender = {}
-    proposal_items_from_receiver = {}
+    users_proposal_items = {}
+    other_users_proposal_items = {}
     for item in all_proposal_items:
         quantity = all_proposal_items[item]
         if item.owner == auth.user.id:
-            proposal_items_from_sender[item] = quantity
+            users_proposal_items[item] = quantity
         else:
-            proposal_items_from_receiver[item] = quantity
-
+            other_users_proposal_items[item] = quantity
+    
 
     add_breadcrumb('My Trades', URL('trade', 'index'))
     add_breadcrumb('Edit Trade Proposal', None)
     response.title = '' + current_proposal.title + ' - Edit'
-    return dict(search=search,
-                users_collections=users_collections,
+    return dict(users_collections=users_collections,
                 other_users_collections=other_users_collections,
                 initial_collection=initial_collection,
+                initial_collection_items=initial_collection_items,
                 current_proposal=current_proposal,
                 all_proposal_items=all_proposal_items,
-                proposal_items_from_sender=proposal_items_from_sender,
-                proposal_items_from_receiver=proposal_items_from_receiver)
+                users_proposal_items=users_proposal_items,
+                other_users_proposal_items=other_users_proposal_items)
 
 
 def get_proposal_items():
@@ -223,13 +225,19 @@ def get_proposal_items():
 
 
 def get_collection_items():
-    if request.vars['proposal'] == None:
-        raise EX(500, 'No proposal has been specified (use the \'proposal\' parameter).')
     if request.vars['collection'] == None:
         raise EX(500, 'No collection has been specified (use the \'collection\' parameter).')
-    current_proposal = db(db.trade.id == request.vars['proposal']).select().first()
     collection = db(db.collection.id == request.vars['collection']).select().first()
     
+    if request.vars['proposal']:
+        proposal = db(db.trade.id == request.vars['proposal']).select().first()
+    else:
+        proposal = None
+    
+    return dict(collection_items=get_collection_items_helper(collection, proposal))
+
+
+def get_collection_items_helper(collection, proposal=None):
     collection_owners_settings = db(db.user_settings.user == collection.owner).select().first()
     
     # If the selected user is the current user, or if the selected user allows
@@ -242,7 +250,8 @@ def get_collection_items():
         selected_items = db((db.object.collection == collection.id)
                             & (db.object.tradable_quantity > 0)).select()
     
-    trade_item_links = db(db.trade_contains_object.trade == current_proposal.id).select()
+    if proposal:
+        trade_item_links = db(db.trade_contains_object.trade == proposal.id).select()
     
     collection_items = []
     for item in selected_items:
@@ -253,14 +262,15 @@ def get_collection_items():
         item_json['image'] = item.image
         
         is_in_trade = False
-        for trade_item_link in trade_item_links:
-            if trade_item_link.object == item.id:
-                is_in_trade = True
+        if proposal:
+            for trade_item_link in trade_item_links:
+                if trade_item_link.object == item.id:
+                    is_in_trade = True
         
         item_json['in_trade'] = is_in_trade
         collection_items.append(item_json)
     
-    return dict(collection_items=collection_items)
+    return collection_items
 
 
 def set_proposal_title():
@@ -412,9 +422,7 @@ def add_item_to_proposal(proposal, item, quantity=1):
     if trade_item_link:
         trade_item_link_query.update(quantity=new_quantity)
     else:
-        val = db.trade_contains_object.insert(trade=proposal.id, object=item.id, quantity=new_quantity)
-        i = db(db.trade_contains_object.id == val).select().first()
-        print i.object
+        db.trade_contains_object.insert(trade=proposal.id, object=item.id, quantity=new_quantity)
 
 
 def remove_item_from_proposal(proposal, item, quantity=1, remove_entirely=False):

@@ -17,14 +17,14 @@
   </div>
   <div class="form-group">
     <div class="col-md-12">
-
       <div class="col-md-3">
-        <h3>Your Collections</h3>
+        {{for person in [('Your', users_collections), ('Their', other_users_collections)]:}}
+        <h3>{{=person[0]}} Collections</h3>
         <div class="collections-list">
           <div class="list-group">
-            {{for collection in users_collections:}}
+            {{for collection in person[1]:}}
             <div>
-              <a href="#" class="list-group-item collection-link proposal-button">
+              <a href="{{=URL(vars=dict(proposal=current_proposal.id, collection=collection.id))}}" class="list-group-item collection-link {{if collection.id == initial_collection.id:}}active{{pass}} proposal-button">
                 {{=collection.name}}
               </a>
               <form>
@@ -34,25 +34,12 @@
             {{pass}}
           </div>
         </div>
-        <h3>Their Collections</h3>
-        <div class="collections-list">
-          <div class="list-group">
-            {{for collection in other_users_collections:}}
-            <a href="#" class="list-group-item collection-link proposal-button">
-              {{=collection.name}}
-            </a>
-            <form>
-              <input type="hidden" name="collection_id" value="{{=collection.id}}"/>
-            </form>
-            {{pass}}
-          </div>
-        </div>
+        {{pass}}
       </div>
-
       <div id="collection-items" class="col-md-9 trading-window">
         <div id="collection-item-template" class="col-md-4" style="display: none;">
           <div class="thumbnail thumbnail-small">
-            <img src="#" class=""/>
+            <img src="data:"/>
             <div class="panel-body">
               <span class="label label-info pull-right item-value"></span>
               <div class="object-name"></div>
@@ -67,8 +54,31 @@
             </div>
           </div>
         </div>
+        {{items_in_proposal = [item.id for item in all_proposal_items.keys()]}}
+        {{for item in initial_collection_items:}}
+        {{in_proposal = item['id'] in items_in_proposal}}
+        <div class="col-md-4 {{if in_proposal:}}selected-panel{{pass}} item-preview">
+          <div class="thumbnail thumbnail-small">
+            <img src="{{=URL('default', 'download', args=[item['image']])}}" alt="{{=item['name']}}"/>
+            <div class="panel-body">
+              <span class="label label-info pull-right item-value">&pound;{{=item['value']}}</span>
+              <div class="object-name">{{=item['name']}}</div>
+              <hr/>
+              {{if not in_proposal:}}
+              <a href="{{=URL(vars=dict(proposal=current_proposal.id, collection=initial_collection.id, add=item['id']))}}" class="btn btn-xs btn-success add-item proposal-button">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Trade
+              </a>
+              {{else:}}
+              <a href="{{=URL(vars=dict(proposal=current_proposal.id, collection=initial_collection.id, remove=item['id']))}}" class="btn btn-xs btn-danger remove-item proposal-button">
+                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Remove
+              </a>
+              {{pass}}
+              <a href="{{=URL('object', 'view', args=[item['id']])}}" target="_blank" class="pull-right btn btn-xs btn-primary item-details proposal-button">Details</a>
+            </div>
+          </div>
+        </div>
+        {{pass}}
       </div>
-
     </div>
   </div>
   <hr/>
@@ -78,10 +88,12 @@
     <div id="summary-section" class="form-group">
       {{section_id = 'your-items'}}
       {{proposal_items_label = 'Your items:'}}
+      {{proposal_items = users_proposal_items}}
       {{include 'trade/proposal_items.html'}}
 
       {{section_id = 'their-items'}}
       {{proposal_items_label = 'Their items:'}}
+      {{proposal_items = other_users_proposal_items}}
       {{include 'trade/proposal_items.html'}}
     </div>
   </div>
@@ -105,9 +117,9 @@
       </div>
     </div>
   </div>
-  <a href="#summary" class="proposal-button">
-    <div id="trade-summary-bar">
-      <h5 style="margin-top: 10px; color: #333333;">
+  <a href="#summary" class="summary-link">
+    <div id="trade-summary-bar" style="display: none;">
+      <h4 style="margin-top: 10px; color: #333333;">
         <span class="glyphicon glyphicon-arrow-down"></span>
         View trade summary
         <span class="glyphicon glyphicon-arrow-down"></span>
