@@ -108,7 +108,10 @@ function makeCollectionItemPreview(item) {
 	item_image.attr('src', downloads_url + "/" + item.image);
 	item_image.attr('alt', item.name);
 	item_preview.find('.object-name').html(item.name);
-	item_preview.find('.item-value').html('&pound;' + item.value.toFixed(2));
+	item_preview.find('.value-label').attr('for', 'item-value-' + item.id);
+	item_value = item_preview.find('.item-value');
+	item_value.attr('id', 'item-value-' + item.id);
+	item_value.html('&pound;' + item.value.toFixed(2));
 	item_details_button = item_preview.find('.item-details');
 
   if (item.in_trade) {
@@ -158,9 +161,13 @@ function makeSummaryItemPreview(item) {
 	item_image.attr('src', downloads_url + "/" + item.image);
 	item_image.attr('alt', item.name);
 	item_preview.find('.object-name').html(item.name);
-	item_preview.find('.item-value').html('&pound;' + item.value.toFixed(2));
+	item_preview.find('.value-label').attr('for', 'summary-item-value-' + item.id);
+	item_value = item_preview.find('.item-value');
+	item_value.attr('id', 'summary-item-value-' + item.id);
+	item_value.html('&pound;' + item.value.toFixed(2));
+	item_preview.find('.quantity-label').attr('for', 'summary-item-quantity-' + item.id);
 	item_quantity_input = item_preview.find('.quantity-input');
-	item_quantity_input.attr('id', 'quantity-input-' + item.id);
+	item_quantity_input.attr('id', 'summary-item-quantity-' + item.id);
 	item_quantity_input.attr('value', item.quantity);
 	item_quantity_input.change(function() {
     setProposalDetails();
@@ -224,7 +231,7 @@ function setProposalDetails() {
   });
 
 	$('.quantity-input').each(function() {
-		if ($(this).attr('id') != 'quantity-item-template') {
+		if ($(this).attr('id') != 'summary-item-quantity-template') {
 		  var item = $(this).siblings('[name=item_id]').val();
       $.ajax({
         type: 'POST',
@@ -268,7 +275,7 @@ $(function() {
   $('.send-proposal').click(function() {
   	var error = false;
     $('.quantity-input').each(function() {
-    	if ($(this).attr('id') != 'quantity-item-template') {
+    	if ($(this).attr('id') != 'summary-item-quantity-template') {
 		    var item = $(this).siblings('[name=item_id]').val();
         var item_limit = $(this).parent().find('[name=item_limit]').val();
 		    var item_quantity = $(this).val();

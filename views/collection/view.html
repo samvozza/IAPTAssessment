@@ -3,7 +3,8 @@
 <div class="container">
   <div class="row">
     <div class="col-md-3">
-      <h2>Collections</h2>
+      {{name = 'My' if auth.user and auth.user.id == response.owner.id else ("%s's" % response.owner.username)}}
+      <h2>{{=name}} Collections</h2>
       <div class="list-group">
         {{for collection in response.collections:}}
         <a href="{{=URL('collection', 'view', args=[collection.id])}}" class="list-group-item {{if collection.id == response.collection.id:}}active{{pass}}" aria-label="{{if collection.id == response.collection.id:}}Currently Selected{{pass}}">
@@ -11,7 +12,12 @@
         </a>
         {{pass}}
       </div>
+<<<<<<< HEAD
       {{if auth.user_id == response.collection.owner:}}
+=======
+      <hr/>
+      {{if auth.user and auth.user.id == response.owner.id:}}
+>>>>>>> 07326c2aea9c63a9fb4a92ede841203cd55d8e31
       <a href="{{=URL('collection', 'create', args=[response.collection.id])}}" class="btn btn-small btn-success pull-right btn-sm"><span class="glyphicon glyphicon-plus"></span> New Collection</a>
       {{pass}}
     </div>
@@ -74,9 +80,16 @@
                   <img src="{{=URL('default', 'download', args=[o.image])}}" alt="{{=o.name}}"/>
                 </a>
                 <div class="caption">
+<<<<<<< HEAD
                   <h3><a href="{{=URL('object', 'view', args=[o.id])}}">{{=o.name}}</a></h3>
+=======
+                  <h3 class="wrap"><a href="{{=URL('object', 'view', args=[o.id])}}">{{=o.name}}</a></h3>
+                  <hr/>
+                  {{if auth.user and o.owner != auth.user.id:}}
+>>>>>>> 07326c2aea9c63a9fb4a92ede841203cd55d8e31
                   <a href="{{=URL('collection', 'wantit', args=[o.id], vars=dict(url=URL('collection', 'view', args=[request.args[0]])))}}" class="btn btn-primary btn-sm">Want It</a>
                   <a href="{{=URL('collection', 'getit', args=[o.id])}}" class="btn btn-warning btn-sm pull-right">Get It</a>
+                  {{pass}}
                 </div>
               </div>
             </li>
@@ -94,9 +107,16 @@
               <div class="thumbnail">
                 <img src="{{=URL('default', 'download', args=[o.image])}}" alt="{{=o.name}}"/>
                 <div class="caption">
+<<<<<<< HEAD
                   <h3><a href="{{=URL('object', 'view', args=[o.id])}}">{{=o.name}}</a></h3>
+=======
+                  <h3 class="wrap"><a href="{{=URL('object', 'view', args=[o.id])}}">{{=o.name}}</a></h3>
+                  <hr/>
+                  {{if auth.user and o.owner != auth.user.id:}}
+>>>>>>> 07326c2aea9c63a9fb4a92ede841203cd55d8e31
                   <a href="{{=URL('collection', 'wantit', args=[o.id])}}" class="btn btn-primary btn-sm">Want It</a>
                   <a href="{{=URL('collection', 'getit', args=[o.id])}}" class="btn btn-warning btn-sm pull-right">Get It</a>
+                  {{pass}}
                 </div>
               </div>
             </li>
@@ -114,9 +134,16 @@
               <div class="thumbnail">
                 <img src="{{=URL('default', 'download', args=[o.image])}}" alt="{{=o.name}}"/>
                 <div class="caption">
+<<<<<<< HEAD
                   <h3><a href="{{=URL('object', 'view', args=[o.id])}}">{{=o.name}}</a></h3>
+=======
+                  <h3 class="wrap"><a href="{{=URL('object', 'view', args=[o.id])}}">{{=o.name}}</a></h3>
+                  <hr/>
+                  {{if auth.user and o.owner != auth.user.id:}}
+>>>>>>> 07326c2aea9c63a9fb4a92ede841203cd55d8e31
                   <a href="{{=URL('collection', 'wantit', args=[o.id])}}" class="btn btn-primary btn-sm">Want It</a>
                   <a href="{{=URL('collection', 'getit', args=[o.id])}}" class="btn btn-warning btn-sm pull-right">Get It</a>
+                  {{pass}}
                 </div>
               </div>
             </li>
@@ -134,9 +161,16 @@
               <div class="thumbnail">
                 <img src="{{=URL('default', 'download', args=[o.image])}}" alt="{{=o.name}}"/>
                 <div class="caption">
+<<<<<<< HEAD
                   <h3><a href="{{=URL('object', 'view', args=[o.id])}}">{{=o.name}}</a></h3>
+=======
+                  <h3 class="wrap"><a href="{{=URL('object', 'view', args=[o.id])}}">{{=o.name}}</a></h3>
+                  <hr/>
+                  {{if auth.user and o.owner != auth.user.id:}}
+>>>>>>> 07326c2aea9c63a9fb4a92ede841203cd55d8e31
                   <a href="{{=URL('collection', 'wantit', args=[o.id])}}" class="btn btn-primary btn-sm">Want It</a>
                   <a href="{{=URL('collection', 'getit', args=[o.id])}}" class="btn btn-warning btn-sm pull-right">Get It</a>
+                  {{pass}}
                 </div>
               </div>
             </li>

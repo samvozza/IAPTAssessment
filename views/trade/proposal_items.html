@@ -2,21 +2,22 @@
   <div id="{{=section_id}}" class="panel panel-default">
     <div class="panel-heading">{{=proposal_items_label}}</div>
     <div id="{{=section_id}}-panel" class="panel-body" style="height: 330px; overflow-y: auto;">
+      <!--TEMPLATE-->
       <div id="summary-item-template" class="col-sm-4 col-md-4" style="display: none;">
         <div class="thumbnail thumbnail-small">
           <img src="data:"/>
-          <div class="panel panel-default" style="margin-top: 5px;">
+          <div class="panel panel-default" style="margin-top: 5px; border: 0;">
             <div class="panel-body">
               <div class="object-name text-center"></div>
               <div class="form-group form-group-sm" style="padding: 5px 10px; margin-bottom: 0;">
-                <label class="pull-left control-label" style="padding: 0;">Value:</label>
-                <div class="pull-right item-value"></div>
+                <label for="summary-item-value-template" class="pull-left control-label value-label" style="padding: 0;">Value:</label>
+                <div id="summary-item-value-template" class="pull-right item-value"></div>
                 <div class="clearfix"></div>
               </div>
               <div class="form-group form-group-sm quantity-form" style="padding: 5px 10px; margin-bottom: 0;">
-                <label for="quantity-item-template" class="pull-left control-label">Quantity:</label>
+                <label for="summary-item-quantity-template" class="pull-left control-label quantity-label">Quantity:</label>
                 <div class="pull-right">
-                  <input type="text" value="1" id="quantity-item-template" class="form-control input-sm quantity-input" style="padding: 5px 5px; margin: 0;"/>
+                  <input id="summary-item-quantity-template" type="text" value="1" class="form-control input-sm quantity-input" style="padding: 5px 5px; margin: 0;"/>
                   <span>/</span>
                   <span class="quantity-limit">1</span>
                   <input type="hidden" name="item_id" value=""/>
@@ -33,17 +34,18 @@
           </div>
         </div>
       </div>
+      <!--/TEMPLATE-->
       {{for item in proposal_items:}}
       {{quantities = proposal_items[item]}}
       <div class="col-sm-4 col-md-4 item-preview">
         <div class="thumbnail thumbnail-small">
           <img src="{{=URL('default', 'download', args=[item.image])}}" alt="{{=item.name}}"/>
-          <div class="panel panel-default" style="margin-top: 5px;">
+          <div class="panel panel-default" style="margin-top: 5px; border: 0;">
             <div class="panel-body">
               <div class="object-name text-center">{{=item.name}}</div>
               <div class="form-group form-group-sm" style="padding: 5px 10px; margin-bottom: 0;">
-                <strong class="pull-left control-label" style="padding: 0;">Value:</strong>
-                <div class="pull-right item-value">&pound;{{="%.2f" % item.price}}</div>
+                <strong class="pull-left control-label value-label" style="padding: 0;">Value:</strong>
+                <div id="summary-item-value-{{=item.id}}" class="pull-right item-value">&pound;{{="%.2f" % item.price}}</div>
                 <div class="clearfix"></div>
               </div>
               <div class="form-group form-group-sm quantity-form" style="padding: 5px 10px; margin-bottom: 0;">
@@ -54,9 +56,9 @@
                 <div class="clearfix"></div>
                 {{pass}}
                 <div>
-                  <label class="pull-left control-label" style="padding: 0;">Quantity:</label>
+                  <label for="summary-item-quantity-{{=item.id}}" class="pull-left control-label quantity-label" style="padding: 0;">Quantity:</label>
                   <div class="pull-right">
-                    <span class="quantity-limit">{{=quantities[0]}}</span>
+                    <span id="summary-item-quantity-{{=item.id}}" class="quantity-limit">{{=quantities[0]}}</span>
                     <span>/</span>
                     <span class="quantity-limit">{{=quantities[1]}}</span>
                     <input type="hidden" name="item_id" value="{{=item.id}}"/>

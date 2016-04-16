@@ -484,3 +484,8 @@ nav ul li.active * {
 .hide {
   display: none;
 }
+
+.wrap {
+	word-wrap: break-word;
+}
+

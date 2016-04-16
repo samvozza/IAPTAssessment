@@ -37,14 +37,15 @@
         {{pass}}
       </div>
       <div id="collection-items" class="col-md-9 trading-window">
+        <!--TEMPLATE-->
         <div id="collection-item-template" class="col-md-4" style="display: none;">
           <div class="thumbnail thumbnail-small">
             <img src="data:"/>
             <div class="panel-body">
               <div class="object-name text-center"></div>
               <div class="form-group form-group-sm pull-right" style="padding: 5px 10px; margin-bottom: 0;">
-                <label class="pull-left control-label" style="padding-top: 2px; margin-right: 5px;">Value:</label>
-                <span class="item-value"></span>
+                <label for="item-value-template" class="pull-left control-label value-label" style="padding-top: 2px; margin-right: 5px;">Value:</label>
+                <span id="item-value-template" class="item-value"></span>
               </div>
               <div class="clearfix"></div>
               <a href="#" class="btn btn-xs btn-success add-item proposal-button" style="display: none;">
@@ -57,6 +58,7 @@
             </div>
           </div>
         </div>
+        <!--/TEMPLATE-->
         {{items_in_proposal = [item.id for item in all_proposal_items.keys()]}}
         {{for item in initial_collection_items:}}
         {{in_proposal = item['id'] in items_in_proposal}}
@@ -66,8 +68,8 @@
             <div class="panel-body">
               <div class="object-name text-center">{{=item['name']}}</div>
               <div class="form-group form-group-sm pull-right" style="padding: 5px 10px; margin-bottom: 0;">
-                <label class="pull-left control-label" style="padding-top: 2px; margin-right: 5px;">Value:</label>
-                <span class="item-value">&pound;{{="%.2f" % item['value']}}</span>
+                <label for="item-value-{{=item['id']}}" class="pull-left control-label value-label" style="padding-top: 2px; margin-right: 5px;">Value:</label>
+                <span id="item-value-{{=item['id']}}" class="item-value">&pound;{{="%.2f" % item['value']}}</span>
               </div>
               <div class="clearfix"></div>
               {{if not in_proposal:}}

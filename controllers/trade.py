@@ -338,18 +338,46 @@ def send_proposal():
     redirect(URL('trade', 'index'))
 
 
+@auth.requires_login()
 def accept_proposal():
-    db(db.trade.id == request.args(0)).update(status=STATUS_ACCEPTED)
+    proposal_query = db(db.trade.id == request.args(0))
+    proposal = proposal_query.select().first()
+    
+    # Check that the logged in user is a participant in the proposal
+    if auth.user.id != proposal.sender and auth.user.id != proposal.receiver:
+        raise EX(403, 'You are not involved in this proposal.')
+    
+    proposal_query.update(status=STATUS_ACCEPTED)
     redirect(URL('trade', 'index'))
 
 
+@auth.requires_login()
 def reject_proposal():
-    db(db.trade.id == request.args(0)).update(status=STATUS_REJECTED)
+    proposal_query = db(db.trade.id == request.args(0))
+    proposal = proposal_query.select().first()
+    
+    # Check that the logged in user is a participant in the proposal
+    if auth.user.id != proposal.sender and auth.user.id != proposal.receiver:
+        raise EX(403, 'You are not involved in this proposal.')
+    
+    proposal_query.update(status=STATUS_REJECTED)
     redirect(URL('trade', 'index'))
 
 
+@auth.requires_login()
 def cancel_proposal():
-    db(db.trade.id == request.args(0)).update(status=STATUS_CANCELLED)
+    proposal_query = db(db.trade.id == request.args(0))
+    proposal = proposal_query.select().first()
+    
+    # Check that the logged in user is a participant in the proposal
+    if auth.user.id != proposal.sender and auth.user.id != proposal.receiver:
+        raise EX(403, 'You are not involved in this proposal.')
+    
+    if proposal.status == STATUS_PREPARE:
+        proposal_query.delete()
+    else:
+        proposal_query.update(status=STATUS_CANCELLED)
+    
     redirect(URL('trade', 'index'))
 
 
