@@ -77,15 +77,15 @@
       {{current_proposal = response.trade}}
       <div class="col-xs-12 col-sm-6 col-md-6">
         <div class="col-sm-12 col-md-12">
-          {{proposal_items = proposal_items_from_sender}}
+          {{proposal_items = users_proposal_items}}
           {{proposal_items_label = 'Your items:'}}
           {{include 'trade/view_proposal_items.html'}}
         </div>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-6">
         <div class="col-sm-12 col-md-12">
-          {{proposal_items = proposal_items_from_receiver}}
-          {{proposal_items_label = response.receiver.username + '\'s items:'}}
+          {{proposal_items = other_users_proposal_items}}
+          {{proposal_items_label = trading_with + '\'s items:'}}
           {{include 'trade/view_proposal_items.html'}}
         </div>
       </div>
