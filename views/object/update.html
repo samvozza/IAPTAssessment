@@ -50,13 +50,13 @@
         </div>
         <h2>Trading</h2>
         <div class = "form-group {{if updateobjectform.errors['quantity']:}}has-error{{pass}}">
-          <div class = "col-xs-12">Item Quantity</div>
+          <div class = "col-xs-12">{{=updateobjectform.custom.label.quantity}}</div>
           <div class = "col-sm-8 col-xs-12 help-block">{{=updateobjectform.custom.widget.quantity}}</div>
           <div class = "col-sm-4 col-xs-12 form-helper">Please enter the number of this item that you wish to add.</div>
         </div>
         
         <div class = "form-group">
-          <div class = "col-xs-12">Do you wish to trade this item?</div>
+          <div class = "col-xs-12"><label for="select_item_tradable">Do you wish to trade this item?</label></div>
           <div class = "col-sm-8 col-xs-12 help-block">
             <select id = "select_item_tradable" class="form-control">
               <option selected="selected">No</option>
@@ -66,13 +66,13 @@
           <div class = "col-sm-4 col-xs-12 form-helper">Select whether you are looking to trade this item.</div>
         </div>
         <div id = "tradable_quantity" class = "form-group {{if updateobjectform.errors['tradable_quantity']:}}has-error{{pass}}">
-          <div class = "col-xs-12">Quantity to Trade</div>
+          <div class = "col-xs-12">{{=updateobjectform.custom.label.tradable_quantity}}</div>
           <div class = "col-sm-8 col-xs-12 help-block">{{=updateobjectform.custom.widget.tradable_quantity}}</div>
           <div class = "col-sm-4 col-xs-12 form-helper">Enter the quantity of this item that you would like to trade.</div>
         </div>
 
         <div class = "form-group">
-          <div class = "col-xs-12">Are you looking for this item?</div>
+          <div class = "col-xs-12"><label for="select_item_wanted">Are you looking for this item?</label></div>
           <div class = "col-sm-8 col-xs-12 help-block">
             <select id = "select_item_wanted" class="form-control">
               <option selected="selected">No</option>
@@ -82,7 +82,7 @@
           <div class = "col-sm-4 col-xs-12 form-helper">Select whether you are looking to find (more) of this item.</div>
         </div>
         <div id = "wanted_quantity" class = "form-group {{if updateobjectform.errors['wanted_quantity']:}}has-error{{pass}}">
-          <div class = "col-xs-12">Quantity Wanted</div>
+          <div class = "col-xs-12">{{=updateobjectform.custom.label.wanted_quantity}}</div>
           <div class = "col-sm-8 col-xs-12 help-block">{{=updateobjectform.custom.widget.wanted_quantity}}</div>
           <div class = "col-sm-4 col-xs-12 form-helper">Enter the number of this item that you would like to get.</div>
         </div>

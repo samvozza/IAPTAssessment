@@ -4,10 +4,20 @@ def update():
 	record = db(db.object.id == request.args[0]).select().first()
 	db.object.id.readable  = False
 	db.object.owner.readable = False
-	updateobjectform = SQLFORM(db.object, record, fields = ['name', 'collection', 'price', 'category', 'quantity', 'tradable_quantity', 'wanted_quantity','description', 'image'], submit_button = 'Update')
+	
+	form_fields = ['name', 'collection', 'price', 'category', 'quantity', 'tradable_quantity', 'wanted_quantity', 'description', 'image']
+	form_labels = ['Name', 'Collection', 'Value', 'Category', 'Item Quantity', 'Quantity to Trade', 'Quantity Wanted', 'Description', 'Image']
+	updateobjectform = SQLFORM(db.object, record, fields=list(form_fields), submit_button='Update')
+	
 	owner = db(db.auth_user.id == record.owner).select().first()
 	current_collection = db(db.collection.id == record.collection).select().first()
 	updateobjectform.vars.collection = current_collection.id
+
+	index = 0
+	for field in form_fields:
+		updateobjectform.custom.label[field] = LABEL(form_labels[index],
+													_for=updateobjectform.custom.widget[field]['_id'])
+		index = index + 1
 
 	if updateobjectform.process(onvalidation = checking_quantity).accepted:
 		redirect(URL('object', 'view', args=[updateobjectform.vars.id], vars=dict(message='object_updated')))
@@ -33,10 +43,19 @@ def create():
 	else:
 		response.collection = db((db.collection.name == 'Default') & (db.collection.owner == auth.user.id)).select().first()
 
-	form = SQLFORM(db.object, fields = ['name', 'collection', 'price', 'category', 'quantity', 'tradable_quantity', 'wanted_quantity','description', 'image'], submit_button='Create')
+	form_fields = ['name', 'collection', 'price', 'category', 'quantity', 'tradable_quantity', 'wanted_quantity', 'description', 'image']
+	form_labels = ['Name', 'Collection', 'Value', 'Category', 'Item Quantity', 'Quantity to Trade', 'Quantity Wanted', 'Description', 'Image']
+	form = SQLFORM(db.object, fields=list(form_fields), submit_button='Create')
 	form.vars.owner = auth.user_id
 	form.vars.collection = response.collection.id
 	form.custom.begin = XML('<form  action="' + URL() + '" enctype="multipart/form-data" method="post">')
+	
+	index = 0
+	for field in form_fields:
+		form.custom.label[field] = LABEL(form_labels[index],
+										_for=form.custom.widget[field]['_id'])
+		index = index + 1
+	
 	if form.process(onvalidation = checking_quantity).accepted:
 		redirect(URL('object', 'view', args=[form.vars.id], vars=dict(message='object_created')))
 	elif form.errors:
