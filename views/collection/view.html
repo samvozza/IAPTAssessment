@@ -67,7 +67,7 @@
         <div class="tab-content">
           <div role="tabpanel" class="tab-pane active padding-top-20" id="all">
             {{if len(response.objects)> 0:}}
-            <ul class="collection-list">
+            <ul class="collection-list list-unstyled">
             {{for o in response.objects:}}
             <li class="col-sm-6 col-md-4">
               <div class="thumbnail">
@@ -91,7 +91,7 @@
           </div>
           <div role="tabpanel" class="tab-pane padding-top-20" id="owned">
             {{if len(response.owned)> 0:}}
-            <ul class="collection-list">
+            <ul class="collection-list list-unstyled">
             {{for o in response.owned:}}
             <li class="col-sm-6 col-md-4">
               <div class="thumbnail">
@@ -113,7 +113,7 @@
           </div>
           <div role="tabpanel" class="tab-pane padding-top-20" id="wanted">
             {{if len(response.wanted)> 0:}}
-            <ul class="collection-list">
+            <ul class="collection-list list-unstyled">
             {{for o in response.wanted:}}
             <li class="col-sm-6 col-md-4">
               <div class="thumbnail">
@@ -135,7 +135,7 @@
           </div>
           <div role="tabpanel" class="tab-pane padding-top-20" id="tradable">
             {{if len(response.tradable) > 0:}}
-            <ul class="collection-list">
+            <ul class="collection-list list-unstyled">
             {{for o in response.tradable:}}
             <li class="col-sm-6 col-md-4">
               <div class="thumbnail">
