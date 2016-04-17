@@ -96,6 +96,16 @@ h2.error-header {
 }
 
 
+/*-----------------------------------------------   Home   -----------------------------------------------*/
+
+.recent-trades a:hover,
+.recent-trades a:focus,
+.top-collections a:hover,
+.top-collections a:focus  {
+	background: #d9edf7;
+}
+
+
 /*----------------------------------------------   Forms   -----------------------------------------------*/
 
 .form-field-description {

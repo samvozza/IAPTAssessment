@@ -166,6 +166,20 @@ STATUS_ACCEPTED = 3
 STATUS_REJECTED = 4
 STATUS_CANCELLED = 5
 
+status_badge_map = {STATUS_PREPARE: 'default',
+                    STATUS_ACTIVE: 'primary',
+                    STATUS_OFFERED: 'info',
+                    STATUS_ACCEPTED: 'success',
+                    STATUS_REJECTED: 'danger',
+                    STATUS_CANCELLED: 'warning'}
+
+status_label_map = {STATUS_PREPARE: 'In Preparation',
+                    STATUS_ACTIVE: 'Received',
+                    STATUS_OFFERED: 'Offered',
+                    STATUS_ACCEPTED: 'Accepted',
+                    STATUS_REJECTED: 'Rejected',
+                    STATUS_CANCELLED: 'Cancelled'}
+
 #Trade table
 #+sender refers to User; who initially proposed the trade
 #+receiver refers to User; who the trade was initially sent to

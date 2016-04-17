@@ -8,6 +8,9 @@
 ## - download is for downloading files uploaded in the db (does streaming)
 #########################################################################
 
+import operator
+
+
 def index():
     """
     example action using the internationalization operator T and flash
@@ -16,7 +19,26 @@ def index():
     if you need a simple wiki simply replace the two lines below with:
     return auth.wiki()
     """
-    return dict()
+    
+    recent_trades = []
+    top_collections = []
+    
+    if auth.user:
+        trades_query = db((db.trade.sender == auth.user.id)
+                           | (db.trade.receiver == auth.user.id)
+                           & (db.trade.status != STATUS_CANCELLED))
+        recent_trades = trades_query.select(orderby=~db.trade.time_modified, limitby=(0, 5))
+        
+        collections = []
+        for collection in db(db.collection.owner == auth.user.id).select():
+            item_count = db(db.object.collection == collection.id).count()
+            collections.append((collection, item_count))
+            
+        collections.sort(key=operator.itemgetter(1), reverse=True)
+        top_collections = collections[:5]
+    
+    return dict(recent_trades=recent_trades,
+                top_collections=top_collections)
 
 def search():
     response.q = request.vars.q if request.vars.q else ''

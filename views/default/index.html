@@ -2,12 +2,39 @@
 
 <div class="container">
   {{if auth.user:}}
+  <div class="col-md-4">
+    <h2>My Recent Trades</h2>
+    <ul class="list-group list-unstyled recent-trades">
+      {{for trade in recent_trades:}}
+      <a href="{{=URL('trade', 'view', args=[trade.id])}}" class="list-group-item">
+        <li>
+          {{=trade.title}}
+          <span class="label label-{{=status_badge_map[trade.status]}} pull-right">{{=status_label_map[trade.status]}}</span>
+        </li>
+      </a>
+      {{pass}}
+    </ul>
+  </div>
+  <div class="col-md-2"></div>
+  <div class="col-md-4">
+    <h2>My Top Collections</h2>
+    <ul class="list-group list-unstyled top-collections">
+      {{for collection_pair in top_collections:}}
+      {{collection = collection_pair[0]}}
+      <a href="{{=URL('collection', 'view', args=[collection.id])}}" class="list-group-item">
+        <li>
+          {{=collection.name}}
+          <span class="label label-primary pull-right">{{=collection_pair[1]}} {{='item' if collection_pair[1] == 1 else 'items'}} </span>
+        </li>
+      </a>
+      {{pass}}
+    </ul>
+  </div>
   {{else:}}
-
-  <div class="jumbotron">
-    <h1>Welcome to CollectShare</h1>
-    <p>Join the fantastic community of collectors! Share your collections. Trade items. <strong>Everything for Free</strong></p>
-    <a href="{{=URL('auth', 'register')}}" class="btn btn-lg btn-primary">Join Community</a>
+  <div class="jumbotron text-center">
+    <h1 style="margin-bottom: 25px;">Welcome to CollectShare</h1>
+    <p style="margin-bottom: 25px;">Join a fantastic community of collectors! Share your collections. Trade items. <strong>All for Free</strong></p>
+    <a href="{{=URL('auth', 'register')}}" class="btn btn-lg btn-primary">Join the Community</a>
   </div>
   {{pass}}
 </div>
