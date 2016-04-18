@@ -9,7 +9,7 @@
       <a href="{{=URL('trade', 'view', args=[trade.id])}}" class="list-group-item">
         <li>
           {{=trade.title}}
-          <span class="label label-{{=status_badge_map[trade.status]}} pull-right">{{=status_label_map[trade.status]}}</span>
+          <span class="label label-{{=status_badge_map[trade.status, (trade.sender == auth.user_id)]}} pull-right">{{=status_label_map[trade.status, (trade.sender == auth.user_id)]}}</span>
         </li>
       </a>
       {{pass}}

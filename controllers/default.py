@@ -24,8 +24,8 @@ def index():
     top_collections = []
     
     if auth.user:
-        trades_query = db((db.trade.sender == auth.user.id)
-                           | (db.trade.receiver == auth.user.id)
+        trades_query = db((db.trade.sender == auth.user.id) 
+                           | ((db.trade.receiver == auth.user.id) & (db.trade.status != STATUS_PREPARE))
                            & (db.trade.status != STATUS_CANCELLED))
         recent_trades = trades_query.select(orderby=~db.trade.time_modified, limitby=(0, 5))
         

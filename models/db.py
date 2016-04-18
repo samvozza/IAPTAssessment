@@ -166,19 +166,35 @@ STATUS_ACCEPTED = 3
 STATUS_REJECTED = 4
 STATUS_CANCELLED = 5
 
-status_badge_map = {STATUS_PREPARE: 'default',
-                    STATUS_ACTIVE: 'primary',
-                    STATUS_OFFERED: 'info',
-                    STATUS_ACCEPTED: 'success',
-                    STATUS_REJECTED: 'danger',
-                    STATUS_CANCELLED: 'warning'}
+#map (status, is_initial_sender) -> badge
+status_badge_map = {
+                    (STATUS_PREPARE, True): 'default',
+                    (STATUS_ACTIVE, True): 'primary',   #received
+                    (STATUS_OFFERED, True): 'info',     #offered
+                    (STATUS_ACCEPTED, True): 'success',
+                    (STATUS_REJECTED, True): 'danger',
+                    (STATUS_CANCELLED, True): 'warning',
+                    #(STATUS_PREPARE, False): #SHOULD NEVER SEE THIS
+                    (STATUS_ACTIVE, False): 'info',     #offered
+                    (STATUS_OFFERED, False): 'primary', #received
+                    (STATUS_ACCEPTED, False): 'success',
+                    (STATUS_REJECTED, False): 'danger',
+                    (STATUS_CANCELLED, False): 'warning'}
 
-status_label_map = {STATUS_PREPARE: 'In Preparation',
-                    STATUS_ACTIVE: 'Received',
-                    STATUS_OFFERED: 'Offered',
-                    STATUS_ACCEPTED: 'Accepted',
-                    STATUS_REJECTED: 'Rejected',
-                    STATUS_CANCELLED: 'Cancelled'}
+#map (status, is_initial_sender) -> label 
+status_label_map = {
+                    (STATUS_PREPARE, True): 'In Preparation',
+                    (STATUS_ACTIVE, True): 'Received',   #received
+                    (STATUS_OFFERED, True): 'Offered',   #offered
+                    (STATUS_ACCEPTED, True): 'Accepted',
+                    (STATUS_REJECTED, True): 'Rejected',
+                    (STATUS_CANCELLED, True): 'Cancelled',
+                    #(STATUS_PREPARE, False): #SHOULD NEVER SEE THIS
+                    (STATUS_ACTIVE, False): 'Offered',   #offered
+                    (STATUS_OFFERED, False): 'Received', #received
+                    (STATUS_ACCEPTED, False): 'Accepted',
+                    (STATUS_REJECTED, False): 'Rejected',
+                    (STATUS_CANCELLED, False): 'Cancelled'}
 
 #Trade table
 #+sender refers to User; who initially proposed the trade
