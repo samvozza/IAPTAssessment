@@ -239,3 +239,30 @@ db.define_table('trade_contains_object',
         Field('quantity', type="integer", required=True,
               notnull=False)
 )
+
+class IS_STRING_OR(object):
+    def __init__(self, other, comparison_string=""):
+        self.other = other
+        self.comparison_string = comparison_string
+        if hasattr(other, 'multiple'):
+            self.multiple = other.multiple
+        if hasattr(other, 'options'):
+            self.options = self._options
+
+    def __call__(self, value):
+        if value == self.comparison_string:
+            return (value, None)
+        if isinstance(self.other, (list, tuple)):
+            error = None
+            for item in self.other:
+                value, error = item(value)
+                if error:
+                    break
+            return value, error
+        else:
+            return self.other(value)
+
+    def formatter(self, value):
+        if hasattr(self.other, 'formatter'):
+            return self.other.formatter(value)
+        return value
