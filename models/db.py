@@ -38,6 +38,9 @@ auth.settings.reset_password_requires_verification = True
 auth.messages.logged_in = None
 auth.messages.logged_out = None
 
+# allow json reqests
+response.generic_patterns = ['*.json']
+
 #########################################################################
 ## Define your tables below (or better in another model file) for example
 ##
