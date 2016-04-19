@@ -29,7 +29,13 @@
             {{response_vars = dict()}}
             {{if len(search_vars) > 0: response_vars[url] = URL('default', 'search', vars=search_vars)}}
             <a href="{{=URL('collection', 'wantit', args=[response.result.id], vars=response_vars)}}" class="btn btn-primary" style="width: 74px">Want It</a>
+            {{if auth.user:}}
+            {{users_public_collection_count = db((db.collection.owner == auth.user.id)
+                                                 & (db.collection.public == True)).count()}}
+            {{if users_public_collection_count > 0:}}
             <a href="{{=URL('collection', 'getit', args=[response.result.id])}}" class="btn btn-warning" style="width: 74px">Get It</a>
+            {{pass}}
+            {{pass}}
           </div>
           {{pass}}
 				</div>

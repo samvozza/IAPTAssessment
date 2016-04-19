@@ -78,7 +78,11 @@
                   <h3 class="wrap"><a href="{{=URL('object', 'view', args=[o.id])}}">{{=o.name}}</a></h3>
                   {{if auth.user and o.owner != auth.user.id:}}
                   <a href="{{=URL('collection', 'wantit', args=[o.id], vars=dict(url=URL('collection', 'view', args=[request.args[0]])))}}" class="btn btn-primary btn-sm">Want It</a>
+                  {{users_public_collection_count = db((db.collection.owner == auth.user.id)
+                                                       & (db.collection.public == True)).count()}}
+                  {{if users_public_collection_count > 0:}}
                   <a href="{{=URL('collection', 'getit', args=[o.id])}}" class="btn btn-warning btn-sm pull-right">Get It</a>
+                  {{pass}}
                   {{pass}}
                 </div>
               </div>
@@ -100,7 +104,11 @@
                   <h3 class="wrap"><a href="{{=URL('object', 'view', args=[o.id])}}">{{=o.name}}</a></h3>
                   {{if auth.user and o.owner != auth.user.id:}}
                   <a href="{{=URL('collection', 'wantit', args=[o.id])}}" class="btn btn-primary btn-sm">Want It</a>
+                  {{users_public_collection_count = db((db.collection.owner == auth.user.id)
+                                                       & (db.collection.public == True)).count()}}
+                  {{if users_public_collection_count > 0:}}
                   <a href="{{=URL('collection', 'getit', args=[o.id])}}" class="btn btn-warning btn-sm pull-right">Get It</a>
+                  {{pass}}
                   {{pass}}
                 </div>
               </div>
@@ -120,10 +128,16 @@
                 <img src="{{=URL('default', 'download', args=[o.image])}}" alt="{{=o.name}}"/>
                 <div class="caption">
                   <h3 class="wrap"><a href="{{=URL('object', 'view', args=[o.id])}}">{{=o.name}}</a></h3>
-                  {{if auth.user and o.owner != auth.user.id:}}
+                  {{if auth.user:}}
+                  {{if o.owner != auth.user.id:}}
                   <a href="{{=URL('collection', 'wantit', args=[o.id])}}" class="btn btn-primary btn-sm">Want It</a>
                   {{pass}}
+                  {{users_public_collection_count = db((db.collection.owner == auth.user.id)
+                                                       & (db.collection.public == True)).count()}}
+                  {{if users_public_collection_count > 0:}}
                   <a href="{{=URL('collection', 'getit', args=[o.id])}}" class="btn btn-warning btn-sm pull-right">Get It</a>
+                  {{pass}}
+                  {{pass}}
                 </div>
               </div>
             </li>
@@ -144,7 +158,11 @@
                   <h3 class="wrap"><a href="{{=URL('object', 'view', args=[o.id])}}">{{=o.name}}</a></h3>
                   {{if auth.user and o.owner != auth.user.id:}}
                   <a href="{{=URL('collection', 'wantit', args=[o.id])}}" class="btn btn-primary btn-sm">Want It</a>
+                  {{users_public_collection_count = db((db.collection.owner == auth.user.id)
+                                                       & (db.collection.public == True)).count()}}
+                  {{if users_public_collection_count > 0:}}
                   <a href="{{=URL('collection', 'getit', args=[o.id])}}" class="btn btn-warning btn-sm pull-right">Get It</a>
+                  {{pass}}
                   {{pass}}
                 </div>
               </div>
