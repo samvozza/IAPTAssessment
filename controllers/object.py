@@ -24,6 +24,7 @@ def update():
 
 	elif updateobjectform.errors:
 		response.flash = "One or more errors in your form field. Please see below for more information."
+		updateobjectform.custom.widget['description']['_class'] = 'text form-control'
 
 	else:
 		response.flash = "Please complete the form to update this item."
