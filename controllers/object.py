@@ -1,7 +1,12 @@
 @auth.requires_login()
 def update():
-	db.object.description.widget = SQLFORM.widgets.text.widget
 	record = db(db.object.id == request.args[0]).select().first()
+	
+	# Check that the logged in user is the item's owner
+	if auth.user.id != record.owner:
+		raise EX(403, 'You do not own this item.')
+	
+	db.object.description.widget = SQLFORM.widgets.text.widget
 	db.object.id.readable  = False
 	db.object.owner.readable = False
 	
@@ -77,6 +82,11 @@ def checking_quantity(form):
 		
 def canceladd():
 	response.owner = db(db.auth_user.id == auth.user_id).select().first()
+	
+	# Check that the logged in user is the item's owner
+	if auth.user.id != response.owner.id:
+		raise EX(403, 'You do not own this item.')
+	
 	collection = db(db.collection.id == request.args[0]).select().first()
 	if request.vars.collection:
 		response.collection = db(db.collection.id == request.vars['collection']).select().first()
@@ -104,6 +114,11 @@ def canceladd():
 	
 def canceledit():
 	response.owner = db(db.auth_user.id == auth.user_id).select().first()
+	
+	# Check that the logged in user is the item's owner
+	if auth.user.id != response.owner.id:
+		raise EX(403, 'You do not own this item.')
+	
 	record = db(db.object.id == request.args[0]).select().first()	
 	collection = db(db.collection.id == record.collection).select().first()
 	if request.vars.collection:
@@ -133,7 +148,17 @@ def canceledit():
 
 def view():
 	response.result = db(db.object.id == request.args[0]).select().first()
+	
+	# Check that the item exists
+	if response.result == None:
+		raise EX(500, 'This item does not exist.')
+	
 	response.collection = db(db.collection.id == response.result.collection).select().first()
+	
+	# Check that the logged in user is the item's owner
+	if auth.user and auth.user.id != response.result.owner and not response.collection.public:
+		raise EX(403, 'You do not own this item.')
+	
 	response.owner = db(db.auth_user.id == response.collection.owner).select().first()
 	
 	category_id = db(db.object.id == request.args[0])._select(db.object.category)

@@ -1,5 +1,14 @@
 def view():
     response.collection = db(db.collection.id == request.args[0]).select().first()
+    
+    # Check that the collection exists
+    if response.collection == None:
+        raise EX(500, 'This collection does not exist.')
+    
+    # Check that the logged in user is the collection's owner, or that the collection is public
+    if auth.user and auth.user.id != response.collection.owner and not response.collection.public:
+        raise EX(403, 'You do not have access to this collection.')
+    
     response.q = request.vars.q if request.vars.q != None else ''
     if auth.user and response.collection.owner == auth.user.id:
         collections = db(db.collection.owner == response.collection.owner).select(orderby=db.collection.name)
