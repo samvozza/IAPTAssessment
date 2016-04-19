@@ -34,7 +34,8 @@ def view():
 
     # Get all the items in the current proposal
     all_proposal_items, item_deleted = get_items_in_proposal(response.trade)
-    request.vars.message = 'item_deleted' if item_deleted else ''
+    if request.vars.message == None:
+        request.vars.message = 'item_deleted' if item_deleted else ''
 
     # Split the full dict of items into the users and other users items
     users_proposal_items = {}
@@ -159,7 +160,8 @@ def edit_proposal():
 
     # Get all the items in the current proposal
     all_proposal_items, item_deleted = get_items_in_proposal(current_proposal)
-    request.vars.message = 'item_deleted' if item_deleted else ''
+    if request.vars.message == None:
+        request.vars.message = 'item_deleted' if item_deleted else ''
     
     # Split the full dict of items into the users and other users items
     users_proposal_items = {}
