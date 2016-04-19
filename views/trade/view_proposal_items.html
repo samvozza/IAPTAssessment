@@ -12,7 +12,7 @@
             </a>
             <div class="panel-footer">
               {{item_quantity = proposal_items[item]}}
-              <div>Value: &pound;{{=item.price}}</div>
+              <div>Value: &pound;{{="%.2f" % item.price}}</div>
               <div>Quantity: {{=item_quantity[0]}}</div>
             </div>
           </div>
