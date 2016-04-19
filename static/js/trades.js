@@ -230,19 +230,27 @@ function setProposalDetails() {
     async: false
   });
 
+  item_count = 0;
 	$('.quantity-input').each(function() {
 		if ($(this).attr('id') != 'summary-item-quantity-template') {
-		  var item = $(this).siblings('[name=item_id]').val();
+		  item = $(this).siblings('[name=item_id]').val();
+			value = $(this).val();
+		  if (value > 0) item_count += 1;
+		  
       $.ajax({
         type: 'POST',
         url: 'set_proposal_item_quantity',
         data: { 'proposal': current_proposal_id,
 	              'item'    : item,
-	              'quantity': $(this).val() },
+	              'quantity': value },
         async: false
       });
     }
   });
+  
+  if (item_count > 0) {
+  	$('.send-proposal').attr('href', send_proposal_url);
+  }
 }
 
 function setSummaryBar() {

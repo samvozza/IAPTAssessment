@@ -303,10 +303,7 @@ def set_proposal_item_quantity():
     trade_item_link = trade_item_link_query.select().first()
     
     if trade_item_link:
-        if int(request.vars['quantity']) > 0:
-            trade_item_link_query.update(quantity=request.vars['quantity'])
-        else:
-            trade_item_link_query.delete()
+        trade_item_link_query.update(quantity=request.vars['quantity'])
     else:
         if request.vars['quantity'] > 0:
             db.trade_contains_object.insert(trade=request.vars['proposal'],
@@ -318,11 +315,16 @@ def send_proposal():
     proposal_query = db(db.trade.id == request.args(0))
     proposal = proposal_query.select().first()
 
+    at_least_one_item = False
+
     # Check that the item quantities are valid
     trade_item_links = db(db.trade_contains_object.trade == request.args(0)).select()
     for trade_item_link in trade_item_links:
         item = db(db.object.id == trade_item_link.object).select().first()
         available_quantity = get_available_quantity(item)
+
+        if auth.user and item.owner == auth.user.id:
+            at_least_one_item = True
 
         if trade_item_link.quantity > available_quantity:
             raise EX(500, 'You are trying to trade more of this item than is '
@@ -332,6 +334,9 @@ def send_proposal():
         elif trade_item_link.quantity == 0:
             db((db.trade_contains_object.trade == request.args(0))
                & (db.trade_contains_object.object == item.id)).delete()
+    
+    if not at_least_one_item:
+            raise EX(500, 'You have not added any of your items to this trade.')
 
     if proposal.status == STATUS_OFFERED:
         new_status = STATUS_ACTIVE

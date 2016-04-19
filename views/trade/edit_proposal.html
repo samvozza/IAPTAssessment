@@ -7,6 +7,7 @@
 var current_proposal_id = {{=current_proposal.id}};
 var current_collection_id = {{=initial_collection.id}};
 var current_proposal_url = '{{=URL(vars={'proposal': current_proposal.id})}}';
+var send_proposal_url = '{{=URL('trade', 'send_proposal', args=[current_proposal.id])}}';
 var downloads_url = '{{=URL('default', 'download')}}';
 </script>
 <script src="{{=URL('static', 'js/jquery.visible.min.js')}}"></script>
