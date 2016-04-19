@@ -30,14 +30,11 @@ def view():
     response.trade = db(db.trade.id == request.args(0)).select().first()
     response.receiver = db(db.auth_user.id == response.trade.receiver).select().first()
     response.sender = db(db.auth_user.id == response.trade.sender).select().first()
-    trade_item_links = db(db.trade_contains_object.trade == response.trade.id).select()
-    trade_items = [db(db.object.id == link.object).select().first() for link in trade_item_links]
-    response.sender_items = [item for item in trade_items if item.owner == response.sender.id]
-    response.receiver_items = [item for item in trade_items if item.owner == response.receiver.id]
     is_sender = response.sender.username == auth.user.username
 
     # Get all the items in the current proposal
-    all_proposal_items = get_items_in_proposal(response.trade)
+    all_proposal_items, item_deleted = get_items_in_proposal(response.trade)
+    request.vars.message = 'item_deleted' if item_deleted else ''
 
     # Split the full dict of items into the users and other users items
     users_proposal_items = {}
@@ -161,7 +158,8 @@ def edit_proposal():
         remove_item_from_proposal(current_proposal, item, quantity, remove_entirely)
 
     # Get all the items in the current proposal
-    all_proposal_items = get_items_in_proposal(current_proposal)
+    all_proposal_items, item_deleted = get_items_in_proposal(current_proposal)
+    request.vars.message = 'item_deleted' if item_deleted else ''
     
     # Split the full dict of items into the users and other users items
     users_proposal_items = {}
@@ -204,18 +202,20 @@ def get_proposal_items():
     trade_item_links = db(db.trade_contains_object.trade == current_proposal.id).select()
     for trade_item_link in trade_item_links:
         item = db(db.object.id == trade_item_link.object).select().first()
-        item_json = {}
-        item_json['id'] = item.id
-        item_json['name'] = item.name
-        item_json['value'] = item.price
-        item_json['image'] = item.image
-        item_json['quantity'] = trade_item_link.quantity
-        item_json['available_quantity'] = get_available_quantity(item)
         
-        if item.owner == auth.user.id:
-            users_items.append(item_json)
-        elif item.owner == other_user_id:
-            other_users_items.append(item_json)
+        if item != None:
+            item_json = {}
+            item_json['id'] = item.id
+            item_json['name'] = item.name
+            item_json['value'] = item.price
+            item_json['image'] = item.image
+            item_json['quantity'] = trade_item_link.quantity
+            item_json['available_quantity'] = get_available_quantity(item)
+            
+            if item.owner == auth.user.id:
+                users_items.append(item_json)
+            elif item.owner == other_user_id:
+                other_users_items.append(item_json)
     
     return dict(users_items=users_items, other_users_items=other_users_items)
 
@@ -251,20 +251,21 @@ def get_collection_items_helper(collection, proposal=None):
     
     collection_items = []
     for item in selected_items:
-        item_json = {}
-        item_json['id'] = item.id
-        item_json['name'] = item.name
-        item_json['value'] = item.price
-        item_json['image'] = item.image
+        if item != None:
+            item_json = {}
+            item_json['id'] = item.id
+            item_json['name'] = item.name
+            item_json['value'] = item.price
+            item_json['image'] = item.image
+            
+            is_in_trade = False
+            if proposal:
+                for trade_item_link in trade_item_links:
+                    if trade_item_link.object == item.id:
+                        is_in_trade = True
         
-        is_in_trade = False
-        if proposal:
-            for trade_item_link in trade_item_links:
-                if trade_item_link.object == item.id:
-                    is_in_trade = True
-        
-        item_json['in_trade'] = is_in_trade
-        collection_items.append(item_json)
+            item_json['in_trade'] = is_in_trade
+            collection_items.append(item_json)
     
     return collection_items
 
@@ -416,13 +417,18 @@ def get_items_in_proposal(proposal):
     """
     trade_item_links = db(db.trade_contains_object.trade == proposal.id).select()
 
+    item_deleted = False
     items = {}
     for link in trade_item_links:
         item = db(db.object.id == link.object).select().first()
-        quantity_limit = get_available_quantity(item)
-        items[item] = (link.quantity, quantity_limit)
+        
+        if item != None:
+            quantity_limit = get_available_quantity(item) if item != None else None
+            items[item] = (link.quantity, quantity_limit)
+        else:
+            item_deleted = True
 
-    return items
+    return (items, item_deleted)
 
 
 def add_item_to_proposal(proposal, item, quantity=1):

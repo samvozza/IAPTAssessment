@@ -160,6 +160,6 @@ def delete():
 	
 	if form.accepts(request,session):
 		db(db.object.id == request.args[0]).delete()
-		redirect(URL('collection', 'view', args=[response.object.collection], vars=dict(message='item_deleted')))
+		redirect(URL('collection', 'view', args=[response.object.collection], vars=dict(message='item_removed')))
 	
 	return dict(form=form)

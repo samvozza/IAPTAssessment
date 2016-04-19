@@ -20,7 +20,7 @@
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
-{{elif request.vars.message == 'item_deleted':}}
+{{elif request.vars.message == 'item_removed':}}
 <div class="alert alert-danger">The item has been sucessfully deleted.</div>
 {{elif request.vars.message == 'invalid_quantity':}}
 <div class="alert alert-danger">Please check the selected item quantities</div>
@@ -29,4 +29,6 @@
   To add it again, click <strong><a href="{{=URL('collection', 'wantit', args=[response.result.id], vars=dict(force='true'))}}">here</a>.</strong></div>
 {{elif request.vars.message == 'no_trade_items':}}
 <div class="alert alert-danger">You must offer at least one of your own items to create a trade.</div>
+{{elif request.vars.message == 'item_deleted':}}
+<div class="alert alert-danger text-center">An item in this trade has been deleted.</div>
 {{pass}}
