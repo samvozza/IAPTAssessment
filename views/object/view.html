@@ -35,20 +35,37 @@
 				</div>
 			</div>
 
-			<div class = "col-md-12 obj_view_detail" style="padding: 0;">
-				<ul list-unstyled>
-					<li><strong>Category: </strong>{{=response.category}}</li>
-					<li><strong>Collection: </strong>{{=response.result.collection.name}}</li>
-					<li><strong>Value: </strong>&pound;{{="%.2f" % response.result.price}}</li>
-    		  <li><strong>Quantity: </strong>{{=response.result.quantity}}</li>
-    	    <li><strong>Quantity to Trade: </strong>{{=response.result.tradable_quantity}}</li>
-    	    <li><strong>Quantity Wanted: </strong>{{=response.result.wanted_quantity}}</li>
-					<li><strong>Description: </strong></li>
-					<p class = "description_detail">{{=response.result.description}}</p>
-				</ul>
-			</div>
+			<form class="col-md-12 form-horizontal" style="padding: 15px 40px;">
+        <div class="form-group">
+          <label class="col-md-3" for="item-collection">Collection:</label>
+          <div id="item-collection" class="col-md-9">{{=response.result.collection.name}}</div>
+        </div>
+			  <div class="form-group">
+          <label class="col-md-3" for="item-category">Category:</label>
+          <div id="item-category" class="col-md-9">{{=response.category}}</div>
+        </div>
+        <div class="form-group">
+          <label class="col-md-3" for="item-value">Value:</label>
+          <div id="item-value" class="col-md-9">&pound;{{="%.2f" % response.result.price}}</div>
+        </div>
+        <div class="form-group">
+          <label class="col-md-3" for="item-quantity">Quantity:</label>
+          <div id="item-quantity" class="col-md-9">{{=response.result.quantity}}</div>
+        </div>
+        <div class="form-group">
+          <label class="col-md-3" for="item-tradable-quantity">Quantity to Trade:</label>
+          <div id="item-tradable-quantity" class="col-md-9">{{=response.result.tradable_quantity}}</div>
+        </div>
+        <div class="form-group">
+          <label class="col-md-3" for="item-wanted-quantity">Quantity Wanted:</label>
+          <div id="item-wanted-quantity" class="col-md-9">{{=response.result.wanted_quantity}}</div>
+        </div>
+        <div class="form-group">
+          <label class="col-md-3" for="item-description">Description:</label>
+          <div id="item-description" class="col-md-9">{{=response.result.description}}</div>
+        </div>
+      </form>
 		</div>
-		<div class="clearfix"></div>
 	</div>
 </div>
 

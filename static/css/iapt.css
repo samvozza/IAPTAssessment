@@ -295,15 +295,6 @@ input.invalidinput:focus {
 	border-bottom: .1em solid #ccc;
 }
 
-.obj_view_detail ul{
-	margin: 0 0 2em 0;
-}
-
-.obj_view_detail li{
-	display: block;
-	margin: 1em 2em 0 0;
-}
-
 .back_button {
 	float: right;
 }
