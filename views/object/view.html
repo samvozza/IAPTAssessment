@@ -39,10 +39,10 @@
 				<ul list-unstyled>
 					<li><strong>Category: </strong>{{=response.category}}</li>
 					<li><strong>Collection: </strong>{{=response.result.collection.name}}</li>
-					<li><strong>Value: </strong>&pound;{{=response.result.price}}</li>
+					<li><strong>Value: </strong>&pound;{{="%.2f" % response.result.price}}</li>
     		  <li><strong>Quantity: </strong>{{=response.result.quantity}}</li>
-    	    <li><strong>Tradable Quantity: </strong>{{=response.result.tradable_quantity}}</li>
-    	    <li><strong>Wanted Quantity: </strong>{{=response.result.wanted_quantity}}</li>
+    	    <li><strong>Quantity to Trade: </strong>{{=response.result.tradable_quantity}}</li>
+    	    <li><strong>Quantity Wanted: </strong>{{=response.result.wanted_quantity}}</li>
 					<li><strong>Description: </strong></li>
 					<p class = "description_detail">{{=response.result.description}}</p>
 				</ul>
