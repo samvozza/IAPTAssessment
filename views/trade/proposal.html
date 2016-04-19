@@ -97,11 +97,13 @@
       {{section_id = 'your-items'}}
       {{proposal_items_label = 'My items'}}
       {{proposal_items = users_proposal_items}}
+      {{add_class = 'has-error-div' if request.vars['message'] == 'no_trade_items' else ''}}
       {{include 'trade/proposal_items.html'}}
 
       {{section_id = 'their-items'}}
       {{proposal_items_label = 'Their items'}}
       {{proposal_items = other_users_proposal_items}}
+      {{add_class = ''}}
       {{include 'trade/proposal_items.html'}}
     </div>
   </div>
@@ -119,8 +121,14 @@
       <div class="col-md-12">
         <div class="btn-toolbar pull-right">
           {{send_text = 'Send Trade Proposal' if current_proposal.status == STATUS_PREPARE else 'Send Counter Proposal'}}
+          {{if len(users_proposal_items) > 0:
+              send_action = URL('trade', 'send_proposal', args=[current_proposal.id])
+            else:
+              send_action = URL(vars=dict(proposal=current_proposal.id, collection=collection.id, message='no_trade_items'))
+            pass
+          }}
           <a href="{{=URL('trade', 'cancel_proposal', args=[current_proposal.id])}}" class="btn btn-default proposal-button">Cancel</a>
-          <a href="{{=URL('trade', 'send_proposal', args=[current_proposal.id])}}" class="btn btn-success proposal-button send-proposal">{{=send_text}}</a>
+          <a href="{{=send_action}}" class="btn btn-success proposal-button send-proposal">{{=send_text}}</a>
         </div>
       </div>
     </div>

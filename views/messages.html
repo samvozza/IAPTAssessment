@@ -27,4 +27,6 @@
 {{elif request.vars.message == 'item_already_wanted':}}
 <div class="alert alert-danger">An item with the same name as this item already exists in one of your collections.
   To add it again, click <strong><a href="{{=URL('collection', 'wantit', args=[response.result.id], vars=dict(force='true'))}}">here</a>.</strong></div>
+{{elif request.vars.message == 'no_trade_items':}}
+<div class="alert alert-danger">You must offer at least one of your own items to create a trade.</div>
 {{pass}}
