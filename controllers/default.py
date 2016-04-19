@@ -168,8 +168,12 @@ def error_handler():
         error_details = error_details + ' See the message below for more details.'
 
     error_title = str(code) + ' - ' + error_title
+    
+    error_message = session.error_message
+    session.error_message = None
 
     add_breadcrumb(error_title)
     return dict(error_title=error_title,
                 error_details=error_details,
-                recovery_link=recovery_link)
+                recovery_link=recovery_link,
+                error_message=error_message)
