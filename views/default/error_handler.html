@@ -4,15 +4,13 @@
   <h2 class="error-header">Something is technically wrong...</h2>
   <div class="col-xs-12 col-sm-8 col-sm-offset-2">
     <p>{{=error_details}}</p>
+    <br/>
 	  {{if session.error_message:}}
-	  <p>{{=session.error_message}}</p>
+	  <p>Error: {{=session.error_message}}</p>
 	  {{pass}}
+    <br/>
     <div class="text-center">
   	  <a href="{{=recovery_link}}" class="btn btn-primary btn-lg "><span class="glyphicon glyphicon-circle-arrow-left"></span> Back To Safety</a>
     </div>
-	  {{if request.vars.ticket != 'None':}}
-    <br/><br/>
-	  <small>For developers: <a href="/admin/default/ticket/{{=request.vars.ticket}}" target="_blank" data-toggle="tooltip" data-placement="bottom" title="This link will be removed before submitting the assessment">{{=request.vars.ticket}}</a></small>
-	  {{pass}}
   </div>
 </div>
