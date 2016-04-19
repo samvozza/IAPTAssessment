@@ -5,6 +5,7 @@
   <div class="col-md-4">
     <h2>My Recent Trades</h2>
     <ul class="list-group list-unstyled recent-trades">
+      {{if len(recent_trades) > 0:}}
       {{for trade in recent_trades:}}
       <a href="{{=URL('trade', 'view', args=[trade.id])}}" class="list-group-item">
         <li>
@@ -12,6 +13,9 @@
           <span class="label label-{{=status_badge_map[trade.status, (trade.sender == auth.user_id)]}} pull-right">{{=status_label_map[trade.status, (trade.sender == auth.user_id)]}}</span>
         </li>
       </a>
+      {{pass}}
+      {{else:}}
+      <div class="list-group-item"><li>No recent trades</li></div>
       {{pass}}
     </ul>
   </div>
