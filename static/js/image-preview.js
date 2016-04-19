@@ -7,7 +7,6 @@ function load_image_preview(input, dest) {
 
 		reader.onload = function(e) {
 			$(dest).attr('src', e.target.result);
-			$(dest).attr('hidden', false);
 		};
 
 		reader.readAsDataURL(input.files[0]);
