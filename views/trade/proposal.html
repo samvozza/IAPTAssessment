@@ -18,7 +18,7 @@
   <div class="form-group">
     <div class="col-md-12">
       <div class="col-md-3">
-        {{for person in [('Your', users_collections), ('Their', other_users_collections)]:}}
+        {{for person in [('My', users_collections), ('Their', other_users_collections)]:}}
         <h3 style="margin-top: 0;">{{=person[0]}} Collections</h3>
         <div class="collections-list">
           <div class="list-group">
@@ -92,10 +92,10 @@
   <hr/>
   <div id="summary">
     <h2>Summary</h2>
-    <p class="form-helper">Below you can view the summary of your trading proposal. You can set quantities here.</p>
+    <p class="form-helper">Below you can view the summary of this trade proposal. You can set quantities here.</p>
     <div id="summary-section" class="form-group">
       {{section_id = 'your-items'}}
-      {{proposal_items_label = 'Your items'}}
+      {{proposal_items_label = 'My items'}}
       {{proposal_items = users_proposal_items}}
       {{include 'trade/proposal_items.html'}}
 

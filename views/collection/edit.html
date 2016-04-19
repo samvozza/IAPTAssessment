@@ -6,7 +6,7 @@
       {{if response.flash:}}
       <div class="alert alert-danger">{{=response.flash}}</div>
       {{else:}}
-      <div class="alert">Use the form below to edit your collection.</div>
+      <div class="alert">Use the form below to edit this collection.</div>
       {{pass}}
       <div class="form-horizontal">
         {{=form.custom.begin}}
@@ -15,7 +15,7 @@
           <div class="col-sm-8 help-block">
             {{=form.custom.widget.name}}
           </div>
-          <div class="col-sm-4 form-helper">Name your collection e.g. Original Pokemon or British Stamps. The name must be <strong>unique</strong> within your collection.</div>
+          <div class="col-sm-4 form-helper">Name the collection e.g. Original Pokemon or British Stamps. The name must be <strong>unique</strong> within your collection.</div>
         </div>
         <div class="form-group {{if form.errors['public']:}} has-error{{pass}}">
           <label for="collection_public" class="col-xs-12">Public</label>
