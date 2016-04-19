@@ -305,11 +305,11 @@ def set_proposal_item_quantity():
     if trade_item_link:
         try:
             quantity = int(request.vars['quantity'])
-			
-			if quantity != 0:
-				trade_item_link_query.update(quantity=request.vars['quantity'])
-        else:
-            trade_item_link_query.delete()
+            
+            if quantity != 0:
+                trade_item_link_query.update(quantity=request.vars['quantity'])
+            else:
+                trade_item_link_query.delete()
         except ValueError:
             EX(500, 'Quantities must be integer values.')
     else:
