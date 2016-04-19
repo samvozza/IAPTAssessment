@@ -157,7 +157,7 @@ def view():
 	
 	# Check that the logged in user is the item's owner
 	if auth.user and auth.user.id != response.result.owner and not response.collection.public:
-		raise EX(403, 'You do not own this item.')
+		raise EX(500, 'This item does not exist.')
 	
 	response.owner = db(db.auth_user.id == response.collection.owner).select().first()
 	
