@@ -132,7 +132,7 @@ def wantit():
         if request.vars.url:
             redirect(request.vars.url + ('?' if '?' not in request.vars.url else '&') + 'message=wantit')
         else:
-            redirect(URL('collection', 'view', args=[default.id]))
+            redirect(URL('collection', 'view', args=[default.id], vars=dict(message='wantit')))
     else:
         redirect(URL('object', 'view', args=[o.id], vars=dict(message='item_already_wanted')))
 
