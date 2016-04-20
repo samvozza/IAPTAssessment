@@ -311,7 +311,7 @@ def set_proposal_item_quantity():
             else:
                 trade_item_link_query.delete()
         except ValueError:
-            EX(500, 'Quantities must be integer values.')
+            pass
     else:
         if request.vars['quantity'] > 0:
             db.trade_contains_object.insert(trade=request.vars['proposal'],
