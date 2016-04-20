@@ -233,9 +233,11 @@ function setProposalDetails() {
   item_count = 0;
 	$('.quantity-input').each(function() {
 		if ($(this).attr('id') != 'summary-item-quantity-template') {
-		  item = $(this).siblings('[name=item_id]').val();
+		  var item = $(this).siblings('[name=item_id]').val();
 			value = $(this).val();
-		  if (value > 0) item_count += 1;
+		  if (value > 0) {
+			  item_count += 1;
+		  }
 		  
       $.ajax({
         type: 'POST',
